@@ -29,15 +29,17 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         const parsedCredentials = z
           .object({ username: z.string(), password: z.string().min(6) })
           .safeParse(credentials);
+
+          console.log(parsedCredentials.data);
  
         if (parsedCredentials.success) {
           const { username, password } = parsedCredentials.data;
           const user = await getUser(username, password);
-          if (!user) return null;
+          if (user?.statusCode === 401) return null;
           return user;
         }
  
-        console.log('Invalid credentials');
+        console.log('Credenciales Invalidas');
         return null;
       },
     }),
