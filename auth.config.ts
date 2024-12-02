@@ -18,6 +18,14 @@ export const authConfig = {
       }
       return true;
     },
+    jwt(props) {
+      Object.assign(props.token, props.user);
+      return props.token;
+    },
+    session({ session, token }) {
+      Object.assign(session.user, token);
+      return session;
+    }
   },
   providers: [], // Add providers with an empty array for now
 } satisfies NextAuthConfig;

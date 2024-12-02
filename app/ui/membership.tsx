@@ -2,41 +2,18 @@
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useSession } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 
 
-export default function Membership() {
+export default function Membership({ data, client }: { data: any[], client: any }) {
+  // const router = useRouter();
 
-    const products: any[] = [
-        {
-            name: 'Pro',
-            id: 'price_1Nt0Y2K2WV3V4uMnYqTq7g0W',
-            interval: 'year',
-            interval_count: 1,
-            prices: [
-                {
-                    id: 'price_1Nt0Y2K2WV3V4uMnYqTq7g0W',
-                    currency: 'usd',
-                    unit_amount: 100,
-                    interval: 'year',
-                },
-                {
-                    id: 'price_1Nt0Y2K2WV3V4uMnYqTq7g0W',
-                    currency: 'usd',
-                    unit_amount: 100,
-                    interval: 'year',
-                },
-            ],
-            currency: 'usd',
-            unit_amount: 100
-        }
-    ];
+    const [billingInterval, setBillingInterval] = useState('Monthly');
 
-    const [billingInterval, setBillingInterval] = useState('month');
-
-    const intervals = ['month', 'year'];
+    const intervals = ['Monthly', 'Yearly'];
 
     return (
       <section className="bg-red-900 min-h-screen">
@@ -49,12 +26,12 @@ export default function Membership() {
             Empieza a mejorar tu salud y bienestar con nuestras membresías y al llega al siguiente nivel en tu entrenamiento. Cada membresía desbloquea características adicionales.
             </p>
             <div className="relative self-center mt-6 bg-zinc-900 rounded-lg p-0.5 flex sm:mt-8 border border-zinc-800">
-              {intervals.includes('month') && (
+              {intervals.includes('Monthly') && (
                 <button
-                  onClick={() => setBillingInterval('month')}
+                  onClick={() => setBillingInterval('Monthly')}
                   type="button"
                   className={`${
-                    billingInterval === 'month'
+                    billingInterval === 'Monthly'
                       ? 'relative w-1/2 bg-zinc-700 border-zinc-800 shadow-sm text-white'
                       : 'ml-0.5 relative w-1/2 border border-transparent text-zinc-400'
                   } rounded-md m-1 py-2 text-sm font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50 focus:z-10 sm:w-auto sm:px-8`}
@@ -62,12 +39,12 @@ export default function Membership() {
                   Facturación mensual
                 </button>
               )}
-              {intervals.includes('year') && (
+              {intervals.includes('Yearly') && (
                 <button
-                  onClick={() => setBillingInterval('year')}
+                  onClick={() => setBillingInterval('Yearly')}
                   type="button"
                   className={`${
-                    billingInterval === 'year'
+                    billingInterval === 'Yearly'
                       ? 'relative w-1/2 bg-zinc-700 border-zinc-800 shadow-sm text-white'
                       : 'ml-0.5 relative w-1/2 border border-transparent text-zinc-400'
                   } rounded-md m-1 py-2 text-sm font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50 focus:z-10 sm:w-auto sm:px-8`}
@@ -78,16 +55,12 @@ export default function Membership() {
             </div>
           </div>
           <div className="mt-12 space-y-0 sm:mt-16 flex flex-wrap justify-center gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0">
-            {products.map((product) => {
-              const price = product?.prices?.find(
-                (price: any) => price.interval === billingInterval
-              );
-              if (!price) return null;
-              const priceString = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: price.currency!,
-                minimumFractionDigits: 0
-              }).format((price?.unit_amount || 0) / 100);
+            {data.map((product) => {
+
+              const selectedBilling = billingInterval === product?.type
+
+              if (!selectedBilling) return null;
+              
               return (
                 <div
                   key={product.id}
@@ -110,10 +83,10 @@ export default function Membership() {
                     <p className="mt-4 text-zinc-300">{product.description}</p>
                     <p className="mt-8">
                       <span className="text-5xl font-extrabold white">
-                        {priceString}
+                        {product?.rate.amount}
                       </span>
                       <span className="text-base font-medium text-zinc-100">
-                        /{30}
+                        /{product?.type === 'Yearly' ? 'año' : 'mes'}
                       </span>
                     </p>
                     <Button
