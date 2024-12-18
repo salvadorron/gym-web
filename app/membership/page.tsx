@@ -4,13 +4,12 @@ import { auth } from "@/auth";
 export default async function MembershipPage() {
 
     const memberships = await getMemberships();
-    const client = await getClient();
 
-    const session = await auth();
+    const session = await auth() as any;
 
+    const client = await getClient(session?.user?.client?.id);
 
-    console.log(session);
-
+    if(!session?.user) return null
 
     return (
         <Membership data={memberships} client={client} />

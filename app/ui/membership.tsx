@@ -2,18 +2,18 @@
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { useSession } from 'next-auth/react';
-import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
 import { useState } from 'react';
 
 
 
 export default function Membership({ data, client }: { data: any[], client: any }) {
-  // const router = useRouter();
 
     const [billingInterval, setBillingInterval] = useState('Monthly');
 
     const intervals = ['Monthly', 'Yearly'];
+
+
 
     return (
       <section className="bg-red-900 min-h-screen">
@@ -57,7 +57,7 @@ export default function Membership({ data, client }: { data: any[], client: any 
           <div className="mt-12 space-y-0 sm:mt-16 flex flex-wrap justify-center gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0">
             {data.map((product) => {
 
-              const selectedBilling = billingInterval === product?.type
+              const selectedBilling = billingInterval.toLowerCase() === product?.billing_interval
 
               if (!selectedBilling) return null;
               
@@ -82,21 +82,34 @@ export default function Membership({ data, client }: { data: any[], client: any 
                     </h2>
                     <p className="mt-4 text-zinc-300">{product.description}</p>
                     <p className="mt-8">
-                      <span className="text-5xl font-extrabold white">
-                        {product?.rate.amount}
+                      <span className="text-5xl text-gray-500 font-extrabold white">
+                        {product?.amount}
                       </span>
                       <span className="text-base font-medium text-zinc-100">
-                        /{product?.type === 'Yearly' ? 'año' : 'mes'}
+                        /{billingInterval === 'Yearly' ? 'año' : 'mes'}
                       </span>
                     </p>
-                    <Button
+                    {client.plans.some((item: any) => item.id === product.id) ? (
+                      <Button
                       type="button"
-                    //   loading={priceIdLoading === price.id}
-                    //   onClick={() => handleStripeCheckout(price)}
                       className="block w-full py-2 mt-8 text-sm font-semibold text-center text-white rounded-md hover:bg-zinc-900"
+                      asChild
                     >
-                      {false ? 'Ver' : 'Suscribirse'}
+                      <Link href={`/membership/${product.id}/checkout/`}>
+                        Ver
+                      </Link>
                     </Button>
+                    ) : (
+                    <Button
+                      type="submit"
+                      className="block w-full py-2 mt-8 text-sm font-semibold text-center text-white rounded-md hover:bg-zinc-900"
+                      asChild
+                    >
+                      <Link href={`/membership/${product.id}/checkout/`}>
+                        Suscribirse
+                      </Link>
+                    </Button>
+                    )}
                   </div>
                 </div>
               );

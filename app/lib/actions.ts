@@ -10,7 +10,7 @@ export async function authenticate(
   prevState: string | undefined,
   formData: FormData,
 ) {
-  formData.set('redirectTo', '/training');
+  // formData.set('redirectTo', '/training');
   try {
     await signIn('credentials', formData);
   } catch (error) {
@@ -58,4 +58,18 @@ export async function register(prevState: { message: string, success: boolean } 
 
   return { message: 'Los datos ingresados no son validos', success: false };
   
+}
+
+export async function assignMembership(data: {id: number, planId: number}) {
+
+  const response = await fetch('http://localhost:4200/api/client/assign-membership', {
+    method: 'PATCH',
+    headers: {
+      "Content-Type": 'application/json'
+    },
+    body: JSON.stringify(data),
+  })
+
+  return response.json()
+
 }

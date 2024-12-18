@@ -1,4 +1,5 @@
 import { NextAuthConfig } from "next-auth";
+import { getClient } from "./lib/data";
 
  
 export const authConfig = {
@@ -7,14 +8,22 @@ export const authConfig = {
     newUser: '/auth/register',
   },
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
+    async authorized({ auth, request: { nextUrl } }: { auth: any, request: any }) {
       const isLoggedIn = !!auth?.user;
       const isOnPage = nextUrl.pathname !== '/auth/login' && nextUrl.pathname !== '/auth/register';
+      const isTrainingPage = nextUrl.pathname === '/training';
+      const client = await getClient(auth.user.client.id);
+      if(isTrainingPage && client.plans.length === 0){
+        if(isLoggedIn){
+          return false;
+        }
+      }
       if (isOnPage) {
         if (isLoggedIn) return true;
         return false; // Redirect unauthenticated users to login page
       } else if (isLoggedIn) {
-        return Response.redirect(new URL('/training', nextUrl));
+        if(auth?.user?.client && client.plans.length === 0 ) return Response.redirect(new URL('/membership', nextUrl));
+        return Response.redirect(new URL('/dashboard', nextUrl));
       }
       return true;
     },

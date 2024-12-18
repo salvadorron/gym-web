@@ -8,6 +8,9 @@ export default {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+	backgroundImage: {
+		'my-image': "url(/1.webp)"	
+	},
   	extend: {
   		colors: {
   			background: 'hsl(var(--background))',
