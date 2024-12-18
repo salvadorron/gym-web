@@ -8,7 +8,7 @@ export default function TrainingPage() {
     let training = true;
 
     return (
-        <div className="bg-red-900 p-2 mt-24">
+        <div className="bg-red-900 p-2 mt-20">
             <div className="container flex flex-col items-center mx-auto">
                 <div className="flex flex-col gap-4">
                     <div className="flex items-center gap-4">
