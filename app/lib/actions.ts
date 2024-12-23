@@ -73,3 +73,17 @@ export async function assignMembership(data: {id: number, planId: number}) {
   return response.json()
 
 }
+
+export async function assignTrainer({ clientId }: { clientId: number }) {
+
+  const response = await fetch('http://localhost:4200/api/plan/assign-trainer', {
+    method: 'POST',
+    headers: {
+      "Content-Type": 'application/json'
+    },
+    body: JSON.stringify(clientId),
+  })
+
+  return response.json()
+
+}

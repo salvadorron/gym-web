@@ -1,7 +1,10 @@
 'use client'
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
 import { assignMembership } from '../lib/actions'
+import { useRouter } from 'next/navigation';
 export function Checkout({ plan, clientId }: { plan: any, clientId: number }) {
+
+    const router = useRouter();
 
     return (
 
@@ -28,6 +31,8 @@ export function Checkout({ plan, clientId }: { plan: any, clientId: number }) {
                         const order = await actions.order?.capture()
                         if(order?.status === 'COMPLETED') {
                             await assignMembership({ id: clientId, planId: plan.id })
+                            router.push('/training');
+
                         }
                     }}
                 />
