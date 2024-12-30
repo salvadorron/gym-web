@@ -1,80 +1,14 @@
+import { Calendar, dayjsLocalizer } from 'react-big-calendar';
+import dayjs from 'dayjs' 
+import myImage from '../../public/1.webp';
+
 export default function SchedulePage() {
+    const localizer = dayjsLocalizer(dayjs.Dayjs);
     return (
-    <div className="flex flex-col items-center justify-center">
-            <h1>Horario de Entrenamiento</h1>
-        <div className="border border-white flex flex-col">
-            <div className="week bg-white grid grid-cols-7 border-black border">
-                <div className="border border-blue-500 flex justify-center">
-                    <p className="font-bold">Lunes</p>
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                    <p className="font-bold">Martes</p>
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                    <p className="font-bold">Miercoles</p>
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                    <p className="font-bold">Jueves</p>
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                    <p className="font-bold">Viernes</p>
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                    <p className="font-bold">Sabado</p>
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                    <p className="font-bold">Domingo</p>
-                </div>
-            </div>
-            <div className="week bg-white grid grid-cols-7 border-black border h-[150px]">
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-            </div>
-            <div className="week bg-white grid grid-cols-7 border-black border h-[150px]">
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-            </div>
-            <div className="week bg-white grid grid-cols-7 border-black border h-[150px]">
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-                <div className="border border-blue-500 flex justify-center">
-                </div>
-            </div>
-        </div>
+    <div className="flex flex-col items-center justify-center shadow-[inset_0_0_0_500px_rgba(127,29,29,0.90)] min-h-screen pt-24" style={{ backgroundImage: `url(${myImage.src})`, backgroundSize: 'cover'}}>
+        <Calendar
+            localizer={localizer}
+         />
     </div>
     )
 }

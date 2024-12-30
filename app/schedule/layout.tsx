@@ -9,7 +9,7 @@ export default async function ScheduleLayout({ children }: { children: React.Rea
 
 
     return (
-        <div className="min-h-screen bg-red-900">
+        <div >
             <Toolbar session={session} client={client} />
             {children}
         </div>
