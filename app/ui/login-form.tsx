@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { AlertCircleIcon, Loader } from 'lucide-react'
  
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {} // eslint-disable-line @typescript-eslint/no-empty-object-type
 
 export default function LoginForm({ className, ...props }: UserAuthFormProps) {
   const [errorMessage, formAction, isPending] = useActionState(

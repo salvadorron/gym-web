@@ -5,13 +5,13 @@ import { getClient, getPlan } from "@/lib/data";
 import { ArrowLeftCircle } from "lucide-react";
 import Link from "next/link";
 
-export default async function CheckoutPage({ params }: { params: { id: string } }) {
+export default async function CheckoutPage({ params }: { params: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
 
     const plan = await getPlan(params.id);
-    const session = await auth() as any;
+    const session = await auth() as any; // eslint-disable-line @typescript-eslint/no-explicit-any
     const client = await getClient(session?.user?.client?.id);
 
-    const isSelled = client?.plans?.some((currentPlan: any) => currentPlan.id === plan.id)
+    const isSelled = client?.plans?.some((currentPlan: any) => currentPlan.id === plan.id) // eslint-disable-line @typescript-eslint/no-explicit-any
 
     if(isSelled){
         return (

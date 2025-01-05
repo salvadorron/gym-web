@@ -2,14 +2,13 @@
 
 import { useState } from "react";
 import { Button } from "./button";
-import { ArrowDown, ArrowDownIcon, ArrowLeft, ArrowRight, ChevronDown, ChevronsDown, Router } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { ArrowLeft, ArrowRight  } from "lucide-react";
 import TextBox from "./text-box";
 import myImage from '../../public/1.webp';
 
 export default function TrainingPlan({
     plans
-}: { plans: any[] }) {
+}: { plans: any[] }) { // eslint-disable-line @typescript-eslint/no-explicit-any
 
     const [index, setIndex] = useState(0);
 
@@ -40,13 +39,14 @@ export default function TrainingPlan({
                         <h2 className="text-white font-medium text-xl text-nowrap">{plans[index].name}</h2>
                         <Button variant="outline" disabled={!isValidNext} onClick={handleNext}><ArrowRight className="w-6 h-6" /></Button>
                     </div>
-                    {plans.map((plan: any) => {
+                    {plans.map((plan: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
 
-                        return plan.trainings.map((training: any) => {
+                        return plan.trainings.map((training: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
 
                             return <div key={crypto.randomUUID()} className="flex flex-col gap-4 w-full">
                                 <h1 className="text-white font-medium text-xl text-nowrap">{training.name}</h1>
-                                {training.excersises.map((excersise: any) => <TextBox key={crypto.randomUUID()} excersise={excersise} />)}
+                                {training.excersises.map((excersise: any) => <TextBox key={crypto.randomUUID()} excersise={excersise} /> // eslint-disable-line @typescript-eslint/no-explicit-any
+                             )} 
                             </div>
                         })
                     })

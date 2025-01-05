@@ -2,7 +2,7 @@
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
 import { assignMembership } from '../lib/actions'
 import { useRouter } from 'next/navigation';
-export function Checkout({ plan, clientId }: { plan: any, clientId: number }) {
+export function Checkout({ plan, clientId }: { plan: any, clientId: number }) { // eslint-disable-line @typescript-eslint/no-explicit-any
 
     const router = useRouter();
 

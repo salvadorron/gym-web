@@ -40,7 +40,7 @@ export async function register(prevState: { message: string, success: boolean } 
 
 
     if(parsedRegistrationCredentials.success) {
-      const response = await fetch('http://localhost:4200/api/client/register', {
+      const response = await fetch('https://gym-service.vercel.app/api/client/register', {
         method: 'POST',
         headers: {
           "Content-Type": 'application/json'
@@ -62,7 +62,7 @@ export async function register(prevState: { message: string, success: boolean } 
 
 export async function assignMembership(data: {id: number, planId: number}) {
 
-  const response = await fetch('http://localhost:4200/api/client/assign-membership', {
+  const response = await fetch('https://gym-service.vercel.app/api/client/assign-membership', {
     method: 'PATCH',
     headers: {
       "Content-Type": 'application/json'
@@ -76,7 +76,7 @@ export async function assignMembership(data: {id: number, planId: number}) {
 
 export async function assignTrainer({ clientId }: { clientId: number }) {
 
-  const response = await fetch('http://localhost:4200/api/plan/assign-trainer', {
+  const response = await fetch('https://gym-service.vercel.app/api/plan/assign-trainer', {
     method: 'POST',
     headers: {
       "Content-Type": 'application/json'

@@ -1,1 +1,1 @@
-type User = any
+type User = any // eslint-disable-line @typescript-eslint/no-explicit-any

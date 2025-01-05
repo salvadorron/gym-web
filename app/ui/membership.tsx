@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 
 
-export default function Membership({ data, client }: { data: any[], client: any }) {
+export default function Membership({ data, client }: { data: any[], client: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
 
     const [billingInterval, setBillingInterval] = useState('Monthly');
 
@@ -89,7 +89,7 @@ export default function Membership({ data, client }: { data: any[], client: any 
                         /{billingInterval === 'Yearly' ? 'año' : 'mes'}
                       </span>
                     </p>
-                    {client.plans.some((item: any) => item.id === product.id) ? (
+                    {client.plans.some((item: any) => item.id === product.id) ? ( // eslint-disable-line @typescript-eslint/no-explicit-any
                       <Button
                       type="button"
                       className="block w-full py-2 mt-8 text-sm font-semibold text-center text-white rounded-md hover:bg-zinc-900"

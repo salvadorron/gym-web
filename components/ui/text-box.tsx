@@ -1,10 +1,9 @@
 'use client'
 
 import { useState } from "react";
-import { Button } from "./button";
 import { ChevronsDown } from "lucide-react";
 
-export default function TextBox({ excersise }: { excersise: any }) {
+export default function TextBox({ excersise }: { excersise: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
 
     const [openBox, setOpenBox] = useState(false);
 

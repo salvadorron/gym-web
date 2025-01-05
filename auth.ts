@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 async function getUser(username: string, password: string): Promise<User | undefined> {
   try {
-    const user = await fetch('http://localhost:4200/api/user/login', {
+    const user = await fetch('https://gym-service.vercel.app/api/user/login', {
       method: 'POST',
       headers: {
         "Content-Type": 'application/json'
