@@ -72,15 +72,15 @@ export default function Membership({ data, client }: { data: any[], client: any 
                         : product.name === 'Freelancer'
                     },
                     'flex-1', // This makes the flex item grow to fill the space
-                    'basis-1/3', // Assuming you want each card to take up roughly a third of the container's width
-                    'max-w-xs' // Sets a maximum width to the cards to prevent them from getting too large
+                    'basis-1/5', // Assuming you want each card to take up roughly a third of the container's width
+                    'max-w-md' // Sets a maximum width to the cards to prevent them from getting too large
                   )}
                 >
                   <div className="p-6">
                     <h2 className="text-2xl font-semibold leading-6 text-white">
                       {product.name}
                     </h2>
-                    <p className="mt-4 text-zinc-300 min-h-24">{product.description}</p>
+                    <p className="mt-4 text-zinc-300 min-h-40">{product.description}</p>
                     <p className="mt-8">
                       <span className="text-5xl text-gray-500 font-extrabold white">
                         {product?.amount}
