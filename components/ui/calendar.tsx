@@ -7,13 +7,13 @@ import {
 import { createEventsServicePlugin } from '@schedule-x/events-service'
  
 import '@schedule-x/theme-default/dist/index.css'
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-export default function Calendar({ plans, selectedPlan }: { plans: any[], selectedPlan: string }) {
+import { usePathname, useRouter } from 'next/navigation';
+export default function Calendar({ plans, selectedPlan }: { plans: any[], selectedPlan: string }) { // eslint-disable-line @typescript-eslint/no-explicit-any
 
     
     
@@ -31,25 +31,24 @@ export default function Calendar({ plans, selectedPlan }: { plans: any[], select
     dayjs.extend(isSameOrAfter);
     dayjs.extend(isSameOrBefore);
     
-    // const params = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
 
     const dateRange = getDates(new Date(new Date().getFullYear(), 0, 1), new Date(new Date().getFullYear(), 11, 31));
 
-    const events: any[] = [];
+    const events: any[] = []; // eslint-disable-line @typescript-eslint/no-explicit-any
 
     plans.forEach((plan) => {
-            plan.trainings.forEach((training: any) => {
+            plan.trainings.forEach((training: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
 
                     if(!training.schedule) return;
 
                     const timeStart = new Date(training.schedule.time_start);
                     const timeEnd = new Date(training.schedule.time_end);
     
-                    training.schedule?.days.forEach((day: any) => {
+                    training.schedule?.days.forEach((day: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
                         const indexDay = DaysOfWeek[day.day_of_week as keyof typeof DaysOfWeek];
-                        let range = dateRange.filter((date) => date.getDay() === indexDay && dayjs(date).isSameOrAfter(timeStart, 'day') && dayjs(date).isSameOrBefore(timeEnd, 'day'));
+                        const range = dateRange.filter((date) => date.getDay() === indexDay && dayjs(date).isSameOrAfter(timeStart, 'day') && dayjs(date).isSameOrBefore(timeEnd, 'day'));
 
                         if(selectedPlan === training.id) return;
 
@@ -65,7 +64,7 @@ export default function Calendar({ plans, selectedPlan }: { plans: any[], select
                 })
         })
     
-    const trainings = plans.map((plan) => plan.trainings.map((training: any) => ({ name: training.name, id: training.id }))).flat();
+    const trainings = plans.map((plan) => plan.trainings.map((training: any) => ({ name: training.name, id: training.id }))).flat(); // eslint-disable-line @typescript-eslint/no-explicit-any
 
     const plugins = [createEventsServicePlugin()]
 
@@ -85,7 +84,7 @@ export default function Calendar({ plans, selectedPlan }: { plans: any[], select
     useEffect(() => {
         calendar?.events.getAll();
         
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     if(!calendar) return <div>Cargando...</div>

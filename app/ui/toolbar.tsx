@@ -1,8 +1,7 @@
 import { signOut } from "@/auth";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { BedIcon, DumbbellIcon } from "lucide-react";
+import { DumbbellIcon } from "lucide-react";
 import Link from "next/link";
 
 export default function Toolbar({ client, session }: { client: any, session: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
