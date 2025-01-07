@@ -3,7 +3,7 @@ import myImage from '../../public/1.webp';
 import { getClient } from '@/lib/data';
 import { auth } from '@/auth';
 
-export default async function SchedulePage({ searchParams: { planId} }: { searchParams: { planId: string } }) { // eslint-disable-line @typescript-eslint/no-explicit-any
+export default async function SchedulePage({ searchParams: { planId} }: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
 
     const session = await auth() as any; // eslint-disable-line @typescript-eslint/no-explicit-any
     
