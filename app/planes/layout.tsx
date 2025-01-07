@@ -1,7 +1,6 @@
 import { getClient } from "@/lib/data";
 import Toolbar from "../ui/toolbar";
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 
 export default async function MembershipLayout({ children }: { children: React.ReactNode }) {
 
