@@ -7,8 +7,6 @@ export default async function MembershipLayout({ children }: { children: React.R
 
     const session = await auth() as any // eslint-disable-line @typescript-eslint/no-explicit-any
     const client = await getClient(session?.user.client.id)
-
-    if(client.plans.length === 0) redirect('/planes');
     
 
     return (
