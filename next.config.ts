@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/",
-        destination: "/training",
+        destination: "/entrenamiento",
         permanent: true
       }
     ]
