@@ -24,8 +24,8 @@ export const authConfig = {
 
       else if (isLoggedIn) {
         const client = await getClient(auth?.user?.client?.id);
-        if(auth?.user?.client && client.plans.length === 0 ) return Response.redirect(new URL('/membership', nextUrl));
-        return Response.redirect(new URL('/training', nextUrl));
+        if(auth?.user?.client && client.plans.length === 0 ) return Response.redirect(new URL('/planes', nextUrl));
+        return Response.redirect(new URL('/entrenamiento', nextUrl));
       }
 
       return true;

@@ -13,7 +13,7 @@ export function Checkout({ plan, clientId }: { plan: any, clientId: number }) { 
                 
             }} >
                 <PayPalButtons className='text-white'
-                    style={{ layout: 'horizontal', color: 'black', label: 'subscribe' }}
+                    style={{ layout: 'horizontal', color: 'gold', label: 'subscribe', disableMaxWidth: true }}
                     createOrder={async () => {
                         const res = await fetch('/api/checkout', {
                             method: 'POST',
@@ -31,10 +31,11 @@ export function Checkout({ plan, clientId }: { plan: any, clientId: number }) { 
                         const order = await actions.order?.capture()
                         if(order?.status === 'COMPLETED') {
                             await assignMembership({ id: clientId, planId: plan.id })
-                            router.push('/training');
+                            router.push('/entrenamiento');
 
                         }
                     }}
+                    
                 />
             </PayPalScriptProvider>
         
