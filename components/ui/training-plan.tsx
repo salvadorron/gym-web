@@ -1,8 +1,5 @@
 'use client'
 
-import { useState } from "react";
-import { Button } from "./button";
-import { ArrowLeft, ArrowRight  } from "lucide-react";
 import TextBox from "./text-box";
 import myImage from '../../public/1.webp';
 
@@ -10,20 +7,20 @@ export default function TrainingPlan({
     plans
 }: { plans: any[] }) { // eslint-disable-line @typescript-eslint/no-explicit-any
 
-    const [index, setIndex] = useState(0);
+    // const [index, setIndex] = useState(0);
 
-    const isValidBack = index > 0;
-    const isValidNext = index < plans.length - 1;
+    // const isValidBack = index > 0;
+    // const isValidNext = index < plans.length - 1;
     
-    const handleBack = () => {
-        if(!isValidBack) return;
-        setIndex(index - 1);
-    }
+    // // const handleBack = () => {
+    // //     if(!isValidBack) return;
+    // //     setIndex(index - 1);
+    // // }
 
-    const handleNext = () => {
-        if(!isValidNext) return;
-        setIndex(index + 1);
-    }
+    // // const handleNext = () => {
+    // //     if(!isValidNext) return;
+    // //     setIndex(index + 1);
+    // // }
 
     return (
         <div className="bg-red-900 p-2 min-h-screen shadow-[inset_0_0_0_800px_rgba(127,29,29,0.65)] " style={{backgroundImage: `url(${myImage.src})`, backgroundRepeat: "no-repeat", backgroundSize: "cover"}}>
@@ -34,7 +31,7 @@ export default function TrainingPlan({
 
                 <div className="flex flex-col items-center gap-4 p-2 rounded-md  min-h-[600px]">
                     <h1 className="text-white font-medium text-xl text-nowrap">Plan de Entrenamiento</h1>
-                    <h2 className="text-white font-medium text-xl text-nowrap">{plans[index].name}</h2>
+                    <h2 className="text-white font-medium text-xl text-nowrap">{plans[0].name}</h2>
                     {plans.map((plan: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
 
                         return plan.trainings.map((training: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any

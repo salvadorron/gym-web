@@ -40,8 +40,6 @@ export default function Calendar({ plans, selectedPlan, currentPayment }: { plan
 
     const events: CalendarEventExternal[] | undefined = []; // eslint-disable-line @typescript-eslint/no-explicit-any
 
-    if(!currentPayment) return;
-
     plans.forEach((plan) => {
             plan.trainings.forEach((training: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
 
@@ -58,16 +56,12 @@ export default function Calendar({ plans, selectedPlan, currentPayment }: { plan
 
                         if(selectedPlan === training.id) return;
 
-                        const description = training.excersises.map((excersise: any) => excersise.name).join(', ');
-
                         range.forEach((date) => {
                             events.push({
                                 id: crypto.randomUUID(),
                                 title: training.name,
                                 start: dayjs(date).format('YYYY-MM-DD') + ' ' + timeStart,
-                                end: dayjs(date).format('YYYY-MM-DD') +  ' ' + timeEnd,
-                                description: description,
-                                
+                                end: dayjs(date).format('YYYY-MM-DD') +  ' ' + timeEnd,                                
                             })
                         })
                     })
@@ -107,14 +101,14 @@ export default function Calendar({ plans, selectedPlan, currentPayment }: { plan
         }
     })
 
-    const eventModal = ({ calendarEvent }: { calendarEvent: CalendarEventExternal }) => {
-        return (
-            <div className="flex flex-col gap-2 p-8 shadow rounded-lg">
-                <h3 className="text-white font-medium">{calendarEvent.title}</h3>
-                <p className="text-white text-sm">{calendarEvent.description}</p>
-            </div>
-        )
-    }
+    // const eventModal = ({ calendarEvent }: { calendarEvent: CalendarEventExternal }) => {
+    //     return (
+    //         <div className="flex flex-col gap-2 p-8 shadow rounded-lg">
+    //             <h3 className="text-white font-medium">{calendarEvent.title}</h3>
+    //             <p className="text-white text-sm">{calendarEvent.description}</p>
+    //         </div>
+    //     )
+    // }
     
 
     return (

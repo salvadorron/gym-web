@@ -1,4 +1,3 @@
-import { DumbbellIcon } from 'lucide-react';
 import myImage from '../../public/1.webp';
 export default function LayoutAuth({
     children,
