@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { AlertCircleIcon, Loader } from 'lucide-react'
 import Link from 'next/link';
+import Image from 'next/image';
  
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {} // eslint-disable-line @typescript-eslint/no-empty-object-type
 
@@ -82,6 +83,9 @@ export default function LoginForm({ className, ...props }: UserAuthFormProps) {
                 No estas registrado aún?
               </p>
               <Link className="text-gray-300 font-bold" href="/auth/register">Crear una cuenta!</Link> 
+            </div>
+            <div className='h-[380px] flex flex-col justify-end'>
+              <Image src={'https://img.freepik.com/vector-gratis/logotipo-gimnasio_1195-54.jpg?t=st=1736524081~exp=1736527681~hmac=b2bc6510cfa2b84b8c1c4fdb72bd6d103b83453ba2f3f72fd36369e94b6a77ef&w=826'} alt="gym logo" width={500} height={500} />
             </div>
           </div>
         </form>
