@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { AlertCircleIcon, CheckIcon, Loader } from 'lucide-react'
+import Link from 'next/link';
  
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {} // eslint-disable-line @typescript-eslint/no-empty-object-type
 
@@ -114,6 +115,12 @@ export default function RegisterForm({ className, ...props }: UserAuthFormProps)
                   <p className="text-sm text-green-500">{formState.message}</p>
                 </>
               )}
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-white">
+                Ya estas registrado?
+              </p>
+              <Link className="text-gray-300 font-bold" href="/auth/login">Iniciar Sesion!</Link> 
             </div>
           </div>
         </form>

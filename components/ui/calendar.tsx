@@ -1,10 +1,12 @@
 'use client';
 import { useNextCalendarApp, ScheduleXCalendar } from '@schedule-x/react'
 import {
+    CalendarEventExternal,
   createViewMonthGrid,
   createViewWeek,
 } from '@schedule-x/calendar'
 import { createEventsServicePlugin } from '@schedule-x/events-service'
+import { createEventModalPlugin } from '@schedule-x/event-modal';
  
 import '@schedule-x/theme-default/dist/index.css'
 import { useEffect } from "react";
@@ -13,7 +15,7 @@ import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { usePathname, useRouter } from 'next/navigation';
-export default function Calendar({ plans, selectedPlan }: { plans: any[], selectedPlan: string }) { // eslint-disable-line @typescript-eslint/no-explicit-any
+export default function Calendar({ plans, selectedPlan, currentPayment }: { plans: any[], selectedPlan: string, currentPayment: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
 
     
     
@@ -36,28 +38,36 @@ export default function Calendar({ plans, selectedPlan }: { plans: any[], select
 
     const dateRange = getDates(new Date(new Date().getFullYear(), 0, 1), new Date(new Date().getFullYear(), 11, 31));
 
-    const events: any[] = []; // eslint-disable-line @typescript-eslint/no-explicit-any
+    const events: CalendarEventExternal[] | undefined = []; // eslint-disable-line @typescript-eslint/no-explicit-any
+
+    if(!currentPayment) return;
 
     plans.forEach((plan) => {
             plan.trainings.forEach((training: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
 
                     if(!training.schedule) return;
 
-                    const timeStart = new Date(training.schedule.time_start);
-                    const timeEnd = new Date(training.schedule.time_end);
+                    const timeStart = dayjs(training.schedule.time_start).format('HH:mm');
+                    const timeEnd = dayjs(training.schedule.time_end).format('HH:mm');
     
                     training.schedule?.days.forEach((day: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
                         const indexDay = DaysOfWeek[day.day_of_week as keyof typeof DaysOfWeek];
-                        const range = dateRange.filter((date) => date.getDay() === indexDay && dayjs(date).isSameOrAfter(timeStart, 'day') && dayjs(date).isSameOrBefore(timeEnd, 'day'));
+                        const range = plan.billing_interval === 'monthly' ? 
+                                    dateRange.filter((date) => date.getDay() === indexDay && dayjs(date).isSame(currentPayment.date, 'month') && dayjs(date).isAfter(currentPayment.date, 'day')) :
+                                    dateRange.filter((date) => date.getDay() === indexDay && dayjs(date).isSame(currentPayment.date, 'year') && dayjs(date).isAfter(currentPayment.date, 'day')) ;
 
                         if(selectedPlan === training.id) return;
+
+                        const description = training.excersises.map((excersise: any) => excersise.name).join(', ');
 
                         range.forEach((date) => {
                             events.push({
                                 id: crypto.randomUUID(),
                                 title: training.name,
-                                start: dayjs(date).format('YYYY-MM-DD') + ' ' + dayjs(timeStart).format('HH:mm'),
-                                end: dayjs(date).format('YYYY-MM-DD') +  ' ' + dayjs(timeEnd).format('HH:mm'),
+                                start: dayjs(date).format('YYYY-MM-DD') + ' ' + timeStart,
+                                end: dayjs(date).format('YYYY-MM-DD') +  ' ' + timeEnd,
+                                description: description,
+                                
                             })
                         })
                     })
@@ -66,7 +76,7 @@ export default function Calendar({ plans, selectedPlan }: { plans: any[], select
     
     const trainings = plans.map((plan) => plan.trainings.map((training: any) => ({ name: training.name, id: training.id }))).flat(); // eslint-disable-line @typescript-eslint/no-explicit-any
 
-    const plugins = [createEventsServicePlugin()]
+    const plugins = [createEventsServicePlugin(), createEventModalPlugin()]
 
     const calendar = useNextCalendarApp({
         locale: 'es-ES',
@@ -78,7 +88,6 @@ export default function Calendar({ plans, selectedPlan }: { plans: any[], select
         defaultView: 'month',
         isDark: true,
         selectedDate: dayjs().format('YYYY-MM-DD'),
-        
     }, plugins) 
 
     useEffect(() => {
@@ -97,6 +106,15 @@ export default function Calendar({ plans, selectedPlan }: { plans: any[], select
             calendar.events.set(filteredEvents);
         }
     })
+
+    const eventModal = ({ calendarEvent }: { calendarEvent: CalendarEventExternal }) => {
+        return (
+            <div className="flex flex-col gap-2 p-8 shadow rounded-lg">
+                <h3 className="text-white font-medium">{calendarEvent.title}</h3>
+                <p className="text-white text-sm">{calendarEvent.description}</p>
+            </div>
+        )
+    }
     
 
     return (
@@ -131,7 +149,7 @@ export default function Calendar({ plans, selectedPlan }: { plans: any[], select
                     </Select>
                 </div>
             </div>
-            <ScheduleXCalendar calendarApp={calendar} />
+            <ScheduleXCalendar calendarApp={calendar}   />
         </div>
     )
 
@@ -139,7 +157,7 @@ export default function Calendar({ plans, selectedPlan }: { plans: any[], select
 
 function getDates(start: Date, end: Date) {
     const arr = [];
-    for(const dt=new Date(start); dt<=new Date(end); dt.setDate(dt.getDate()+1)){
+    for(const dt = new Date(start); dt <= new Date(end); dt.setDate(dt.getDate()+1)){
         arr.push(new Date(dt));
     }
     return arr;

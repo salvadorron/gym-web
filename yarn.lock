@@ -921,6 +921,11 @@
   resolved "https://registry.yarnpkg.com/@schedule-x/calendar/-/calendar-2.12.1.tgz#68cad96365e5bc4207c6550f467713c051db15e0"
   integrity sha512-orWX7NNrVURqU7cVQvPU4zOANY++w5Xc5fDqG2kTLfV+i7L+jjXFJOPzOBHNLvdPQtsfdN3ICKMd+naXmMI/Yw==
 
+"@schedule-x/event-modal@^2.13.0":
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/@schedule-x/event-modal/-/event-modal-2.13.0.tgz#99273954882f564af0bbbaf70c665bd36ae5f992"
+  integrity sha512-FGrYhC1eCJM/nz+eSc2B8Rc1dQHgBt7hMZ1RzyfplekrI2zPZQV5/y4o87X7OfYX10XhtLHBLTGuZwfGvBCJBQ==
+
 "@schedule-x/events-service@^2.12.1":
   version "2.12.1"
   resolved "https://registry.yarnpkg.com/@schedule-x/events-service/-/events-service-2.12.1.tgz#ca20da2b572901357df153cf30a14cfe42206df3"

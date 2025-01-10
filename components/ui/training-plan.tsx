@@ -26,7 +26,7 @@ export default function TrainingPlan({
     }
 
     return (
-        <div className="bg-red-900 p-2 min-h-screen shadow-[inset_0_0_0_800px_rgba(127,29,29,0.90)] " style={{backgroundImage: `url(${myImage.src})`, backgroundRepeat: "no-repeat", backgroundSize: "cover"}}>
+        <div className="bg-red-900 p-2 min-h-screen shadow-[inset_0_0_0_800px_rgba(127,29,29,0.65)] " style={{backgroundImage: `url(${myImage.src})`, backgroundRepeat: "no-repeat", backgroundSize: "cover"}}>
         <div className="container flex flex-col items-center mx-auto">
             <div className="flex flex-col gap-4 w-full pt-24">
 
@@ -34,11 +34,7 @@ export default function TrainingPlan({
 
                 <div className="flex flex-col items-center gap-4 p-2 rounded-md  min-h-[600px]">
                     <h1 className="text-white font-medium text-xl text-nowrap">Plan de Entrenamiento</h1>
-                    <div className="flex items-center gap-4">
-                        <Button variant="outline" disabled={!isValidBack} onClick={handleBack}><ArrowLeft className="w-6 h-6" /></Button>
-                        <h2 className="text-white font-medium text-xl text-nowrap">{plans[index].name}</h2>
-                        <Button variant="outline" disabled={!isValidNext} onClick={handleNext}><ArrowRight className="w-6 h-6" /></Button>
-                    </div>
+                    <h2 className="text-white font-medium text-xl text-nowrap">{plans[index].name}</h2>
                     {plans.map((plan: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
 
                         return plan.trainings.map((training: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any

@@ -16,7 +16,7 @@ export default async function CheckoutPage({ params }: { params: any }) { // esl
 
     if(isSelled){
         return (
-            <div className="shadow-[inset_0_0_0_700px_rgba(127,29,29,0.90)] min-h-screen " style={{ backgroundImage: `url(${myImage.src})`, backgroundSize: 'cover'}}>
+            <div className="shadow-[inset_0_0_0_700px_rgba(127,29,29,0.65)] min-h-screen " style={{ backgroundImage: `url(${myImage.src})`, backgroundSize: 'cover'}}>
                 <div className="container mx-auto flex flex-col pt-24 max-w-3xl">
                     <div className="bg-[#141218] flex-grow grid grid-cols-1 shadow-md p-2 border pt-8 justify-items-center rounded-md min-h-[800px]">
 
@@ -47,7 +47,7 @@ export default async function CheckoutPage({ params }: { params: any }) { // esl
 
 
     return (
-        <div className="shadow-[inset_0_0_0_700px_rgba(127,29,29,0.90)] min-h-screen" style={{ backgroundImage: `url(${myImage.src})`, backgroundSize: 'cover'}}>
+        <div className="shadow-[inset_0_0_0_700px_rgba(127,29,29,0.65)] min-h-screen" style={{ backgroundImage: `url(${myImage.src})`, backgroundSize: 'cover'}}>
             <div className="container mx-auto flex flex-col pt-24 max-w-3xl ">
                 <div className="bg-[#141218] flex flex-col gap-8 shadow-md p-2 border rounded-md min-h-[800px]">
 

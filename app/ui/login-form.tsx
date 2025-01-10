@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { AlertCircleIcon, Loader } from 'lucide-react'
+import Link from 'next/link';
  
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {} // eslint-disable-line @typescript-eslint/no-empty-object-type
 
@@ -18,14 +19,14 @@ export default function LoginForm({ className, ...props }: UserAuthFormProps) {
 
   return (
 
-    <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-      <div className="flex flex-col space-y-2 text-center">
+    <div className="mx-auto flex w-full flex-col justify-center space-y-6 md:w-[350px]">
+      <div className="flex flex-col space-y-2 text-center ">
         <h1 className="text-2xl font-semibold text-white tracking-tight">
           Iniciar Sesion
         </h1>
-        <p className="text-sm text-muted-foreground text-white">
+        {/* <p className="text-sm text-muted-foreground text-white">
           Introduzca sus credenciales para continuar
-        </p>
+        </p> */}
       </div>
 
       <div className={cn("grid gap-6", className)} {...props}>
@@ -75,6 +76,12 @@ export default function LoginForm({ className, ...props }: UserAuthFormProps) {
                   <p className="text-sm text-red-500">{errorMessage}</p>
                 </>
               )}
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-white">
+                No estas registrado aún?
+              </p>
+              <Link className="text-gray-300 font-bold" href="/auth/register">Crear una cuenta!</Link> 
             </div>
           </div>
         </form>

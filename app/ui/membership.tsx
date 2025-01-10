@@ -13,10 +13,10 @@ export default function Membership({ data, client }: { data: any[], client: any 
 
     const intervals = ['Monthly', 'Yearly'];
 
-
+    const sortingData = data.sort((a, b) => a.amount - b.amount);
 
     return (
-      <section className="flex flex-col items-center justify-center shadow-[inset_0_0_0_700px_rgba(127,29,29,0.90)] min-h-screen pt-8" style={{ backgroundImage: `url(${myImage.src})`, backgroundSize: 'cover'}}>
+      <section className="flex flex-col items-center justify-center shadow-[inset_0_0_0_700px_rgba(127,29,29,0.65)] min-h-screen pt-8" style={{ backgroundImage: `url(${myImage.src})`, backgroundSize: 'cover'}}>
         <div className="max-w-6xl px-4 py-8 mx-auto sm:py-24 sm:px-6 lg:px-8">
           <div className="sm:flex sm:flex-col sm:align-center">
             <h1 className="text-4xl font-extrabold text-white sm:text-center sm:text-6xl">
@@ -55,7 +55,7 @@ export default function Membership({ data, client }: { data: any[], client: any 
             </div>
           </div>
           <div className="mt-12 space-y-0 sm:mt-16 flex flex-wrap justify-center gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0">
-            {data.map((product) => {
+            {sortingData.map((product) => {
 
               const selectedBilling = billingInterval.toLowerCase() === product?.billing_interval
 
