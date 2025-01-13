@@ -1,7 +1,5 @@
 import { auth } from "@/auth";
 import Toolbar from "../ui/toolbar";
-import { getClient } from "@/lib/data";
-import { redirect } from "next/navigation";
 
 export default async function TrainingLayout({ children }: { children: React.ReactNode }) {
 

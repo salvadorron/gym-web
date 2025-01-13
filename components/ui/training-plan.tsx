@@ -57,7 +57,7 @@ export default function TrainingPlan({
                     <div className="grid grid-cols-3 gap-4">
 
                         {client.plan.trainings.map((training: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
-                                const days = training.schedule.days.map((day: any) => day.day_of_week);
+                                const days = training.schedule.days.map((day: any ) => day.day_of_week); // eslint-disable-line @typescript-eslint/no-explicit-any
 
                                 return <div key={crypto.randomUUID()} className="flex flex-col justify-between gap-4 w-full bg-[#111111c4] p-4 rounded-md">
                                     <div className="flex flex-col gap-4">
@@ -69,7 +69,7 @@ export default function TrainingPlan({
                                                 </div>
                                             </div>
                                         
-                                    {training.excersises.map((excersise: any) => <TextBox key={crypto.randomUUID()} trainingId={training.id} excersise={excersise} /> // eslint-disable-line @typescript-eslint/no-explicit-any
+                                    {training.excersises.map((excersise: any) => <TextBox key={crypto.randomUUID()} excersise={excersise} /> // eslint-disable-line @typescript-eslint/no-explicit-any
                                     
                                     )}
                                     </div>

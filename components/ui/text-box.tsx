@@ -1,14 +1,10 @@
 'use client'
 
 import { useState } from "react";
-import { CalendarSearchIcon, ChevronsDown } from "lucide-react";
-import { Button } from "./button";
-import { useRouter } from "next/navigation";
 
-export default function TextBox({ trainingId, excersise }: { trainingId: string, excersise: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
+export default function TextBox({ excersise }: { excersise: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
 
     const [openBox, setOpenBox] = useState(false);
-    const router = useRouter();
 
     return (
         <div className="flex flex-col items-center  justify-between gap-4 w-full bg-[#141218] shadow rounded-md p-4">

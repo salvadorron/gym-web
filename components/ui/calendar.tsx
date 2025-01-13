@@ -94,7 +94,7 @@ export default function Calendar({ plan, selectedPlan, currentPayment }: { plan:
     
 
 
-    trainings.forEach((training: any) => {
+    trainings.forEach((training: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
         if(selectedPlan === training.id.toString()) {
             const filteredEvents = events.filter((event) => event.title === training.name);
             calendar.events.set(filteredEvents);
@@ -123,8 +123,8 @@ export default function Calendar({ plan, selectedPlan, currentPayment }: { plan:
                             router.push(`${pathname}`);
                             return;
                         }
-
-                        trainings.forEach((training: any) => {
+ 
+                        trainings.forEach((training: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
                             if(value === training.id.toString()) {
                                 const filteredEvents = events.filter((event) => event.title === training.name);
                                 calendar.events.set(filteredEvents);
@@ -138,7 +138,9 @@ export default function Calendar({ plan, selectedPlan, currentPayment }: { plan:
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="all">Todos</SelectItem>
-                            {trainings.map((training: any) => <SelectItem key={crypto.randomUUID()} value={training.id.toString()}>{training.name}</SelectItem>)}
+                            {trainings.map((training: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+                                return <SelectItem key={crypto.randomUUID()} value={training.id.toString()}>{training.name}</SelectItem> 
+                            })}
                         </SelectContent>
                     </Select>
                 </div>
