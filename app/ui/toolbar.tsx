@@ -4,7 +4,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { DumbbellIcon } from "lucide-react";
 import Link from "next/link";
 
-export default function Toolbar({ client, session }: { client: any, session: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
+export default function Toolbar({ client, session }: { client?: any, session: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
 
     async function logOut () {
         'use server'
@@ -15,7 +15,7 @@ export default function Toolbar({ client, session }: { client: any, session: any
     }
 
     return (
-        <div className="fixed inset-x-0 top-0 z-50 flex h-20 items-center justify-between border-b border-zinc-800 bg-[#141218] px-4 shadow-md dark:border-zinc-800 dark:bg-zinc-900 sm:px-6 lg:px-8">
+        <div className="fixed inset-x-0 top-0 z-50 flex h-20 items-center justify-between border-b border-zinc-800 bg-[#6a0909b8] px-4 shadow-md dark:border-zinc-800 dark:bg-zinc-900 sm:px-6 lg:px-8">
             
             <div className="flex items-center justify-between w-full">
                 <div className="flex items-center space-x-2 flex-1">
@@ -24,12 +24,12 @@ export default function Toolbar({ client, session }: { client: any, session: any
                 </div>
                 <div className="flex gap-8">
                 <div className="flex items-center space-x-8">
-                        <Link href="/planes" className="text-white font-bold hover:border-b-2 hover:border-red-700">Planes</Link>
+                    {session.user.roleId === 'client' && <Link href="/planes" className="text-white font-bold hover:border-b-2 hover:border-red-700">Planes</Link>}
                     
-                    {client.plans.length !== 0 && 
+                    {session.user.roleId === 'client' &&client?.plan !== null && 
                         <Link href="/entrenamiento" className="text-white font-bold hover:border-b-2 hover:border-red-700">Entrenamiento</Link>
                     }
-                    {client.plans.length !== 0 && 
+                    {session.user.roleId === 'client' && client?.plan !== null && 
                         <Link href="/horario" className="text-white font-bold hover:border-b-2 hover:border-red-700">Horario</Link>
                     }
                 </div>

@@ -60,7 +60,7 @@ export async function register(prevState: { message: string, success: boolean } 
   
 }
 
-export async function assignMembership(data: {id: number, planId: number}) {
+export async function assignMembership(data: { id: number, planId: number, payment: { method: string, description: string, amount: number } }) {
 
   const response = await fetch('https://gym-service.vercel.app/api/client/assign-membership', {
     method: 'PATCH',

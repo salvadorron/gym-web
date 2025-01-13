@@ -15,7 +15,7 @@ import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { usePathname, useRouter } from 'next/navigation';
-export default function Calendar({ plans, selectedPlan, currentPayment }: { plans: any[], selectedPlan: string, currentPayment: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
+export default function Calendar({ plan, selectedPlan, currentPayment }: { plan: any, selectedPlan: string, currentPayment: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
 
     
     
@@ -40,7 +40,7 @@ export default function Calendar({ plans, selectedPlan, currentPayment }: { plan
 
     const events: CalendarEventExternal[] | undefined = []; // eslint-disable-line @typescript-eslint/no-explicit-any
 
-    plans.forEach((plan) => {
+
             plan.trainings.forEach((training: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
 
                     if(!training.schedule) return;
@@ -66,9 +66,9 @@ export default function Calendar({ plans, selectedPlan, currentPayment }: { plan
                         })
                     })
                 })
-        })
+        
     
-    const trainings = plans.map((plan) => plan.trainings.map((training: any) => ({ name: training.name, id: training.id }))).flat(); // eslint-disable-line @typescript-eslint/no-explicit-any
+    const trainings = plan.trainings.map((training: any) => ({ name: training.name, id: training.id })); // eslint-disable-line @typescript-eslint/no-explicit-any
 
     const plugins = [createEventsServicePlugin(), createEventModalPlugin()]
 
@@ -94,7 +94,7 @@ export default function Calendar({ plans, selectedPlan, currentPayment }: { plan
     
 
 
-    trainings.forEach((training) => {
+    trainings.forEach((training: any) => {
         if(selectedPlan === training.id.toString()) {
             const filteredEvents = events.filter((event) => event.title === training.name);
             calendar.events.set(filteredEvents);
@@ -124,7 +124,7 @@ export default function Calendar({ plans, selectedPlan, currentPayment }: { plan
                             return;
                         }
 
-                        trainings.forEach((training) => {
+                        trainings.forEach((training: any) => {
                             if(value === training.id.toString()) {
                                 const filteredEvents = events.filter((event) => event.title === training.name);
                                 calendar.events.set(filteredEvents);
@@ -138,7 +138,7 @@ export default function Calendar({ plans, selectedPlan, currentPayment }: { plan
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="all">Todos</SelectItem>
-                            {trainings.map((training) => <SelectItem key={crypto.randomUUID()} value={training.id.toString()}>{training.name}</SelectItem>)}
+                            {trainings.map((training: any) => <SelectItem key={crypto.randomUUID()} value={training.id.toString()}>{training.name}</SelectItem>)}
                         </SelectContent>
                     </Select>
                 </div>

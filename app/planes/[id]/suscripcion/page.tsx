@@ -12,7 +12,7 @@ export default async function CheckoutPage({ params }: { params: any }) { // esl
     const session = await auth() as any; // eslint-disable-line @typescript-eslint/no-explicit-any
     const client = await getClient(session?.user?.client?.id);
 
-    const isSelled = client?.plans?.some((currentPlan: any) => currentPlan.id === plan.id) // eslint-disable-line @typescript-eslint/no-explicit-any
+    const isSelled = client?.plan.id === plan.id // eslint-disable-line @typescript-eslint/no-explicit-any
 
     if(isSelled){
         return (

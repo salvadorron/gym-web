@@ -8,7 +8,7 @@ export default async function ScheduleLayout({ children }: { children: React.Rea
     const session = await auth() as any // eslint-disable-line @typescript-eslint/no-explicit-any
     const client = await getClient(session?.user.client.id)
 
-    if(client.plans.length === 0) redirect('/planes');
+    if(client.plan === null) redirect('/planes');
 
 
     return (

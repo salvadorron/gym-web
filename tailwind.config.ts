@@ -9,7 +9,8 @@ export default {
   ],
   theme: {
 	backgroundImage: {
-		'my-image': "url(/1.webp)"	
+		'my-image': "url(/1.webp)",
+		'bg-gradient': 'linear-gradient(115deg, rgba(183, 52, 52, 0.99) 0%, rgba(185, 30, 30, 0) 45%, rgba(30, 19, 19, 0.08) 76%)'	
 	},
   	extend: {
   		colors: {

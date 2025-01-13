@@ -6,17 +6,8 @@ export default function LayoutAuth({
 }>) {
 
     return (
-        <div className="min-h-screen md:p-2 flex shadow-[inset_0_0_0_500px_rgba(127,29,29,0.65)]" style={{ backgroundImage: `url(${myImage.src})`, backgroundSize: 'cover'}}>
-          <div className="hidden md:flex md:flex-1 items-end">
-            <blockquote className="space-y-2">
-              <p className="text-lg text-white">
-                &ldquo;Si quieres alcanzar la excelencia en las cosas grandes, debes desarrollar el hábito en las cosas pequeñas.
-                La excelencia no es una excepción, es una actitud que prevalece&rdquo;
-              </p>
-              <footer className="text-sm text-white">Charles R. Swindoll, político y fundador de Insight for Living</footer>
-            </blockquote>
-          </div>
-          <div className="p-8 bg-[linear-gradient(171deg,#121212,#181818)] md:rounded-md shadow flex-grow md:flex-grow-0 flex flex-col items-center pt-48">
+        <div className="min-h-screen md:p-2 flex justify-end" style={{ backgroundImage: `linear-gradient(115deg, rgba(183, 52, 52, 0.99) 0%, rgba(185, 30, 30, 0) 45%, rgba(30, 19, 19, 0.08) 76%), url(${myImage.src})`, backgroundSize: 'contain', }}>
+          <div className="p-8 bg-[#6a0909b8] md:rounded-md shadow flex-grow md:flex-grow-0 flex flex-col items-center pt-48">
             {children}
           </div>
       </div>

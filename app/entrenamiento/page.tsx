@@ -8,5 +8,5 @@ export default async function TrainingPage() {
 
     const client = await getClient(session.user.client.id);
 
-    return <TrainingPlan plans={client.plans} />
+    return <TrainingPlan client={client} />
 }

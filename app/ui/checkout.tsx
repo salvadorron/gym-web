@@ -4,6 +4,7 @@ import { assignMembership } from '../lib/actions'
 import { useRouter } from 'next/navigation';
 export function Checkout({ plan, clientId }: { plan: any, clientId: number }) { // eslint-disable-line @typescript-eslint/no-explicit-any
 
+
     const router = useRouter();
 
     return (
@@ -30,8 +31,15 @@ export function Checkout({ plan, clientId }: { plan: any, clientId: number }) { 
                     onApprove={async (data, actions) => {
                         const order = await actions.order?.capture()
                         if(order?.status === 'COMPLETED') {
-                            await assignMembership({ id: clientId, planId: plan.id })
-                            router.push('/entrenamiento');
+                            
+                                await assignMembership({
+                                    id: clientId, planId: plan.id, payment: {
+                                    method: 'Paypal',
+                                    description: 'Paypal Subscription',
+                                    amount: plan.amount
+                                } })
+                            
+                                router.push('/entrenamiento');
 
                         }
                     }}

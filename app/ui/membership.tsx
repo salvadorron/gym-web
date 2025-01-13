@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import myImage from '../../public/1.webp';
+import splash from '../../public/2.webp';
 import { useState } from 'react';
 
 
@@ -16,7 +16,7 @@ export default function Membership({ data, client }: { data: any[], client: any 
     const sortingData = data.sort((a, b) => a.amount - b.amount);
 
     return (
-      <section className="flex flex-col items-center justify-center shadow-[inset_0_0_0_700px_rgba(127,29,29,0.65)] min-h-screen pt-8" style={{ backgroundImage: `url(${myImage.src})`, backgroundSize: 'cover'}}>
+      <section className="flex flex-col items-center justify-center min-h-screen pt-8" style={{ backgroundImage: ` url(${splash.src})`, backgroundSize: 'contain', }}>
         <div className="max-w-6xl px-4 py-8 mx-auto sm:py-24 sm:px-6 lg:px-8">
           <div className="sm:flex sm:flex-col sm:align-center">
             <h1 className="text-4xl font-extrabold text-white sm:text-center sm:text-6xl">
@@ -65,12 +65,7 @@ export default function Membership({ data, client }: { data: any[], client: any 
                 <div
                   key={product.id}
                   className={cn(
-                    'flex flex-col rounded-lg shadow-sm divide-y divide-zinc-600 bg-zinc-900',
-                    {
-                      'border border-red-700': true
-                        ? product.name === 'subscription?.prices?.products?.name'
-                        : product.name === 'Freelancer'
-                    },
+                    'flex flex-col rounded-lg shadow-sm divide-y divide-zinc-600 bg-[#111111c4] border border-gray-200',
                     'flex-1', // This makes the flex item grow to fill the space
                     'basis-1/5', // Assuming you want each card to take up roughly a third of the container's width
                     'max-w-md' // Sets a maximum width to the cards to prevent them from getting too large
@@ -89,10 +84,10 @@ export default function Membership({ data, client }: { data: any[], client: any 
                         /{billingInterval === 'Yearly' ? 'año' : 'mes'}
                       </span>
                     </p>
-                    {client.plans.some((item: any) => item.id === product.id) ? ( // eslint-disable-line @typescript-eslint/no-explicit-any
+                    {client.plan?.id === product.id ? ( // eslint-disable-line @typescript-eslint/no-explicit-any
                       <Button
                       type="button"
-                      className="block w-full py-2 mt-8 text-sm font-semibold text-center text-white rounded-md hover:bg-red-500"
+                      className="block w-full py-2 mt-8 text-sm font-semibold text-center bg-[#6a0909b8]  text-white rounded-md hover:bg-red-500"
                       asChild
                     >
                       <Link href={`/planes/${product.id}/suscripcion/`}>
@@ -102,7 +97,7 @@ export default function Membership({ data, client }: { data: any[], client: any 
                     ) : (
                     <Button
                       type="submit"
-                      className="block w-full py-2 mt-8 text-sm font-semibold text-center text-white rounded-md hover:bg-red-500"
+                      className="block w-full py-2 mt-8 text-sm font-semibold text-center  bg-[#6a0909b8] text-white rounded-md hover:bg-red-500"
                       asChild
                     >
                       <Link href={`/planes/${product.id}/suscripcion/`}>

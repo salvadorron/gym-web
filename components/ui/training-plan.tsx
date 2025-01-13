@@ -1,29 +1,50 @@
 'use client'
 
 import TextBox from "./text-box";
-import myImage from '../../public/1.webp';
+import splash from '../../public/2.webp';
+import { Button } from "./button";
+import { CalendarSearchIcon, TimerIcon } from "lucide-react";
+import Link from "next/link";
+import dayjs from 'dayjs'
+import weekOfYearPlugin from 'dayjs/plugin/weekday';
+enum DaysOfWeek {
+    Sunday = 0,
+    Monday = 1,
+    Tuesday = 2,
+    Wednesday = 3,
+    Thursday = 4,
+    Friday = 5,
+    Saturday = 6,
+}
+
 
 export default function TrainingPlan({
-    plans
-}: { plans: any[] }) { // eslint-disable-line @typescript-eslint/no-explicit-any
-
-    // const [index, setIndex] = useState(0);
-
-    // const isValidBack = index > 0;
-    // const isValidNext = index < plans.length - 1;
+    client
+}: { client: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
     
-    // // const handleBack = () => {
-    // //     if(!isValidBack) return;
-    // //     setIndex(index - 1);
-    // // }
+    dayjs.extend(weekOfYearPlugin);
 
-    // // const handleNext = () => {
-    // //     if(!isValidNext) return;
-    // //     setIndex(index + 1);
-    // // }
+    const getNextDay = (day: string[]) => {
+        const currentDate = dayjs();
+        const days = day.map(day => {
+            const nextDay = currentDate.weekday(DaysOfWeek[day as keyof typeof DaysOfWeek]);
+            return nextDay;
+        })
+
+        let nextDay = days[0];
+
+        days.forEach(day => {
+            if (day.isBefore(nextDay)) {
+                nextDay = day;
+            }
+        })
+
+        return nextDay
+
+    }
 
     return (
-        <div className="bg-red-900 p-2 min-h-screen shadow-[inset_0_0_0_800px_rgba(127,29,29,0.65)] " style={{backgroundImage: `url(${myImage.src})`, backgroundRepeat: "no-repeat", backgroundSize: "cover"}}>
+        <div className="bg-red-900 p-2 min-h-screen " style={{ backgroundImage: ` url(${splash.src})`, backgroundSize: 'contain', }}>
         <div className="container flex flex-col items-center mx-auto">
             <div className="flex flex-col gap-4 w-full pt-24">
 
@@ -31,19 +52,39 @@ export default function TrainingPlan({
 
                 <div className="flex flex-col items-center gap-4 p-2 rounded-md  min-h-[600px]">
                     <h1 className="text-white font-medium text-xl text-nowrap">Plan de Entrenamiento</h1>
-                    <h2 className="text-white font-medium text-xl text-nowrap">{plans[0].name}</h2>
-                    {plans.map((plan: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+                    <h2 className="text-white font-medium text-xl text-nowrap">{client.plan.name}</h2>
 
-                        return plan.trainings.map((training: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+                    <div className="grid grid-cols-3 gap-4">
 
-                            return <div key={crypto.randomUUID()} className="flex flex-col gap-4 w-full">
-                                <h1 className="text-white font-medium text-xl text-nowrap">{training.name}</h1>
-                                {training.excersises.map((excersise: any) => <TextBox key={crypto.randomUUID()} trainingId={training.id} excersise={excersise} /> // eslint-disable-line @typescript-eslint/no-explicit-any
-                             )} 
+                        {client.plan.trainings.map((training: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+                                const days = training.schedule.days.map((day: any) => day.day_of_week);
+
+                                return <div key={crypto.randomUUID()} className="flex flex-col justify-between gap-4 w-full bg-[#111111c4] p-4 rounded-md">
+                                    <div className="flex flex-col gap-4">
+                                            <h1 className="text-white font-medium text-lg text-nowrap">{training.name}</h1>
+                                            <div className="flex flex-end">
+                                                <div className="flex justify-between gap-2">
+                                                    <TimerIcon className="w-4 h-4 text-white" />
+                                                    <h3 className="text-white text-sm uppercase">Proxima clase: {getNextDay(days).format('DD/MM/YYYY')}</h3>
+                                                </div>
+                                            </div>
+                                        
+                                    {training.excersises.map((excersise: any) => <TextBox key={crypto.randomUUID()} trainingId={training.id} excersise={excersise} /> // eslint-disable-line @typescript-eslint/no-explicit-any
+                                    
+                                    )}
+                                    </div>
+                                    <div className="flex justify-end  items-center">
+                                            <Button  className="text-white w-full bg-[#6a0909b8]" asChild>
+                                                <Link href={`/horario?planId=${training.id}`}>
+                                                    Ver en Horario <CalendarSearchIcon className="w-4 h-4" />
+                                                </Link>
+                                            </Button>
+                                    </div> 
                             </div>
-                        })
-                    })
-                    }
+                            })
+                        }
+                    </div>
+                    
 
             </div>
             </div>
