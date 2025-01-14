@@ -6,15 +6,17 @@ export function Checkout({ plan, clientId }: { plan: any, clientId: number }) { 
 
 
     const router = useRouter();
+    
 
     return (
 
             <PayPalScriptProvider options={{
                 clientId: 'AXzR3wNQfyW6kwOouGKu72YM93siSXCO2QSA_nD3l05tTNj-SAXnjvb5CyQjNbzTUtzjFUaX94Q5qhA1',
-                
+                buyerCountry: 'VE'
             }} >
                 <PayPalButtons className='text-white'
-                    style={{ layout: 'horizontal', color: 'gold', label: 'subscribe', disableMaxWidth: true }}
+                    message={{ position: 'bottom' }}
+                    style={{ layout: 'horizontal', color: 'black', label: 'subscribe', disableMaxWidth: true }}
                     createOrder={async () => {
                         const res = await fetch('/api/checkout', {
                             method: 'POST',

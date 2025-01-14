@@ -57,7 +57,7 @@ export default function TrainingPlan({
                     <div className="grid grid-cols-3 gap-4">
 
                         {client.plan.trainings.map((training: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
-                                const days = training.schedule.days.map((day: any ) => day.day_of_week); // eslint-disable-line @typescript-eslint/no-explicit-any
+                                const days = training?.schedule?.days.map((day: any ) => day.day_of_week); // eslint-disable-line @typescript-eslint/no-explicit-any
 
                                 return <div key={crypto.randomUUID()} className="flex flex-col justify-between gap-4 w-full bg-[#111111c4] p-4 rounded-md">
                                     <div className="flex flex-col gap-4">
@@ -65,7 +65,7 @@ export default function TrainingPlan({
                                             <div className="flex flex-end">
                                                 <div className="flex justify-between gap-2">
                                                     <TimerIcon className="w-4 h-4 text-white" />
-                                                    <h3 className="text-white text-sm uppercase">Proxima clase: {getNextDay(days).format('DD/MM/YYYY')}</h3>
+                                                    <h3 className="text-white text-sm uppercase">Proxima clase: {days === undefined || days.length === 0 ? 'No hay clases programadas' : getNextDay(days).format('DD/MM/YYYY')}</h3>
                                                 </div>
                                             </div>
                                         
