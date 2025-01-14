@@ -45,8 +45,8 @@ export default function Calendar({ plan, selectedPlan, currentPayment }: { plan:
 
                     if(!training.schedule) return;
 
-                    const timeStart = dayjs(training.schedule.time_start).format('HH:mm');
-                    const timeEnd = dayjs(training.schedule.time_end).format('HH:mm');
+                    const timeStart = dayjs(training.schedule.time_start).add(4, 'hour').format('HH:mm');
+                    const timeEnd = dayjs(training.schedule.time_end).add(4, 'hour').format('HH:mm');
     
                     training.schedule?.days.forEach((day: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
                         const indexDay = DaysOfWeek[day.day_of_week as keyof typeof DaysOfWeek];
