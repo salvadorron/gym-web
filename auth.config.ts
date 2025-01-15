@@ -29,7 +29,7 @@ export const authConfig = {
           return Response.redirect(new URL('/entrenamiento', nextUrl));
         }
         else if(auth?.user?.roleId === 'trainer'){
-          return Response.redirect(new URL('/dashboard', nextUrl));
+          return Response.redirect(new URL('/participantes', nextUrl));
         }
       }
 

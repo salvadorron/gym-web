@@ -32,6 +32,8 @@ export default function Toolbar({ client, session }: { client?: Client, session:
                 <div className="flex items-center space-x-8">
                     {session.user.roleId === 'client' && <Link href="/planes" className="text-white font-bold hover:border-b-2 hover:border-red-700">Planes</Link>}
                     
+                    {session.user.roleId === 'trainer' && <Link href="/participantes" className="text-white font-bold hover:border-b-2 hover:border-red-700">Participantes</Link>}
+
                     {session.user.roleId === 'client' &&client?.plan !== null && 
                         <Link href="/entrenamiento" className="text-white font-bold hover:border-b-2 hover:border-red-700">Entrenamiento</Link>
                     }
