@@ -1,5 +1,6 @@
 'use client'
 
+import { Excersise } from "@/lib/definitions";
 import { useState } from "react";
 
 export default function TextBox({ excersise }: { excersise: Excersise }) {
