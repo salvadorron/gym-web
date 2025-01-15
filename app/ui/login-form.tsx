@@ -1,7 +1,6 @@
 'use client';
  
 import React, { useActionState } from 'react';
-import { authenticate } from '@/app/lib/actions';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
@@ -11,6 +10,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import logo from '../../public/logo.png';
 import localFont from 'next/font/local';
+import { authenticate } from '@/lib/actions';
 
 
 const caviarDreamsBold = localFont({

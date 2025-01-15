@@ -1,13 +1,13 @@
 'use client';
  
 import React, { useActionState } from 'react';
-import { register } from '@/app/lib/actions';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { AlertCircleIcon, CheckIcon, Loader } from 'lucide-react'
 import Link from 'next/link';
+import { register } from '@/lib/actions';
  
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {} // eslint-disable-line @typescript-eslint/no-empty-object-type
 
