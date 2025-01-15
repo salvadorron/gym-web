@@ -5,6 +5,7 @@ import { getClient, getPlan } from "@/lib/data";
 import { ArrowLeftCircle } from "lucide-react";
 import Link from "next/link";
 import splash from '../../../../public/2.webp';
+import { PageProps } from "@/lib/definitions";
 
 export default async function CheckoutPage({ params }: PageProps) { 
     const session = await auth(); 

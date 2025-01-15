@@ -2,9 +2,10 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
 import { z } from 'zod';
+import { User } from './lib/definitions';
  
 
-async function getUser(username: string, password: string): Promise<User | undefined> {
+async function getUser(username: string, password: string): Promise<User | null> {
   try {
     const user = await fetch('https://gym-service.vercel.app/api/user/login', {
       method: 'POST',
@@ -16,8 +17,8 @@ async function getUser(username: string, password: string): Promise<User | undef
     const userData = await user.json() as User;
     return userData;
   } catch (error) {
-    console.error('Failed to fetch user:', error);
-    throw new Error('Failed to fetch user.');
+    console.log(error)
+    return null;
   }
 }
  
@@ -34,9 +35,12 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
  
         if (parsedCredentials.success) {
           const { username, password } = parsedCredentials.data;
-          const user = await getUser(username, password);
-          if (user?.statusCode === 401) return null;
-          return user;
+          const user = await getUser(username, password)
+          if(!user) return null;
+          return {
+            ...user,
+            id: user.id.toString()
+          }
         }
  
         console.log('Credenciales Invalidas');

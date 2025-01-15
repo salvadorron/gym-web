@@ -1,10 +1,10 @@
-type Role = {
+export type Role = {
     id: string
     name: string
     users: User[]
   }
   
-  type User = {
+  export type User = {
     id : number
     username: string
     password: string
@@ -18,7 +18,7 @@ type Role = {
     admin?: Admin
   }
   
-  type Client =  {
+  export type Client =  {
     id : number
     training_progress: number
     user?: User
@@ -31,7 +31,7 @@ type Role = {
     trainer_id?: number
   }
   
-  type Trainer = {
+  export type Trainer = {
     id : number
     speciality: string
     user?: User
@@ -40,19 +40,19 @@ type Role = {
     clients: Client[]
   }
   
-  type Certificate = {
+  export type Certificate = {
     id:number 
     name:string
     trainers: Trainer[]
   }
   
-  type Admin = {
+  export type Admin = {
     id : number
     user?: User
     user_id: number 
   }
   
-  type Plan = {
+  export type Plan = {
     id: number 
     clients: Client[]
     trainings: Training[]
@@ -63,7 +63,7 @@ type Role = {
   
   }
   
-  type Training = {
+  export type Training = {
     id: number 
     plan: Plan
     plan_id: number
@@ -72,7 +72,7 @@ type Role = {
     schedule?: Schedule
   }
   
-  type Excersise = {
+  export type Excersise = {
     id: number 
     name: string
     description?: string
@@ -84,7 +84,7 @@ type Role = {
   
   
   
-  type Payment = {
+  export type Payment = {
     id: number 
     client: Client
     client_id:number
@@ -95,7 +95,7 @@ type Role = {
   }
   
   
-  type Attendance = {
+  export type Attendance = {
     id: number 
     client: Client
     client_id: number
@@ -105,7 +105,7 @@ type Role = {
     status: boolean
   }
   
-  type Schedule = {
+  export type Schedule = {
     id: number 
     duration: number
     training: Training
@@ -117,14 +117,14 @@ type Role = {
   }
   
   
-  type Day = {
+  export type Day = {
     id: number 
     schedule: Schedule
     schedule_id: number
     day_of_week: string
   }
   
-  type PageProps = {
+  export type PageProps = {
     searchParams: Promise<{
       planId: string
     }>

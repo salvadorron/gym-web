@@ -3,6 +3,7 @@ import splash from '../../public/2.webp';
 import { getClient } from '@/lib/data';
 import dayjs from 'dayjs';
 import { auth } from '@/auth';
+import { PageProps } from '@/lib/definitions';
 
 export default async function SchedulePage({ searchParams }: PageProps) { 
 

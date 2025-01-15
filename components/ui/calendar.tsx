@@ -16,6 +16,7 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { usePathname, useRouter } from 'next/navigation';
 import { DaysOfWeek } from '@/lib/utils';
+import { Payment, Plan } from '@/lib/definitions';
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);

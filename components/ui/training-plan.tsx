@@ -8,6 +8,7 @@ import Link from "next/link";
 import dayjs from 'dayjs'
 import weekOfYearPlugin from 'dayjs/plugin/weekday';
 import { DaysOfWeek } from "@/lib/utils";
+import { Client } from "@/lib/definitions";
 dayjs.extend(weekOfYearPlugin);
 
 export default function TrainingPlan({

@@ -1,5 +1,6 @@
 'use client'
 import { assignPlan } from '@/lib/actions';
+import { Plan } from '@/lib/definitions';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
 import { useRouter } from 'next/navigation';
 export function Checkout({ plan, clientId }: { plan: Plan, clientId: number }) {
