@@ -6,13 +6,18 @@ import { ArrowLeftCircle } from "lucide-react";
 import Link from "next/link";
 import splash from '../../../../public/2.webp';
 
-export default async function CheckoutPage({ params }: { params: Promise<{id: string}> }) { // eslint-disable-line @typescript-eslint/no-explicit-any
-    const session = await auth() as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+export default async function CheckoutPage({ params }: PageProps) { 
+    const session = await auth(); 
+
+    if(!session?.user?.client) {
+        throw new Error('Missing Client');
+    }
+
     const planId = (await params).id
     const plan = await getPlan(planId);
     const client = await getClient(session?.user?.client?.id);
 
-    const isSelled = client?.plan?.id === +planId // eslint-disable-line @typescript-eslint/no-explicit-any
+    const isSelled = client?.plan?.id === +planId 
 
     if(isSelled){
         return (

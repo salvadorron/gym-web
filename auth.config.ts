@@ -8,7 +8,7 @@ export const authConfig = {
     newUser: '/auth/register',
   },
   callbacks: {
-    async authorized({ auth, request: { nextUrl } }: { auth: any, request: any }) {
+    async authorized({ auth, request: { nextUrl } }) {
 
       
       const isLoggedIn = !!auth?.user;
@@ -23,8 +23,8 @@ export const authConfig = {
       }
 
       else if (isLoggedIn) {
-        if(auth?.user?.roleId === 'client'){
-          const client = await getClient(auth?.user?.client?.id);
+        if(auth?.user?.roleId === 'client' && auth?.user?.client){
+          const client = await getClient(auth?.user?.client.id);
           if(auth?.user?.client && client.plan === null ) return Response.redirect(new URL('/planes', nextUrl));
           return Response.redirect(new URL('/entrenamiento', nextUrl));
         }

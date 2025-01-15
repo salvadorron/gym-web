@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function TextBox({ excersise }: { excersise: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
+export default function TextBox({ excersise }: { excersise: Excersise }) {
 
     const [openBox, setOpenBox] = useState(false);
 
@@ -20,7 +20,7 @@ export default function TextBox({ excersise }: { excersise: any }) { // eslint-d
             </div>
             <div data-open={openBox} className="data-[open=true]:flex flex-col gap-2 w-full data-[open=true]:opacity-100 hidden animate-in" >
                 <div className="w-full bg-[#17131b] shadow-sm border-l-4 border-green-700 p-4">
-                    {excersise.description.split('.').map((line: string) => <p key={crypto.randomUUID()} className="text-sm font-medium text-white ">{line.length !== 0 && `${line}.`}</p>)}
+                    {excersise.description?.split('.').map((line: string) => <p key={crypto.randomUUID()} className="text-sm font-medium text-white ">{line.length !== 0 && `${line}.`}</p>)}
                 </div>
             </div>
         </div>

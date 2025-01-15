@@ -5,7 +5,10 @@ import { redirect } from "next/navigation";
 
 export default async function ScheduleLayout({ children }: { children: React.ReactNode }) {
 
-    const session = await auth() as any // eslint-disable-line @typescript-eslint/no-explicit-any
+    const session = await auth();
+
+    if(!session?.user?.client) throw new Error('Missing client');
+
     const client = await getClient(session?.user.client.id)
 
     if(client.plan === null) redirect('/planes');

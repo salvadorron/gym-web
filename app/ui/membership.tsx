@@ -7,7 +7,7 @@ import splash from '../../public/2.webp';
 import { useState } from 'react';
 
 
-export default function Membership({ data, client }: { data: any[], client: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
+export default function Membership({ data, client }: { data: Plan[], client: Client }) {
 
     const [billingInterval, setBillingInterval] = useState('Monthly');
 
@@ -84,7 +84,7 @@ export default function Membership({ data, client }: { data: any[], client: any 
                         /{billingInterval === 'Yearly' ? 'año' : 'mes'}
                       </span>
                     </p>
-                    {client.plan?.id === product.id ? ( // eslint-disable-line @typescript-eslint/no-explicit-any
+                    {client.plan?.id === product.id ? ( 
                       <Button
                       type="button"
                       className="block w-full py-2 mt-8 text-sm font-semibold text-center bg-[#6a0909b8]  text-white rounded-md hover:bg-red-500"

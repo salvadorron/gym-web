@@ -1,8 +1,8 @@
 'use client'
+import { assignPlan } from '@/lib/actions';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
-import { assignMembership } from '../lib/actions'
 import { useRouter } from 'next/navigation';
-export function Checkout({ plan, clientId }: { plan: any, clientId: number }) { // eslint-disable-line @typescript-eslint/no-explicit-any
+export function Checkout({ plan, clientId }: { plan: Plan, clientId: number }) {
 
 
     const router = useRouter();
@@ -12,7 +12,6 @@ export function Checkout({ plan, clientId }: { plan: any, clientId: number }) { 
 
             <PayPalScriptProvider options={{
                 clientId: 'AXzR3wNQfyW6kwOouGKu72YM93siSXCO2QSA_nD3l05tTNj-SAXnjvb5CyQjNbzTUtzjFUaX94Q5qhA1',
-                buyerCountry: 'VE'
             }} >
                 <PayPalButtons className='text-white'
                     message={{ position: 'bottom' }}
@@ -34,7 +33,7 @@ export function Checkout({ plan, clientId }: { plan: any, clientId: number }) { 
                         const order = await actions.order?.capture()
                         if(order?.status === 'COMPLETED') {
                             
-                                await assignMembership({
+                                await assignPlan({
                                     id: clientId, planId: plan.id, payment: {
                                     method: 'Paypal',
                                     description: 'Paypal Subscription',

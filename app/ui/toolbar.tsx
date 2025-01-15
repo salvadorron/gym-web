@@ -2,9 +2,10 @@ import { signOut } from "@/auth";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { DumbbellIcon } from "lucide-react";
+import { Session } from "next-auth";
 import Link from "next/link";
 
-export default function Toolbar({ client, session }: { client?: any, session: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
+export default function Toolbar({ client, session }: { client?: Client, session: Session | null }) {
 
     async function logOut () {
         'use server'
@@ -12,6 +13,10 @@ export default function Toolbar({ client, session }: { client?: any, session: an
             redirect: true,
             redirectTo: '/auth/login'
         })
+    }
+
+    if(!session) {
+        throw new Error('User not authenticated');
     }
 
     return (
