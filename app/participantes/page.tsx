@@ -1,7 +1,7 @@
-import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import splash from '../../public/2.webp';
 import { auth } from '@/auth';
-import { getTrainer, getUsersByTrainer } from '@/lib/data';
+import { getUsersByTrainer } from '@/lib/data';
 
 
 export default async function DashboardPage() {
