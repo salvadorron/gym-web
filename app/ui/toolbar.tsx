@@ -1,6 +1,7 @@
 import { signOut } from "@/auth";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Client } from "@/lib/definitions";
 import { DumbbellIcon } from "lucide-react";
 import { Session } from "next-auth";
 import Link from "next/link";

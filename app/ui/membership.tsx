@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import splash from '../../public/2.webp';
 import { useState } from 'react';
+import { Client, Plan } from '@/lib/definitions';
 
 
 export default function Membership({ data, client }: { data: Plan[], client: Client }) {
