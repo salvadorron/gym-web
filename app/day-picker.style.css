@@ -1,0 +1,6 @@
+.sx-react-calendar-wrapper {
+    width: inherit;
+    max-width: 100vw;
+    height: 600px;
+    max-height: 90vh;
+  }
