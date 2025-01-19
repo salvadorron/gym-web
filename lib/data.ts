@@ -1,29 +1,53 @@
 'use server'
 
+import { apiUrl } from "@/config";
 import { Client, Plan, Trainer, User } from "./definitions";
 
 export async function getMemberships(): Promise<Plan[]> {
-    const res = await fetch('https://gym-service.vercel.app/api/plan', { cache: 'no-store' });
+  console.log(apiUrl)
+    const res = await fetch(`${apiUrl}/plan`, { cache: 'no-store' });
     return res.json();
 }
 
 export async function getClient(id: number): Promise<Client> {
-    const res = await fetch(`https://gym-service.vercel.app/api/client/${id}`, { cache: 'no-store' });
+  console.log(apiUrl)
+    const res = await fetch(`${apiUrl}/client/${id}`, { cache: 'no-store' });
     return res.json();
 }
 
 
 export async function getTrainer(id: number): Promise<Trainer> {
-    const res = await fetch(`https://gym-service.vercel.app/api/trainer/${id}`, { cache: 'no-store' });
+  console.log(apiUrl)
+    const res = await fetch(`${apiUrl}/trainer/${id}`, { cache: 'no-store' });
     return res.json();
 }
 
 export async function getPlan(id: string): Promise<Plan> {
-    const res = await fetch(`https://gym-service.vercel.app/api/plan/${id}`, { cache: 'no-store' });
+  console.log(apiUrl)
+    const res = await fetch(`${apiUrl}/plan/${id}`, { cache: 'no-store' });
     return res.json();
 }
 
 export async function getUsersByTrainer(trainerId: number): Promise<User[]> {
-    const res = await fetch(`https://gym-service.vercel.app/api/user?trainerId=${trainerId}`, { cache: 'no-store' });	
+  console.log(apiUrl)
+    const res = await fetch(`${apiUrl}/user?trainerId=${trainerId}`, { cache: 'no-store' });	
     return res.json();
+}
+
+export async function getUser(username: string, password: string): Promise<User | null> {
+  console.log(apiUrl)
+  try {
+    const user = await fetch(`${apiUrl}/user/login`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify({ username, password }),
+    });
+    const userData = await user.json() as User;
+    return userData;
+  } catch (error) {
+    console.log(error)
+    return null;
+  }
 }
