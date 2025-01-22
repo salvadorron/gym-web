@@ -3,18 +3,23 @@ import { assignPlan } from '@/lib/actions';
 import { Plan } from '@/lib/definitions';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
 import { useRouter } from 'next/navigation';
-export function Checkout({ plan, clientId }: { plan: Plan, clientId: number }) {
+export function Checkout({ plan, clientId, selectedDays, selectedTurn }: { plan: Plan, clientId: number, selectedDays: number[], selectedTurn: string }) {
 
 
     const router = useRouter();
+
+
+    const isAllNoneSelected = selectedDays.every(day => day === 0)
     
 
     return (
 
             <PayPalScriptProvider options={{
                 clientId: 'AXzR3wNQfyW6kwOouGKu72YM93siSXCO2QSA_nD3l05tTNj-SAXnjvb5CyQjNbzTUtzjFUaX94Q5qhA1',
+                
             }} >
                 <PayPalButtons className='text-white'
+                    disabled={ isAllNoneSelected || selectedTurn.length === 0}
                     message={{ position: 'bottom' }}
                     style={{ layout: 'horizontal', color: 'black', label: 'subscribe', disableMaxWidth: true }}
                     createOrder={async () => {
@@ -33,15 +38,20 @@ export function Checkout({ plan, clientId }: { plan: Plan, clientId: number }) {
                     onApprove={async (data, actions) => {
                         const order = await actions.order?.capture()
                         if(order?.status === 'COMPLETED') {
+
+                                console.log({
+                                    id: clientId, 
+                                    planId: plan.id, 
+                                    payment: {
+                                            method: 'Paypal',
+                                            description: 'Paypal Subscription',
+                                            amount: plan.amount,
+                                        },
+                                    days: selectedDays,
+                                    turn: selectedTurn,
+                            })
                             
-                                await assignPlan({
-                                    id: clientId, planId: plan.id, payment: {
-                                    method: 'Paypal',
-                                    description: 'Paypal Subscription',
-                                    amount: plan.amount
-                                } })
-                            
-                                router.push('/entrenamiento');
+                                //router.push('/entrenamiento');
 
                         }
                     }}

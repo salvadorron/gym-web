@@ -68,7 +68,7 @@ export default function Calendar({ plan, selectedPlan, currentPayment }: { plan?
             createViewWeek()
         ],
         events,
-        defaultView: 'month',
+        defaultView: 'week',
         isDark: true,
         selectedDate: dayjs().format('YYYY-MM-DD'),
     }, plugins) 

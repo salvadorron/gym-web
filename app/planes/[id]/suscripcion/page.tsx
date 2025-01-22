@@ -6,7 +6,7 @@ import { ArrowLeftCircle } from "lucide-react";
 import Link from "next/link";
 import splash from '../../../../public/2.webp';
 import { PageProps } from "@/lib/definitions";
-import DayPicker from "@/components/day-picker";
+import PurchaseSchedule from "@/components/purchase-schedule";
 
 
 export default async function CheckoutPage({ params }: PageProps) { 
@@ -78,10 +78,8 @@ export default async function CheckoutPage({ params }: PageProps) {
                             <p className="text-white text-justify">{plan.description}</p>
                         </div>
                     </div>
-                    <DayPicker />
-                    <div className="w-full overflow-auto max-h-[680px]">
-                        <Checkout plan={plan} clientId={session?.user.client.id} />
-                    </div>
+
+                  <PurchaseSchedule plan={plan} clientId={session.user.client.id} />
 
                 </div>
             </div>

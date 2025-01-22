@@ -59,7 +59,7 @@ export async function register(prevState: { message: string, success: boolean } 
   
 }
 
-export async function assignPlan(data: { id: number, planId: number, payment: { method: string, description: string, amount: number } }) {
+export async function assignPlan(data: { id: number, planId: number, days: number[], turn: string, payment: { method: string, description: string, amount: number } }) {
 
   const response = await fetch(`${apiUrl}/client/assign-plan`, {
     method: 'PATCH',
