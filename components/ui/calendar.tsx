@@ -17,11 +17,14 @@ import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { usePathname, useRouter } from 'next/navigation';
 import { DaysOfWeek } from '@/lib/utils';
 import { Payment, Plan } from '@/lib/definitions';
+import { Button } from './button';
+import Link from 'next/link';
+import { apiUrl } from '@/config';
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 
-export default function Calendar({ plan, selectedPlan, currentPayment }: { plan?: Plan, selectedPlan: string, currentPayment?: Payment }) { 
+export default function Calendar({ clientId, plan, selectedPlan, currentPayment }: { clientId: number, plan?: Plan, selectedPlan: string, currentPayment?: Payment }) { 
 
     
     const pathname = usePathname();
@@ -65,10 +68,8 @@ export default function Calendar({ plan, selectedPlan, currentPayment }: { plan?
         locale: 'es-ES',
         views: [
             createViewMonthGrid(),
-            createViewWeek()
         ],
         events,
-        defaultView: 'week',
         isDark: true,
         selectedDate: dayjs().format('YYYY-MM-DD'),
     }, plugins) 
@@ -95,9 +96,10 @@ export default function Calendar({ plan, selectedPlan, currentPayment }: { plan?
         <div className="flex flex-col gap-1">
             <div className="bg-[#141218] shadow rounded-md h-20 p-4">
                 <div className="flex justify-between items-center">
-                    <h3 className='text-white text-xl'>Horario de Entrenamiento</h3>
+                    <h3 className='text-white flex-1 text-xl'>Horario de Entrenamiento</h3>
+                    <div className='flex gap-2 justify-center items-center'>
                     <Select defaultValue={selectedPlan || 'all'} onValueChange={(value) => {
-
+                        
                         if(value === 'all') {
                             calendar.events.set(events);
                             router.push(`${pathname}`);
@@ -123,6 +125,10 @@ export default function Calendar({ plan, selectedPlan, currentPayment }: { plan?
                             })}
                         </SelectContent>
                     </Select>
+                    <Button asChild>
+                        <Link href={`${apiUrl}/client/${clientId}/report`} download={"reporte_cliente.pdf"} target='_blank'>Exportar</Link>
+                    </Button>
+                    </div>
                 </div>
             </div>
             <ScheduleXCalendar calendarApp={calendar}   />
