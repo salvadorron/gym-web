@@ -14,15 +14,17 @@ export default async function SchedulePage({ searchParams }: PageProps) {
     
     const client = await getClient(session.user.client.id);
 
-    const currentPayment = client.payments.find((payment) =>  dayjs(payment.date).month() === dayjs().month()); 
+    //const currentPayment = client.payments.find((payment) =>  dayjs(payment.date).month() === dayjs().month()); 
+
+
+    if(!client.plan){
+        throw new Error('Plan is missing');
+    }
 
     return (
     <div className="flex flex-col items-center justify-center min-h-screen pt-24" style={{ backgroundImage: `url(${splash.src})`, backgroundSize: 'contain'}}>
             <CalendarNative
-                clientId={client.id}
-                plan={client.plan} // Tus datos del plan
-                selectedPlan="all"
-                currentPayment={currentPayment} // Tus datos de pago
+                clientPlan={client.plan} // Tus datos de pago
             />
     </div>
     )

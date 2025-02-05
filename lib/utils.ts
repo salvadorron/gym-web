@@ -15,3 +15,21 @@ export enum DaysOfWeek {
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+
+export function getWeek(date: Date): Date[] {
+  const start = new Date(date)
+  start.setDate(start.getDate() - start.getDay() + 1)
+
+  return Array(5)
+    .fill(0)
+    .map((_, i) => {
+      const day = new Date(start)
+      day.setDate(day.getDate() + i)
+      return day
+    })
+}
+
+export function dateFormatter(date: Date): string {
+  return date.toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long" })
+}

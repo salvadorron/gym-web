@@ -69,7 +69,7 @@ export type Role = {
     plan_id: number
     name: string
     excersises: Excersise[]
-    schedule?: Schedule
+    schedule: Schedule
   }
   
   export type Excersise = {
@@ -110,8 +110,7 @@ export type Role = {
     duration: number
     training: Training
     training_id: number 
-    time_start: Date
-    time_end: Date
+    turn: string
     attendances: Attendance[]
     days: Day[]
   }
@@ -132,3 +131,18 @@ export type Role = {
       id: string
     }>
   }
+
+  export type Meal = {
+    id: string;
+    name: string;
+    description: string;
+    calories: number;
+    protein: number;
+    carbohydrates: number;
+    fats: number;
+    ingredients: string[];
+    image: string;
+  
+  }
+
+  export type DayOfWeek = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday"

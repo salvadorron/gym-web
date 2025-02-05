@@ -44,7 +44,7 @@ export default function TrainingPlan({
                                                 <div className="flex justify-between gap-2">
                                                     <TimerIcon className="w-4 h-4 text-white" />
                                                     <h3 className="text-white text-sm uppercase">Proxima clase: {datesSorted === undefined || datesSorted.length === 0 ? 'No hay clases programadas' : dayjs(datesSorted[0]).format('DD/MM/YYYY')}</h3>
-                                                    <h3 className="text-white text-sm uppercase">{dayjs(training.schedule?.time_start).add(4, 'hour').format('HH:mm')} - {dayjs(training.schedule?.time_end).add(4, 'hour').format('HH:mm')}</h3>
+                                                    {/* <h3 className="text-white text-sm uppercase">{dayjs(training.schedule?.time_start).add(4, 'hour').format('HH:mm')} - {dayjs(training.schedule?.time_end).add(4, 'hour').format('HH:mm')}</h3> */}
                                                 </div>
                                             </div>
                                         {training.excersises.map((excersise) => <TextBox key={crypto.randomUUID()} excersise={excersise} /> )}

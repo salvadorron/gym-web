@@ -40,6 +40,9 @@ export default function Toolbar({ client, session }: { client?: Client, session:
                     {session.user.roleId === 'client' && client?.plan !== null && 
                         <Link href="/horario" className="text-white font-bold hover:border-b-2 hover:border-red-700">Horario</Link>
                     }
+                    {session.user.roleId === 'client' && client?.plan !== null && 
+                        <Link href="/alimentacion" className="text-white font-bold hover:border-b-2 hover:border-red-700">Alimentacion</Link>
+                    }
                 </div>
 
                 <div className="flex items-center space-x-3 ring-white ring rounded-full hover:ring-red-400 focus:ring-red-400">
