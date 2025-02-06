@@ -8,10 +8,10 @@ export default {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-	backgroundImage: {
-		'my-image': "url(/1.webp)",
-		'bg-gradient': 'linear-gradient(115deg, rgba(183, 52, 52, 0.99) 0%, rgba(185, 30, 30, 0) 45%, rgba(30, 19, 19, 0.08) 76%)'	
-	},
+  	backgroundImage: {
+  		'my-image': 'url(/1.webp)',
+  		'bg-gradient': 'linear-gradient(115deg, rgba(183, 52, 52, 0.99) 0%, rgba(185, 30, 30, 0) 45%, rgba(30, 19, 19, 0.08) 76%)'
+  	},
   	extend: {
   		colors: {
   			background: 'hsl(var(--background))',
@@ -59,6 +59,28 @@ export default {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
+  		},
+  		keyframes: {
+  			'accordion-down': {
+  				from: {
+  					height: '0'
+  				},
+  				to: {
+  					height: 'var(--radix-accordion-content-height)'
+  				}
+  			},
+  			'accordion-up': {
+  				from: {
+  					height: 'var(--radix-accordion-content-height)'
+  				},
+  				to: {
+  					height: '0'
+  				}
+  			}
+  		},
+  		animation: {
+  			'accordion-down': 'accordion-down 0.2s ease-out',
+  			'accordion-up': 'accordion-up 0.2s ease-out'
   		}
   	}
   },

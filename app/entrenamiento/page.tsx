@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import TrainingPlan from "@/components/ui/training-plan";
 import { getClient } from "@/lib/data";
+import splash from '../../public/2.webp';
 
 export default async function TrainingPage() {
 
@@ -10,5 +11,9 @@ export default async function TrainingPage() {
 
     const client = await getClient(session.user.client.id);
 
-    return <TrainingPlan client={client} />
+    return (
+    <div className="pt-24" style={{ backgroundImage: `url(${splash.src})`, backgroundSize: 'contain'}}>
+        <TrainingPlan  />
+    </div>
+    )
 }
