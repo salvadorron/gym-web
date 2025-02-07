@@ -1,17 +1,16 @@
 'use client';
  
 import React, { useActionState } from 'react';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
 import { AlertCircleIcon, CheckIcon, Loader } from 'lucide-react'
-import Link from 'next/link';
 import { register } from '@/lib/actions';
+import { Label } from './label';
+import { Input } from './input';
+import { Button } from './button';
  
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {} // eslint-disable-line @typescript-eslint/no-empty-object-type
 
-export default function RegisterForm({ className, ...props }: UserAuthFormProps) {
+export default function RegisterPersonalForm({ className, ...props }: UserAuthFormProps) {
   const [formState, formAction, isPending] = useActionState(
     register,
     undefined

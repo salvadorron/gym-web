@@ -1,4 +1,4 @@
-import { Checkout } from "@/app/ui/checkout";
+
 import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import { getClient, getPlan } from "@/lib/data";
@@ -6,7 +6,7 @@ import { ArrowLeftCircle } from "lucide-react";
 import Link from "next/link";
 import splash from '../../../../public/2.webp';
 import { PageProps } from "@/lib/definitions";
-import PurchaseSchedule from "@/components/purchase-schedule";
+import PurchaseSchedule from "@/components/ui/purchase-schedule";
 
 
 export default async function CheckoutPage({ params }: PageProps) { 

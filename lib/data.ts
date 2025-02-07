@@ -51,3 +51,9 @@ export async function getUser(username: string, password: string): Promise<User 
     return null;
   }
 }
+
+export async function getUserById(userId: string) {
+  const res = await fetch(`${apiUrl}/user/by-id/${userId}`, { cache: 'no-store' });
+  return res.json();
+
+}

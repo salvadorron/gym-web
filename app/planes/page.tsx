@@ -1,6 +1,6 @@
 import { getClient, getMemberships } from "@/lib/data";
-import Membership from "../ui/membership";
 import { auth } from "@/auth";
+import Membership from "@/components/ui/membership";
 
 export default async function MembershipPage() {
 

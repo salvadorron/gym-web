@@ -12,7 +12,7 @@ export default async function TrainingPage() {
     const client = await getClient(session.user.client.id);
 
     return (
-    <div className="pt-24" style={{ backgroundImage: `url(${splash.src})`, backgroundSize: 'contain'}}>
+    <div  style={{ backgroundImage: `url(${splash.src})`, backgroundSize: 'contain'}}>
         <TrainingPlan  />
     </div>
     )

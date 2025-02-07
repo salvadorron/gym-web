@@ -1,18 +1,20 @@
 import { auth } from "@/auth";
-import Toolbar from "../ui/toolbar";
+import Header from "@/components/ui/header";
+import { ProtectedRouter } from "@/components/ui/protected-router";
+import { getPathname } from "@/lib/getPathname";
 
-export default async function TrainingLayout({ children }: { children: React.ReactNode }) {
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
 
     const session = await auth();
 
-
-    if(!session?.user.admin) throw new Error('Missing Admin');
-
+    const pathname = await getPathname();
 
     return (
-        <div>
-            <Toolbar session={session} />
-            {children}
-        </div>
+            <ProtectedRouter roleId={session?.user.roleId} pathname={pathname}>
+                <Header roleId={session?.user.roleId} >
+                {children}
+                </Header>
+            </ProtectedRouter>
+        
     )
 }

@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react"
 import TurnSelect from "./turn-select"
-import DayPicker from "./day-picker"
+import DayPicker from "../day-picker"
 import { Checkout } from "@/app/ui/checkout"
 import { Plan } from "@/lib/definitions"
 

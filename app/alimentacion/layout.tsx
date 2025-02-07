@@ -1,22 +1,20 @@
-import { getClient } from "@/lib/data";
-import Toolbar from "../ui/toolbar";
 import { auth } from "@/auth";
+import Header from "@/components/ui/header";
+import { ProtectedRouter } from "@/components/ui/protected-router";
+import { getPathname } from "@/lib/getPathname";
 
-export default async function MembershipLayout({ children }: { children: React.ReactNode }) {
+export default async function MealLayout({ children }: { children: React.ReactNode }) {
 
     const session = await auth();
 
-    if(!session?.user?.client) {
-        throw new Error('Missing client');
-    }
-
-    const client = await getClient(session?.user.client.id)
-    
+    const pathname = await getPathname();
 
     return (
-        <div className="">
-            <Toolbar session={session} client={client} />
-            {children}
-        </div>
+            <ProtectedRouter roleId={session?.user.roleId} pathname={pathname}>
+                <Header roleId={session?.user.roleId} >
+                {children}
+                </Header>
+            </ProtectedRouter>
+        
     )
 }

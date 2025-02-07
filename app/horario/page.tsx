@@ -1,10 +1,9 @@
-import Calendar from '@/components/ui/calendar';
+
 import splash from '../../public/2.webp';
 import { getClient } from '@/lib/data';
-import dayjs from 'dayjs';
 import { auth } from '@/auth';
 import { PageProps } from '@/lib/definitions';
-import CalendarNative from '@/components/CalendarNative';
+import CalendarNative from '@/components/ui/calendar-native';
 
 export default async function SchedulePage({ searchParams }: PageProps) { 
 
