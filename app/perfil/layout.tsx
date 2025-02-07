@@ -2,13 +2,12 @@ import { auth } from "@/auth";
 import Header from "@/components/ui/header";
 import { ProtectedRouter } from "@/components/ui/protected-router";
 
-export default async function RegisterLayout({ children }: { children: React.ReactNode }) {
+export default async function ProfileLayout({ children }: { children: React.ReactNode }) {
 
     const session = await auth();
 
-
     return (
-            <ProtectedRouter roleId={session?.user.roleId} pathname={'/registro'}>
+            <ProtectedRouter roleId={session?.user.roleId} pathname={'/perfil'}>
                 <Header roleId={session?.user.roleId} >
                 {children}
                 </Header>

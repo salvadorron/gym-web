@@ -13,17 +13,17 @@ import localFont from 'next/font/local';
 import { authenticate } from '@/lib/actions';
 
 
-const caviarDreamsBold = localFont({
-  src: "../fonts/CaviarDreams_Bold.ttf",
-  variable: "--font-caviar-dreams",
-  weight: '600 900'
-});
+// const caviarDreamsBold = localFont({
+//   src: "../fonts/CaviarDreams_Bold.ttf",
+//   variable: "--font-caviar-dreams",
+//   weight: '600 900'
+// });
 
-const caviarDreams = localFont({
-  src: "../fonts/CaviarDreams.ttf",
-  variable: "--font-caviar-dreams",
-  weight: '600 900'
-});
+// const caviarDreams = localFont({
+//   src: "../fonts/CaviarDreams.ttf",
+//   variable: "--font-caviar-dreams",
+//   weight: '600 900'
+// });
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {} // eslint-disable-line @typescript-eslint/no-empty-object-type
 
@@ -37,7 +37,7 @@ export default function LoginForm({ className, ...props }: UserAuthFormProps) {
 
     <div className="mx-auto flex w-full flex-col justify-center space-y-6 md:w-[350px]">
       <div className="flex flex-col space-y-2 text-center ">
-        <h1 className={`text-2xl text-white tracking-tight ${caviarDreamsBold.className}`}>
+        <h1 className={`text-2xl text-white tracking-tight `}>
           Iniciar Sesion
         </h1>
         {/* <p className="text-sm text-muted-foreground text-white">
@@ -55,7 +55,7 @@ export default function LoginForm({ className, ...props }: UserAuthFormProps) {
               <Input
                 id="username"
                 name="username"
-                className={`h-9 bg-[rgba(13,13,13,0.4)] rounded-[7px] shadow-[0_2px_7px_rgba(255,255,255,0.4)] backdrop-blur-[5px] border-[2px_solid_rgba(230,230,230,0.3)] p-[2px_0px_0px_25px] bg-[wheat] font-[bolder] text-[13px] ${caviarDreamsBold.className}`}
+                className={`h-9 bg-[rgba(13,13,13,0.4)] rounded-[7px] shadow-[0_2px_7px_rgba(255,255,255,0.4)] backdrop-blur-[5px] border-[2px_solid_rgba(230,230,230,0.3)] p-[2px_0px_0px_25px] bg-[wheat] font-[bolder] text-[13px] `}
                 placeholder="Usuario"
                 type="text"
                 autoCapitalize="none"
@@ -69,13 +69,13 @@ export default function LoginForm({ className, ...props }: UserAuthFormProps) {
               <Input
                 id="password"
                 name='password'
-                className={`h-9 bg-[rgba(13,13,13,0.4)] rounded-[7px] shadow-[0_2px_7px_rgba(255,255,255,0.4)] backdrop-blur-[5px] border-[2px_solid_rgba(230,230,230,0.3)] p-[2px_0px_0px_25px] bg-[wheat] font-[bolder] text-[13px] ${caviarDreamsBold.className}`}
+                className={`h-9 bg-[rgba(13,13,13,0.4)] rounded-[7px] shadow-[0_2px_7px_rgba(255,255,255,0.4)] backdrop-blur-[5px] border-[2px_solid_rgba(230,230,230,0.3)] p-[2px_0px_0px_25px] bg-[wheat] font-[bolder] text-[13px] `}
                 placeholder="Contraseña"
                 type="password"
                 disabled={isPending}
               />
             </div>
-            <Button disabled={isPending} className={`bg-[#181818] ${caviarDreams.className}`}>
+            <Button disabled={isPending} className={`bg-[#181818] `}>
               {isPending && (
                 <Loader className="mr-2 h-4 w-4 animate-spin" />
               )}
@@ -93,11 +93,11 @@ export default function LoginForm({ className, ...props }: UserAuthFormProps) {
                 </>
               )}
             </div>
-            <div className={`flex flex-col items-center gap-2 ${caviarDreams.className}`}>
+            <div className={`flex flex-col items-center gap-2 `}>
               <p className="text-white">
                 No estas registrado aún?
               </p>
-              <Link className={`text-gray-300 font-bold ${caviarDreamsBold.className}`} href="/auth/register">Crear una cuenta!</Link> 
+              <Link className={`text-gray-300 font-bold `} href="/auth/register">Crear una cuenta!</Link> 
             </div>
             <div className='h-[380px] flex flex-col justify-end'>
               <Image src={logo.src} alt="gym logo" width={500} height={500} />

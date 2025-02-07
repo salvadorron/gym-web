@@ -48,6 +48,7 @@ export const authConfig = {
       }
       return session;
     },
+    
   },
   providers: [],
 } satisfies NextAuthConfig;

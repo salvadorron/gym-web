@@ -4,9 +4,19 @@ import { notFound } from "next/navigation";
 
 export function ProtectedRouter({ children, roleId, pathname }: { children: ReactNode, roleId: string | undefined, pathname: string }) {
 
-  const isAuthorized = routes.some((route) => {
+  const accessRoutes = [...routes, 
+    {
+      path: '/pagos',
+      roles: ['client', 'trainer', 'admin', 'superuser']
+    },
+    {
+      path: '/perfil',
+      roles: ['client', 'trainer', 'admin', 'superuser']
+    }
+  ]
+
+  const isAuthorized = accessRoutes.some((route) => {
     if(!roleId) {
-      console.log('Sin Role')
       return false;
     }
     return route.path === pathname && route.roles.includes(roleId)

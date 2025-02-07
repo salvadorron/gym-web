@@ -1,9 +1,9 @@
 'use client'
 import { useEffect, useState } from "react"
 import TurnSelect from "./turn-select"
-import DayPicker from "../day-picker"
-import { Checkout } from "@/app/ui/checkout"
 import { Plan } from "@/lib/definitions"
+import DayPicker from "./day-picker"
+import { Checkout } from "./checkout"
 
 export default function PurchaseSchedule({ plan, clientId }: { plan: Plan, clientId: number }) {
     const [selectedDays, setSelectedDays] = useState([0,0,0,0,0])

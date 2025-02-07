@@ -1,11 +1,50 @@
 import { signOut } from "@/auth";
-import { Activity } from "lucide-react";
+import { Activity, CreditCard, LogOut, User } from "lucide-react";
 import { ReactNode } from "react";
 import Navigation from "./navigation";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./dropdown-menu";
+import { Button } from "./button";
+import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
+import { Badge } from "./badge";
+import Link from "next/link";
+export type UserRole = "Cliente" | "Entrenador" | "Administrativo" | "Superusuario"
+
+export interface User {
+  name: string
+  email: string
+  role: UserRole
+  avatarUrl?: string
+}
+
+
+
+
+function getRoleBadgeVariant(role: UserRole): "default" | "secondary" | "destructive" | "outline" {
+  switch (role) {
+    case "Superusuario":
+      return "destructive"
+    case "Administrativo":
+      return "secondary"
+    case "Entrenador":
+      return "default"
+    case "Cliente":
+      return "outline"
+    default:
+      return "outline"
+  }
+}
+
+// En una aplicación real, esto vendría de tu sistema de autenticación
+const currentUser: User = {
+  name: "Juan Pérez",
+  email: "juan@ejemplo.com",
+  role: "Entrenador",
+  avatarUrl: "/placeholder.svg",
+}
 
 export default function Header({ roleId, children }: { roleId: string | undefined, children: ReactNode }) {
 
-    async function logOut () {
+    async function logOutSession () {
         'use server'
         await signOut({
             redirect: true,
@@ -27,10 +66,55 @@ export default function Header({ roleId, children }: { roleId: string | undefine
               </span>
             </div>
             <Navigation roleId={roleId} />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />
+                    <AvatarFallback>
+                      {currentUser.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-72" align="end" forceMount>
+                <div className="flex items-center justify-start gap-2 p-2">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{currentUser.name}</p>
+                    <p className="text-xs leading-none text-muted-foreground">{currentUser.email}</p>
+                  </div>
+                </div>
+                <div className="px-2 pb-2">
+                  <Badge variant={getRoleBadgeVariant(currentUser.role)}>{currentUser.role}</Badge>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/perfil" className="flex items-center cursor-pointer">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Perfil</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/pagos" className="flex items-center cursor-pointer">
+                    <CreditCard className="mr-2 h-4 w-4" />
+                    <span>Historial de Pago</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={logOutSession} className="flex items-center text-red-600 cursor-pointer">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Cerrar Sesión</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </nav>
-      {children}
+        {children}
+        
         </div>
         // <div className="fixed inset-x-0 top-0 z-50 flex h-20 items-center justify-between border-b border-zinc-800 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 backdrop-blur-lg ">
             

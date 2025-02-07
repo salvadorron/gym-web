@@ -1,9 +1,7 @@
 'use client'
 
 import '@schedule-x/theme-default/dist/index.css'
-import '../app/day-picker.style.css';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { useState } from 'react';
+import './day-picker.style.css';
 
 
 

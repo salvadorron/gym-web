@@ -3,7 +3,8 @@ import splash from '../../public/2.webp';
 import { getClient } from '@/lib/data';
 import { auth } from '@/auth';
 import { PageProps } from '@/lib/definitions';
-import CalendarNative from '@/components/ui/calendar-native';
+import CalendarNative from '@/components/ui/schedule';
+import Schedule from '@/components/ui/schedule';
 
 export default async function SchedulePage({ searchParams }: PageProps) { 
 
@@ -22,9 +23,7 @@ export default async function SchedulePage({ searchParams }: PageProps) {
 
     return (
     <div className="flex flex-col items-center justify-center min-h-screen pt-24" style={{ backgroundImage: `url(${splash.src})`, backgroundSize: 'contain'}}>
-            <CalendarNative
-                clientPlan={client.plan} // Tus datos de pago
-            />
+            <Schedule />
     </div>
     )
 }

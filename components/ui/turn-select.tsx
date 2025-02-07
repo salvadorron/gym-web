@@ -1,5 +1,6 @@
 'use client'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+
+import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem } from "./select"
 
 export default function TurnSelect({ onSelectedTurn, value }: { onSelectedTurn: (turnValue: string) => void, value: string }) {
     return (
