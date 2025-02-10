@@ -8,8 +8,8 @@ export default async function ScheduleLayout({ children }: { children: React.Rea
     const session = await auth();
 
     return (
-            <ProtectedRouter roleId={session?.user.roleId} pathname={'/horario'}>
-                <Header roleId={session?.user.roleId} >
+            <ProtectedRouter roleId={session?.user.roleId} roles={['client']}>
+                <Header user={session?.user} >
                 {children}
                 </Header>
             </ProtectedRouter>

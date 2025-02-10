@@ -8,8 +8,8 @@ export default async function MealLayout({ children }: { children: React.ReactNo
 
 
     return (
-            <ProtectedRouter roleId={session?.user.roleId} pathname={'/alimentacion'}>
-                <Header roleId={session?.user.roleId} >
+            <ProtectedRouter roleId={session?.user.roleId} roles={['client']}>
+                <Header user={session?.user} >
                 {children}
                 </Header>
             </ProtectedRouter>

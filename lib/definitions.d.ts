@@ -16,6 +16,17 @@ export type Role = {
     client?: Client
     trainer?: Trainer
     admin?: Admin
+    city: string
+    stateId: string
+    parrishId: string
+    municipalityId: string
+    address: string
+    weight: number
+    heigth: number
+    zipCode: number
+    specialty: string
+    medicalConditions: string
+    gender: string
   }
   
   export type Client =  {
@@ -57,9 +68,9 @@ export type Role = {
     clients: Client[]
     trainings: Training[]
     name: string
-    description: string
-    billing_interval: string
-    amount: number
+    features: string
+    duration: string
+    price: number
   
   }
   
@@ -72,15 +83,43 @@ export type Role = {
     schedule: Schedule
   }
   
-  export type Excersise = {
-    id: number 
-    name: string
-    description?: string
-    repeats: number
-    series: number
-    duration: number
-    trainings: Training[]
-  }
+export interface Exercise {
+  id: string
+  name: string
+  description: string
+  muscleGroup: string
+  equipment: string
+  difficulty: "BEGGINER" | "INTERMEDIATE" | "ADVANCED"
+  type: ExerciseType
+}
+
+export interface RepetitionExercise {
+  id: string
+  type: "repetitions"
+  sets: number
+  reps: number
+  weight?: number
+  notes?: string
+}
+
+export interface DurationExercise {
+  id: string
+  type: "duration"
+  duration: number // en minutos
+  intensity?: "LOW" | "MEDIUM" | "HIGH"
+  distance?: number // en kilómetros
+  notes?: string
+}
+
+export type WorkoutExercise = RepetitionExercise | DurationExercise
+
+export interface Workout {
+  id: string
+  name: string
+  description: string
+  exercises: WorkoutExercise[]
+}
+
   
   
   
@@ -146,3 +185,22 @@ export type Role = {
   }
 
   export type DayOfWeek = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday"
+
+  type State = {
+    id: number
+    name: string
+    municipalities: Municipality[]
+  }
+  
+  type Municipality = {
+    id: number
+    name: string
+    state_id: number
+    parishes: Parrish[]
+  }
+  
+  type Parrish = {
+    id: number
+    name: string
+    municipality_id: number
+  }

@@ -3,7 +3,9 @@
 import { signIn } from '@/auth';
 import { apiUrl } from '@/config';
 import { AuthError } from 'next-auth';
+import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
+import { Exercise, Training, Workout, WorkoutExercise } from './definitions';
  
  
 export async function authenticate(
@@ -85,4 +87,43 @@ export async function assignTrainer({ clientId }: { clientId: number }) {
 
   return response.json()
 
+}
+
+export async function createExcercise(excersise: { description: string, difficulty: "BEGGINER" | "INTERMEDIATE" | "ADVANCED", equipment: string, muscleGroup: string, name: string, type: string }) {
+
+  const response = await fetch(`${apiUrl}/excersise`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": 'application/json'
+    }, 
+    body: JSON.stringify(excersise)
+  })
+  revalidateTag('excersise')
+  return response.json();
+}
+
+export async function createTraining(training: Omit<Workout, 'id'>) {
+
+  const response = await fetch(`${apiUrl}/training/register`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": 'application/json'
+    }, 
+    body: JSON.stringify(training)
+  })
+  revalidateTag('training')
+  return response.json();
+}
+
+export async function createPlan(plan: {name: string, price: string, duration: string, features: string, trainings: Training[]}) {
+
+  const response = await fetch(`${apiUrl}/plan`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": 'application/json'
+    }, 
+    body: JSON.stringify(plan)
+  })
+  revalidateTag('plan')
+  return response.json();
 }

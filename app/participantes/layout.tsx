@@ -7,8 +7,8 @@ export default async function PeopleLayout({ children }: { children: React.React
     const session = await auth();
 
     return (
-            <ProtectedRouter roleId={session?.user.roleId} pathname={'/participantes'}>
-                <Header roleId={session?.user.roleId} >
+            <ProtectedRouter roleId={session?.user.roleId} roles={['trainer']}>
+                <Header user={session?.user} >
                 {children}
                 </Header>
             </ProtectedRouter>

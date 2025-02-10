@@ -1,11 +1,9 @@
+import Dashboard from '@/components/ui/dashboard';
 import splash from '../../public/2.webp';
 
-
-export default async function DashBoardPage() {
-
-    return (
-        <div className="pt-24 p-8 min-h-screen" style={{ backgroundImage: ` url(${splash.src})`, backgroundSize: 'contain', }}>
-            <p className="text-white text-xl">Pagina de Admin</p>
-        </div>
-    )
+export default function DashboardPage() {
+  return <div className="min-h-screen p-4 " style={{ backgroundImage: `url(${splash.src})`, backgroundSize: 'contain'}}>
+    <Dashboard />
+    </div>
 }
+

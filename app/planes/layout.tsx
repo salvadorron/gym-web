@@ -8,8 +8,8 @@ export default async function PlanLayout({ children }: { children: React.ReactNo
 
 
     return (
-            <ProtectedRouter roleId={session?.user.roleId} pathname={'/planes'}>
-                <Header roleId={session?.user.roleId} >
+            <ProtectedRouter roleId={session?.user.roleId} roles={['client', 'admin']}>
+                <Header user={session?.user} >
                 {children}
                 </Header>
             </ProtectedRouter>

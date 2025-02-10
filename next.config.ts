@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
         hostname: "img.freepik.com",
         port: "",
         pathname: "/**",
+      },
+      {
+        protocol: 'https',
+        hostname: 'media.revistagq.com',
+        port: '',
+        pathname: '/**',
       }
     ]
   },

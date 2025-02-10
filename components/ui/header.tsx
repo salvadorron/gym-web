@@ -1,5 +1,5 @@
 import { signOut } from "@/auth";
-import { Activity, CreditCard, LogOut, User } from "lucide-react";
+import { Activity, CreditCard, LogOut, User as UserIcon } from "lucide-react";
 import { ReactNode } from "react";
 import Navigation from "./navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./dropdown-menu";
@@ -7,20 +7,15 @@ import { Button } from "./button";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Badge } from "./badge";
 import Link from "next/link";
+import { User } from "@/lib/definitions";
 export type UserRole = "Cliente" | "Entrenador" | "Administrativo" | "Superusuario"
 
-export interface User {
-  name: string
-  email: string
-  role: UserRole
-  avatarUrl?: string
-}
 
 
 
 
-function getRoleBadgeVariant(role: UserRole): "default" | "secondary" | "destructive" | "outline" {
-  switch (role) {
+function getRoleBadgeVariant(roleId: string): "default" | "secondary" | "destructive" | "outline" {
+  switch (roleId) {
     case "Superusuario":
       return "destructive"
     case "Administrativo":
@@ -34,15 +29,24 @@ function getRoleBadgeVariant(role: UserRole): "default" | "secondary" | "destruc
   }
 }
 
-// En una aplicación real, esto vendría de tu sistema de autenticación
-const currentUser: User = {
-  name: "Juan Pérez",
-  email: "juan@ejemplo.com",
-  role: "Entrenador",
-  avatarUrl: "/placeholder.svg",
+function getRoleById(roleId: string): "Cliente" | "Entrenador" | "Administrativo" | "Superusuario" {
+  switch (roleId) {
+    case "client":
+      return "Cliente"
+    case "trainer":
+      return "Entrenador"
+    case "admin":
+      return "Administrativo"
+    default:
+      return "Superusuario"
+  }
 }
 
-export default function Header({ roleId, children }: { roleId: string | undefined, children: ReactNode }) {
+// En una aplicación real, esto vendría de tu sistema de autenticación
+
+export default function Header({ user, children }: { user: User | undefined, children: ReactNode }) {
+
+  if(!user) return <p>Loading...</p>;
 
     async function logOutSession () {
         'use server'
@@ -51,6 +55,8 @@ export default function Header({ roleId, children }: { roleId: string | undefine
             redirectTo: '/auth/login'
         })
     }
+
+    
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 ">
@@ -65,17 +71,14 @@ export default function Header({ roleId, children }: { roleId: string | undefine
                 SALUD Y BIENESTAR
               </span>
             </div>
-            <Navigation roleId={roleId} />
+            <Navigation roleId={user.roleId} />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                   <Avatar className="h-10 w-10">
-                    <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />
+                    <AvatarImage src={'/#'} alt={user.name} />
                     <AvatarFallback>
-                      {currentUser.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
+                      {user.name.at(0)} {user.lastName.at(0)}
                     </AvatarFallback>
                   </Avatar>
                 </Button>
@@ -83,26 +86,26 @@ export default function Header({ roleId, children }: { roleId: string | undefine
               <DropdownMenuContent className="w-72" align="end" forceMount>
                 <div className="flex items-center justify-start gap-2 p-2">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{currentUser.name}</p>
-                    <p className="text-xs leading-none text-muted-foreground">{currentUser.email}</p>
+                    <p className="text-sm font-medium leading-none">{user.name} {user.lastName}</p>
+                    <p className="text-xs leading-none text-muted-foreground">{user.username}</p>
                   </div>
                 </div>
                 <div className="px-2 pb-2">
-                  <Badge variant={getRoleBadgeVariant(currentUser.role)}>{currentUser.role}</Badge>
+                  <Badge data-role={user.roleId} className={"data-[role=client]:bg-green-500 text-white data-[role=trainer]:bg-blue-500 data-[role=admin]:bg-red-500"} variant={getRoleBadgeVariant(user.roleId)}>{getRoleById(user.roleId)}</Badge>
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <Link href="/perfil" className="flex items-center cursor-pointer">
-                    <User className="mr-2 h-4 w-4" />
+                    <UserIcon className="mr-2 h-4 w-4" />
                     <span>Perfil</span>
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
+                {user.roleId === 'client' && <DropdownMenuItem asChild>
                   <Link href="/pagos" className="flex items-center cursor-pointer">
                     <CreditCard className="mr-2 h-4 w-4" />
                     <span>Historial de Pago</span>
                   </Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem>}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={logOutSession} className="flex items-center text-red-600 cursor-pointer">
                   <LogOut className="mr-2 h-4 w-4" />

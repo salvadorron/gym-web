@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import splash from '../../public/2.webp';
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
+import { PayPalScriptProvider, PayPalButtons, usePayPalScriptReducer, DISPATCH_ACTION, SCRIPT_LOADING_STATE } from "@paypal/react-paypal-js"
 
 export interface SubscriptionPlan {
     id: string
@@ -202,7 +202,7 @@ export default function SubscriptionForm({ plan }: { plan?: SubscriptionPlan }) 
             Atrás
           </Button>
         )}
-         <PayPalScriptProvider options={initialOptions}>
+         
         <Button
           className="ml-auto bg-blue-900/50 hover:bg-blue-500/50"
           disabled={step === 1 ? !isScheduleValid() : !paymentMethod}
@@ -220,7 +220,8 @@ export default function SubscriptionForm({ plan }: { plan?: SubscriptionPlan }) 
         >
           {step === 1 ? "Continuar" : "Confirmar Suscripción"}
         </Button>
-        
+        <PayPalScriptProvider options={initialOptions}>
+          <PaypalPayment />
         </PayPalScriptProvider>
       </CardFooter>
     </Card>
@@ -228,3 +229,55 @@ export default function SubscriptionForm({ plan }: { plan?: SubscriptionPlan }) 
   )
 }
 
+const PaypalPayment = () => {
+  const [{ isPending }, dispatch] = usePayPalScriptReducer();
+  const [paymentCompleted, setPaymentCompleted] = useState(false);
+
+  const handlePayment = async () => {
+    try{
+      const createOrderResponse = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: 400,
+          name: 'Plan basico'
+        })
+      })
+
+      const order = await createOrderResponse.json();
+
+      const captureOrderResponse = await fetch('/api/capture', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          orderID: order.id
+        })
+      })
+
+      console.log('Pago completado: ', captureOrderResponse);
+      setPaymentCompleted(true);
+    }catch(err){
+      console.log('Error en el pago: ', err);
+    }
+  }
+
+
+
+  
+
+  return (
+    <div>
+      {isPending && <p>Loading...</p>}
+      <button onClick={handlePayment}>
+        Pagar con Paypal
+      </button>
+      {paymentCompleted && <p>¡Pago completado con éxito!</p>}
+    </div>
+  )
+
+  
+}

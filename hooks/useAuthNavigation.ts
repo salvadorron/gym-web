@@ -4,6 +4,7 @@ interface NavItem {
   label: string;
   path: string;
   roles?: string[];
+  hide?: boolean;
 }
 
 const useAuthNavigation = (navItems: NavItem[], userRole: string | undefined): NavItem[] => {

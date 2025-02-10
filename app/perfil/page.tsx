@@ -29,7 +29,7 @@ export interface User {
     postalCode: string;
     state: string;
     municipality: string;
-    parish: string; // Nuevo campo: Parroquia
+    parish: string;
     stats: {
         completedWorkouts: number
         totalMinutes: number

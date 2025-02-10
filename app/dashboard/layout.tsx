@@ -8,8 +8,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
 
     return (
-            <ProtectedRouter roleId={session?.user.roleId} pathname={'/dashboard'}>
-                <Header roleId={session?.user.roleId} >
+            <ProtectedRouter roleId={session?.user.roleId} roles={['admin']}>
+                <Header user={session?.user} >
                 {children}
                 </Header>
             </ProtectedRouter>
