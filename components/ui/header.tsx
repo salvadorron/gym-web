@@ -71,7 +71,7 @@ export default function Header({ user, children }: { user: User | undefined, chi
                 SALUD Y BIENESTAR
               </span>
             </div>
-            <Navigation roleId={user.roleId} />
+            <Navigation user={user} />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full">

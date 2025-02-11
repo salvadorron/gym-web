@@ -1,5 +1,6 @@
+import { User } from "./definitions"
 
-export const routes  = [
+export const getRoutes  =  (user: User) => [
     {
         label: 'Tablero',
         path: '/dashboard',
@@ -8,22 +9,25 @@ export const routes  = [
     {
         label: 'Planes',
         path: '/planes',
-        roles: ['client', 'admin']
+        roles: ['client', 'admin'],
     },
     {
         label: 'Entrenamiento',
         path: '/entrenamiento',
-        roles: ['client']
+        roles: ['client'],
+        hide: user.client?.plan === null
     },
     {
         label: 'Horario',
         path: '/horario',
-        roles: ['client']
+        roles: ['client'],
+        hide: user.client?.plan === null
     },
     {
         label: 'Alimentacion',
         path: '/alimentacion',
-        roles: ['client']
+        roles: ['client'],
+        hide: user.client?.plan === null
     },
 
     {
@@ -58,4 +62,4 @@ export const routes  = [
     }
 ]
 
-export default routes
+export default getRoutes
