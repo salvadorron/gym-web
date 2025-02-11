@@ -13,7 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { MembersTable } from '@/components/ui/members-table';
-import { State, User } from '@/lib/definitions';
+import { Member, State, User } from '@/lib/definitions';
 import { MemberForm } from './member-form';
 import { createMember } from '@/lib/actions'
 
@@ -33,8 +33,8 @@ export default function Members({ members }: { members: User[] }) {
       member.username.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
-   const handleAddMember = async (newMember: Member) => 
-	const memberResult = await createMember(member);
+   const handleAddMember = async (newMember: Member) => {
+	  const memberResult = await createMember(newMember);
      //setMembers([...members, { ...newMember, id: String(members.length + 1) }])
      setIsDialogOpen(false)
    }

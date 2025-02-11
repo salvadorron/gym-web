@@ -5,7 +5,7 @@ import { apiUrl } from '@/config';
 import { AuthError } from 'next-auth';
 import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
-import { Exercise, Training, Workout, WorkoutExercise, User } from './definitions';
+import { Exercise, Training, Workout, WorkoutExercise, User, Member } from './definitions';
  
  
 export async function authenticate(
@@ -154,5 +154,3 @@ export async function createMember(member: Member) {
   revalidateTag('user')
   return response.json();
 }
-
-type Member = User & { specialty?: string }

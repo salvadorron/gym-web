@@ -203,3 +203,5 @@ export interface Workout {
     name: string
     municipality_id: number
   }
+
+  export type Member = User & { specialty?: string }
