@@ -1,0 +1,14 @@
+{
+    "customizations": {
+      "codespaces": {
+        "repositories": {
+          "salvadorron/gym-service": {
+            "permissions": {
+              "issues": "write-all"
+            }
+          }
+        }
+      }
+    }
+  }
+  
