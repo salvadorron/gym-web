@@ -10,7 +10,6 @@ export default function MunicipalitySelector({ value, stateValue, onMunicipality
 
 
     useEffect(() => {
-        debugger;
         if(stateValue) {
             getMunicipalities(+stateValue).then((currentMunicipalities) => {
                 setMunicipalities(currentMunicipalities)
