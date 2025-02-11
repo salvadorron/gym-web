@@ -17,40 +17,12 @@ export const authConfig = {
       if (isOnStartedPage) {
         if (isLoggedIn) {
           // Redirige según el rol del usuario
-          if (userRole === 'admin') {
-            return true; // Permite el acceso al dashboard para administradores
-          } else if (userRole === 'trainer') {
-            return Response.redirect(new URL('/participantes', nextUrl));
-          } else if (userRole === 'client' && clientId) {
-            // Lógica específica para clientes
-            const client = await getClient(clientId);
-            const hasPlan = client?.plan !== null; // Verifica si el plan no es null
-
-            if (hasPlan) {
-              return Response.redirect(new URL('/entrenamiento', nextUrl));
-            } else {
-              return Response.redirect(new URL('/planes', nextUrl));
-            }
-          }
+            return userRole !== null
         }
         return false; // Redirige usuarios no autenticados a la página de login
       } else if (isLoggedIn) {
         // Redirige usuarios autenticados que no están en el dashboard
-        if (userRole === 'admin') {
-          return Response.redirect(new URL('/dashboard', nextUrl));
-        } else if (userRole === 'trainer') {
-          return Response.redirect(new URL('/participantes', nextUrl));
-        } else if (userRole === 'client' && clientId) {
-          // Lógica específica para clientes
-          const client = await getClient(clientId);
-          const hasPlan = client?.plan !== null; // Verifica si el plan no es null
-
-          if (hasPlan) {
-            return Response.redirect(new URL('/entrenamiento', nextUrl));
-          } else {
-            return Response.redirect(new URL('/planes', nextUrl));
-          }
-        }
+        return userRole !== null
       }
       return true;
     },
