@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth, signOut } from "@/auth";
 import TrainingPlan from "@/components/ui/training-plan";
 import { getClient } from "@/lib/data";
 import splash from '../../public/2.webp';
