@@ -16,7 +16,7 @@ const useAuthNavigation = (navItems: NavItem[], userRole: string | undefined): N
       if (!navItem.roles || navItem.roles.length === 0) {
         return true;
       }
-      return userRole && navItem.roles.some(role => userRole.includes(role));
+      return userRole && navItem.roles.some(role => userRole.includes(role) && !navItem.hide);
     });
     setNavList(newFilteredItems);
   };
