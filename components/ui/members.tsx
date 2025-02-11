@@ -34,9 +34,14 @@ export default function Members({ members }: { members: User[] }) {
   )
 
    const handleAddMember = async (newMember: Member) => {
-	  const memberResult = await createMember(newMember);
+	try{
+		const memberResult = await createMember(newMember);
+		console.log(memberResult);
+	} catch(err){
+		console.log(err)
+	}
      //setMembers([...members, { ...newMember, id: String(members.length + 1) }])
-     setIsDialogOpen(false)
+     //setIsDialogOpen(false)
    }
 
   // const handleEditMember = (updatedMember: Member) => {

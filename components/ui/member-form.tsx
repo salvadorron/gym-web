@@ -49,10 +49,8 @@ export function MemberForm({ member, onSubmit }: MemberFormProps) {
     member || initialValues
   )
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault
+  const handleSubmit = () => {
 	const payload = {...formData, specialty: formData.roleId === 'trainer' ? formData.specialty : undefined} as Member;
-    console.log()
     onSubmit(payload)
   }
 
@@ -64,7 +62,7 @@ export function MemberForm({ member, onSubmit }: MemberFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="space-y-6">
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="name">Nombre</Label>
@@ -99,7 +97,18 @@ export function MemberForm({ member, onSubmit }: MemberFormProps) {
             required
           />
         </div>
-        <div className="space-y-2">
+		<div className="space-y-2">
+          <Label htmlFor="password">Contraseña</Label>
+          <Input
+            className="focus-visible:ring-blue-900"
+            id="password"
+            value={formData.password || ""}
+			type="password"
+            onChange={(e) => handleChange("password", e.target.value)}
+            required
+          />
+        </div>
+        <div className="space-y-2 col-span-full">
           <Label htmlFor="role">Rol</Label>
           <Select value={formData.roleId} onValueChange={(value: string) => handleChange("roleId", value)}>
             <SelectTrigger className="focus:ring-blue-900">
@@ -251,8 +260,8 @@ export function MemberForm({ member, onSubmit }: MemberFormProps) {
 
 
 
-      <Button className="bg-blue-900 hover:bg-blue-800" type="submit">{member ? "Actualizar" : "Crear"} Miembro</Button>
-    </form>
+      <Button className="bg-blue-900 hover:bg-blue-800" onClick={handleSubmit} >{member ? "Actualizar" : "Crear"} Miembro</Button>
+    </div>
   )
 }
 
