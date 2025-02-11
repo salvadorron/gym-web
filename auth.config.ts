@@ -1,5 +1,6 @@
 import { NextAuthConfig } from "next-auth";
 import { getClient } from "./lib/data";
+import { NextResponse } from "next/server";
 
 export const authConfig = {
   pages: {
@@ -17,12 +18,14 @@ export const authConfig = {
       if (isOnStartedPage) {
         if (isLoggedIn) {
           // Redirige según el rol del usuario
-            return userRole !== null
+            const redirectUrl = getRedirectUrl(userRole!)
+            return NextResponse.redirect(redirectUrl)
         }
         return false; // Redirige usuarios no autenticados a la página de login
       } else if (isLoggedIn) {
         // Redirige usuarios autenticados que no están en el dashboard
-        return userRole !== null
+        const redirectUrl = getRedirectUrl(userRole!)
+        return NextResponse.redirect(redirectUrl)
       }
       return true;
     },
@@ -45,7 +48,7 @@ export const authConfig = {
 } satisfies NextAuthConfig;
 
 
-function getRedirectUrl(roleId: string, user: any): string {
+function getRedirectUrl(roleId: string): string {
   switch (roleId) {
     case 'client':
       return '/entrenamiento';
