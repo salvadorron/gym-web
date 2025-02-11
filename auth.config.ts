@@ -19,13 +19,13 @@ export const authConfig = {
         if (isLoggedIn) {
           // Redirige según el rol del usuario
             const redirectUrl = getRedirectUrl(userRole!)
-            return NextResponse.redirect(redirectUrl)
+            return Response.redirect(new URL(redirectUrl, nextUrl));
         }
         return false; // Redirige usuarios no autenticados a la página de login
       } else if (isLoggedIn) {
         // Redirige usuarios autenticados que no están en el dashboard
         const redirectUrl = getRedirectUrl(userRole!)
-        return NextResponse.redirect(redirectUrl)
+        return Response.redirect(new URL(redirectUrl, nextUrl));
       }
       return true;
     },
