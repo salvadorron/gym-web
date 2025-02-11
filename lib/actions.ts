@@ -29,13 +29,24 @@ export async function authenticate(
 
 export async function register(prevState: { message: string, success: boolean } | undefined, formData: FormData) {
 
+
     const parsedRegistrationCredentials = z
     .object({
       name: z.string(),
       last_name: z.string(),
       age: z.string().transform(Number),
       username: z.string(),
-      password: z.string().min(6)
+      password: z.string().min(6),
+      weight: z.string().transform(Number),
+      height: z.string().transform(Number),
+      gender: z.string(),
+      address: z.string(),
+      city: z.string(),
+      zip_code: z.string(),
+      state_id: z.string().transform(Number),
+      municipality_id: z.string().transform(Number),
+      parrish_id: z.string().transform(Number),
+      medical_conditions: z.string()
     })
     .safeParse(Object.fromEntries(formData));
 

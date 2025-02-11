@@ -4,36 +4,55 @@ import { getClient } from "./lib/data";
 export const authConfig = {
   pages: {
     signIn: '/auth/login',
-    newUser: '/auth/register',
   },
   callbacks: {
+
     async authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const isAuthPage = nextUrl.pathname === '/auth/login' || nextUrl.pathname === '/auth/register';
+      const userRole = auth?.user?.roleId; // Obtén el rol del usuario
+      const clientId = auth?.user?.client?.id; // Obtén el clientId desde la sesión (solo para clientes)
 
-      if (!isLoggedIn && !isAuthPage) {
-        return false; // Redirect unauthenticated users to login page
-      }
+      const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
 
-      if (isLoggedIn && isAuthPage) {
-        // Redirect logged-in users away from login/register pages
-        const redirectUrl = getRedirectUrl(auth.user.roleId, auth.user);
-        return Response.redirect(new URL(redirectUrl, nextUrl));
-      }
+      if (isOnDashboard) {
+        if (isLoggedIn) {
+          // Redirige según el rol del usuario
+          if (userRole === 'admin') {
+            return true; // Permite el acceso al dashboard para administradores
+          } else if (userRole === 'trainer') {
+            return Response.redirect(new URL('/participantes', nextUrl));
+          } else if (userRole === 'client' && clientId) {
+            // Lógica específica para clientes
+            const client = await getClient(clientId);
+            const hasPlan = client?.plan !== null; // Verifica si el plan no es null
 
-      if (isLoggedIn && !isAuthPage) {
-        // Check plan for clients
-        if (auth.user.roleId === 'client' && auth.user.client) {
-          const client = await getClient(auth.user.client.id);
-          if (client && client.plan === null) {
+            if (hasPlan) {
+              return Response.redirect(new URL('/entrenamiento', nextUrl));
+            } else {
+              return Response.redirect(new URL('/planes', nextUrl));
+            }
+          }
+        }
+        return false; // Redirige usuarios no autenticados a la página de login
+      } else if (isLoggedIn) {
+        // Redirige usuarios autenticados que no están en el dashboard
+        if (userRole === 'admin') {
+          return Response.redirect(new URL('/dashboard', nextUrl));
+        } else if (userRole === 'trainer') {
+          return Response.redirect(new URL('/participantes', nextUrl));
+        } else if (userRole === 'client' && clientId) {
+          // Lógica específica para clientes
+          const client = await getClient(clientId);
+          const hasPlan = client?.plan !== null; // Verifica si el plan no es null
+
+          if (hasPlan) {
+            return Response.redirect(new URL('/entrenamiento', nextUrl));
+          } else {
             return Response.redirect(new URL('/planes', nextUrl));
           }
         }
-        return true;
       }
-
-
-      return true; // Allow access to auth pages if not logged in
+      return true;
     },
     jwt(props) {
       if (props.user) { // Only assign if user exists to avoid errors

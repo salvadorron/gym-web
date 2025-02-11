@@ -40,11 +40,11 @@ export async function getStates(): Promise<State[]> {
 }
 
 export async function getMunicipalities(stateId: number): Promise<Municipality[]> {
-  const res = await fetch(`${apiUrl}/municipality/state/${stateId}`, { cache: 'no-store' });
+  const res = await fetch(`${apiUrl}/municipality?stateId=${stateId}`, { cache: 'no-store' });
   return res.json();
 }
 export async function getParrishes(municipalityId: number): Promise<Parrish[]> {
-  const res = await fetch(`${apiUrl}/parrish/municipality/${municipalityId}`, { cache: 'no-store' });
+  const res = await fetch(`${apiUrl}/parrish?municipalityId=${municipalityId}`, { cache: 'no-store' });
   return res.json();
 }
 

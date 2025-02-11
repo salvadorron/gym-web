@@ -2,6 +2,14 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  experimental: {
+    serverActions: {
+      allowedOrigins: [
+        'localhost:3000',
+        'humble-waffle-75pj97prw5xhvv6.github.dev/'
+      ]
+    }
+  },
   images: {
     remotePatterns: [
       {

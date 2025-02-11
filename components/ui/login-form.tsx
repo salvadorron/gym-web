@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useActionState } from "react"
+import { useState, useActionState } from "react"
 import { Activity, AlertCircleIcon, CheckIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,32 +11,51 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import Image from "next/image"
 import { authenticate, register } from "@/lib/actions"
+import StateSelector from "./state-selector"
+import MunicipalitySelector from "./municipality-selector"
+import ParrishSelector from "./parrish-selector"
 
 interface RegistrationData {
   name: string
-  lastName: string
+  last_name: string
   username: string
+  password: string
   age: number
   weight: number
   height: number
   gender: string
   address: string
   city: string
-  postalCode: string
-  state: string
-  municipality: string
-  parish: string
-  medicalConditions: string
+  zip_code: string
+  state_id: string
+  municipality_id: string
+  parrish_id: string
+  medical_conditions: string
 }
 
-interface Location {
-  id: string
-  name: string
+interface RegisterState {
+  message: string
+  success: boolean
 }
 
+const initialValues = {
+  name: "",
+  last_name: "",
+  username: "",
+  password: "",
+  age: 0,
+  weight: 0,
+  height: 0,
+  gender: "",
+  address: "",
+  city: "",
+  zip_code: "",
+  state_id: "",
+  municipality_id: "",
+  parrish_id: "",
+  medical_conditions: "",
+}
 
-
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {} // eslint-disable-line @typescript-eslint/no-empty-object-type
 
 export default function AuthForm() {
 
@@ -44,32 +63,13 @@ export default function AuthForm() {
     authenticate,
     undefined,
   );
-  
-    const [registerFormState, registerFormAction, registerIsPending] = useActionState(
-      register,
-      undefined
-    );
 
+  const [registerState, setRegisterState] = useState<RegisterState | undefined>(undefined) 
+  const [registerSubmitting, setRegisterSubmitting] = useState<boolean>(false)
+  
   const [currentStep, setCurrentStep] = useState(1)
-  const [registrationData, setRegistrationData] = useState<RegistrationData>({
-    name: "",
-    lastName: "",
-    username: "",
-    age: 0,
-    weight: 0,
-    height: 0,
-    gender: "",
-    address: "",
-    city: "",
-    postalCode: "",
-    state: "",
-    municipality: "",
-    parish: "",
-    medicalConditions: "",
-  })
-  const [states, setStates] = useState<Location[]>([])
-  const [municipalities, setMunicipalities] = useState<Location[]>([])
-  const [parishes, setParishes] = useState<Location[]>([])
+
+  const [registrationData, setRegistrationData] = useState<RegistrationData>(initialValues)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -85,56 +85,45 @@ export default function AuthForm() {
       [name]: value,
     }))
 
-    if (name === "state") {
-      fetchMunicipalities(value)
+    if (name === "state_id") {
       setRegistrationData((prev) => ({
         ...prev,
-        municipality: "",
-        parish: "",
+        municipality_id: "",
+        parrish_id: "",
       }))
-    } else if (name === "municipality") {
-      fetchParishes(value)
+    } else if (name === "municipality_id") {
       setRegistrationData((prev) => ({
         ...prev,
-        parish: "",
+        parrish_id: "",
       }))
     }
   }
 
-  const fetchStates = async () => {
-    // Simular una llamada a la API
-    const mockStates = [
-      { id: "1", name: "Estado 1" },
-      { id: "2", name: "Estado 2" },
-      { id: "3", name: "Estado 3" },
-    ]
-    setStates(mockStates)
+  const handleAction = async () => {
+    const payload = new FormData();
+
+    for (const key of Object.keys(registrationData)){
+      const value = registrationData[key as keyof RegistrationData];
+      payload.append(key, value.toString())
+    }
+
+    try{
+      setRegisterSubmitting(true)
+      const values = await register(undefined, payload);
+      setRegisterState({
+        message: values.message,
+        success: values.success,
+      })
+      registrationData
+      setCurrentStep(1);
+      setRegistrationData(initialValues);
+    } catch(err){
+      console.error(err);
+    }
+    finally {
+      setRegisterSubmitting(false);
+    }
   }
-
-  const fetchMunicipalities = async (stateId: string) => {
-    // Simular una llamada a la API basada en el estado seleccionado
-    const mockMunicipalities = [
-      { id: "1", name: "Municipio 1" },
-      { id: "2", name: "Municipio 2" },
-      { id: "3", name: "Municipio 3" },
-    ]
-    setMunicipalities(mockMunicipalities)
-  }
-
-  const fetchParishes = async (municipalityId: string) => {
-    // Simular una llamada a la API basada en el municipio seleccionado
-    const mockParishes = [
-      { id: "1", name: "Parroquia 1" },
-      { id: "2", name: "Parroquia 2" },
-      { id: "3", name: "Parroquia 3" },
-    ]
-    setParishes(mockParishes)
-  }
-
-  useEffect(() => {
-    fetchStates()
-  }, [])
-
 
   const nextStep = () => {
     setCurrentStep((prev) => Math.min(prev + 1, 3))
@@ -242,7 +231,7 @@ export default function AuthForm() {
               </form>
             </TabsContent>
             <TabsContent value="register">
-              <form action={registerFormAction}>
+             
                 {currentStep === 1 && (
                   <div className="grid gap-4">
                     <div className="grid grid-cols-2 gap-4">
@@ -260,13 +249,13 @@ export default function AuthForm() {
                         />
                       </div>
                       <div className="grid gap-2">
-                        <Label htmlFor="lastName" className="text-white">
+                        <Label htmlFor="last_name" className="text-white">
                           Apellido
                         </Label>
                         <Input
-                          id="lastName"
-                          name="lastName"
-                          value={registrationData.lastName}
+                          id="last_name"
+                          name="last_name"
+                          value={registrationData.last_name}
                           onChange={handleInputChange}
                           className="bg-slate-800 border-slate-700 text-white"
                           required
@@ -281,6 +270,20 @@ export default function AuthForm() {
                         id="username"
                         name="username"
                         value={registrationData.username}
+                        onChange={handleInputChange}
+                        className="bg-slate-800 border-slate-700 text-white"
+                        required
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="password" className="text-white">
+                        Contraseña
+                      </Label>
+                      <Input
+                        id="password"
+                        name="password"
+                        type="password"
+                        value={registrationData.password}
                         onChange={handleInputChange}
                         className="bg-slate-800 border-slate-700 text-white"
                         required
@@ -314,9 +317,8 @@ export default function AuthForm() {
                             <SelectValue placeholder="Seleccionar" />
                           </SelectTrigger>
                           <SelectContent className="bg-slate-800 border-slate-700 text-white">
-                            <SelectItem value="male">Masculino</SelectItem>
-                            <SelectItem value="female">Femenino</SelectItem>
-                            <SelectItem value="other">Otro</SelectItem>
+                            <SelectItem value="MALE">Masculino</SelectItem>
+                            <SelectItem value="FEMALE">Femenino</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -387,76 +389,25 @@ export default function AuthForm() {
                         />
                       </div>
                       <div className="grid gap-2">
-                        <Label htmlFor="state" className="text-white">
-                          Estado
-                        </Label>
-                        <Select
-                          value={registrationData.state}
-                          onValueChange={(value) => handleSelectChange(value, "state")}
-                        >
-                          <SelectTrigger className="bg-slate-800 border-slate-700 text-white">
-                            <SelectValue placeholder="Seleccionar estado" />
-                          </SelectTrigger>
-                          <SelectContent className="bg-slate-800 border-slate-700 text-white">
-                            {states.map((state) => (
-                              <SelectItem key={state.id} value={state.id}>
-                                {state.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        <StateSelector value={registrationData.state_id} onStateSelected={(value) => handleSelectChange(value, 'state_id')} />
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="grid gap-2">
-                        <Label htmlFor="municipality" className="text-white">
-                          Municipio
-                        </Label>
-                        <Select
-                          value={registrationData.municipality}
-                          onValueChange={(value) => handleSelectChange(value, "municipality")}
-                        >
-                          <SelectTrigger className="bg-slate-800 border-slate-700 text-white">
-                            <SelectValue placeholder="Seleccionar municipio" />
-                          </SelectTrigger>
-                          <SelectContent className="bg-slate-800 border-slate-700 text-white">
-                            {municipalities.map((municipality) => (
-                              <SelectItem key={municipality.id} value={municipality.id}>
-                                {municipality.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        <MunicipalitySelector value={registrationData.municipality_id} stateValue={registrationData.state_id} onMunicipalitySelected={(value) => handleSelectChange(value, 'municipality_id')}  />
                       </div>
                       <div className="grid gap-2">
-                        <Label htmlFor="parish" className="text-white">
-                          Parroquia
-                        </Label>
-                        <Select
-                          value={registrationData.parish}
-                          onValueChange={(value) => handleSelectChange(value, "parish")}
-                        >
-                          <SelectTrigger className="bg-slate-800 border-slate-700 text-white">
-                            <SelectValue placeholder="Seleccionar parroquia" />
-                          </SelectTrigger>
-                          <SelectContent className="bg-slate-800 border-slate-700 text-white">
-                            {parishes.map((parish) => (
-                              <SelectItem key={parish.id} value={parish.id}>
-                                {parish.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        <ParrishSelector value={registrationData.parrish_id} municipalityValue={registrationData.municipality_id} onParrishSelected={(value) => handleSelectChange(value, 'parrish_id')} />
                       </div>
                     </div>
                     <div className="grid gap-2">
-                      <Label htmlFor="postalCode" className="text-white">
+                      <Label htmlFor="zip_code" className="text-white">
                         Código Postal
                       </Label>
                       <Input
-                        id="postalCode"
-                        name="postalCode"
-                        value={registrationData.postalCode}
+                        id="zip_code"
+                        name="zip_code"
+                        value={registrationData.zip_code}
                         onChange={handleInputChange}
                         className="bg-slate-800 border-slate-700 text-white"
                         required
@@ -468,13 +419,13 @@ export default function AuthForm() {
                 {currentStep === 3 && (
                   <div className="grid gap-4">
                     <div className="grid gap-2">
-                      <Label htmlFor="medicalConditions" className="text-white">
+                      <Label htmlFor="medical_conditions" className="text-white">
                         Condiciones Médicas
                       </Label>
                       <Textarea
-                        id="medicalConditions"
-                        name="medicalConditions"
-                        value={registrationData.medicalConditions}
+                        id="medical_conditions"
+                        name="medical_conditions"
+                        value={registrationData.medical_conditions}
                         onChange={handleInputChange}
                         className="bg-slate-800 border-slate-700 text-white min-h-[100px]"
                         placeholder="Describe cualquier condición médica relevante..."
@@ -499,33 +450,33 @@ export default function AuthForm() {
                     </Button>
                   ) : (
                     <Button
-                      type="submit"
+                      type="button"
+                      onClick={handleAction}
                       className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 ml-auto"
-                      disabled={registerIsPending}
+                      disabled={registerSubmitting}
                     >
-                      {registerIsPending ? "Creando cuenta..." : "Crear Cuenta"}
+                      {registerSubmitting ? "Creando cuenta..." : "Crear Cuenta"}
                     </Button>
                   )}
+                </div>
                   <div
                     className="flex h-8 items-end space-x-1"
                     aria-live="polite"
                     aria-atomic="true"
                   >
-                    {registerFormState?.success === false && (
+                    {registerState?.success === false && (
                       <>
                         <AlertCircleIcon className="h-5 w-5 text-red-500" />
-                        <p className="text-sm text-red-500">{registerFormState.message}</p>
+                        <p className="text-sm text-red-500">{registerState.message}</p>
                       </>
                     )}
-                    {registerFormState?.success === true && (
+                    {registerState?.success === true && (
                       <>
                         <CheckIcon className="h-5 w-5 text-green-500" />
-                        <p className="text-sm text-green-500">{registerFormState.message}</p>
+                        <p className="text-sm text-green-500">{registerState.message}</p>
                       </>
                     )}
                   </div>
-                </div>
-              </form>
             </TabsContent>
           </Tabs>
         </CardContent>

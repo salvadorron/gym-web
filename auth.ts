@@ -12,9 +12,6 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         const parsedCredentials = z
           .object({ 'login-username': z.string(), 'login-password': z.string().min(6) })
           .safeParse(credentials);
-
-          console.log('Intento')
-
           console.log(parsedCredentials.data);
  
         if (parsedCredentials.success) {
