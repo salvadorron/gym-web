@@ -13,11 +13,17 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
           .object({ 'login-username': z.string(), 'login-password': z.string().min(6) })
           .safeParse(credentials);
           console.log(parsedCredentials.data);
+
+          console.log(parsedCredentials.error);
  
         if (parsedCredentials.success) {
+          
           const { ['login-username']: username, ['login-password']: password } = parsedCredentials.data;
+          
           const user = await getUser(username, password)
+          
           if(!user) return null;
+          
           return {
             ...user,
             id: user.id.toString()

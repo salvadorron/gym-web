@@ -12,9 +12,9 @@ export const authConfig = {
       const userRole = auth?.user?.roleId; // Obtén el rol del usuario
       const clientId = auth?.user?.client?.id; // Obtén el clientId desde la sesión (solo para clientes)
 
-      const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
+      const isOnStartedPage = !nextUrl.pathname.startsWith('/auth');
 
-      if (isOnDashboard) {
+      if (isOnStartedPage) {
         if (isLoggedIn) {
           // Redirige según el rol del usuario
           if (userRole === 'admin') {

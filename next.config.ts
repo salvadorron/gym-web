@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     serverActions: {
       allowedOrigins: [
         'localhost:3000',
-        'humble-waffle-75pj97prw5xhvv6.github.dev/'
+        'https://special-system-4vwp7qwgwgx2jq5w-4200.app.github.dev/'
       ]
     }
   },
