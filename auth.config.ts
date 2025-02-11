@@ -1,6 +1,7 @@
 import { NextAuthConfig } from "next-auth";
 import { getClient } from "./lib/data";
 import { NextResponse } from "next/server";
+import { User } from "./lib/definitions";
 
 export const authConfig = {
   pages: {
@@ -10,13 +11,12 @@ export const authConfig = {
 
     async authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const roleId = auth?.user.roleId;
       const isOnPage = !nextUrl.pathname.startsWith('/auth');
       if (isOnPage) {
         if (isLoggedIn) return true;
         return false; // Redirect unauthenticated users to login page
       } else if (isLoggedIn) {
-        const redirectUrl = getRedirectUrl(roleId);
+        const redirectUrl = getRedirectUrl(auth.user);
         return Response.redirect(new URL(redirectUrl, nextUrl));
       }
       return true;
@@ -40,10 +40,11 @@ export const authConfig = {
 } satisfies NextAuthConfig;
 
 
-function getRedirectUrl(roleId: string | undefined): string {
+function getRedirectUrl(user: User): string {
+  const roleId = user.roleId;
   switch (roleId) {
     case 'client':
-      return '/entrenamiento';
+      return user.client?.plan ? '/entrenamiento' : '/planes';
     case 'trainer':
       return '/participantes';
     case 'admin':
