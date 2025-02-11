@@ -10,21 +10,13 @@ export const authConfig = {
 
     async authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const userRole = auth?.user?.roleId; // Obtén el rol del usuario
-      const clientId = auth?.user?.client?.id; // Obtén el clientId desde la sesión (solo para clientes)
-
-      const isOnStartedPage = !nextUrl.pathname.startsWith('/auth');
-
-      if (isOnStartedPage) {
-        if (isLoggedIn) {
-          // Redirige según el rol del usuario
-            const redirectUrl = getRedirectUrl(userRole!)
-            return Response.redirect(new URL(redirectUrl, nextUrl));
-        }
-        return false; // Redirige usuarios no autenticados a la página de login
+      const roleId = auth?.user.roleId;
+      const isOnPage = !nextUrl.pathname.startsWith('/auth');
+      if (isOnPage) {
+        if (isLoggedIn) return true;
+        return false; // Redirect unauthenticated users to login page
       } else if (isLoggedIn) {
-        // Redirige usuarios autenticados que no están en el dashboard
-        const redirectUrl = getRedirectUrl(userRole!)
+        const redirectUrl = getRedirectUrl(roleId);
         return Response.redirect(new URL(redirectUrl, nextUrl));
       }
       return true;
@@ -48,7 +40,7 @@ export const authConfig = {
 } satisfies NextAuthConfig;
 
 
-function getRedirectUrl(roleId: string): string {
+function getRedirectUrl(roleId: string | undefined): string {
   switch (roleId) {
     case 'client':
       return '/entrenamiento';
