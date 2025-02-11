@@ -5,7 +5,7 @@ import { apiUrl } from '@/config';
 import { AuthError } from 'next-auth';
 import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
-import { Exercise, Training, Workout, WorkoutExercise } from './definitions';
+import { Exercise, Training, Workout, WorkoutExercise, User } from './definitions';
  
  
 export async function authenticate(
@@ -138,3 +138,21 @@ export async function createPlan(plan: {name: string, price: string, duration: s
   revalidateTag('plan')
   return response.json();
 }
+
+
+
+
+export async function createMember(member: Member) {
+
+  const response = await fetch(`${apiUrl}/user/register-member`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": 'application/json'
+    }, 
+    body: JSON.stringify(member)
+  })
+  revalidateTag('user')
+  return response.json();
+}
+
+type Member = User & { specialty?: string }

@@ -15,9 +15,10 @@ import {
 import { MembersTable } from '@/components/ui/members-table';
 import { State, User } from '@/lib/definitions';
 import { MemberForm } from './member-form';
+import { createMember } from '@/lib/actions'
 
 
-export default function Members({ members, states }: { members: User[], states: State[] }) {
+export default function Members({ members }: { members: User[] }) {
 
 
 
@@ -32,10 +33,11 @@ export default function Members({ members, states }: { members: User[], states: 
       member.username.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
-  // const handleAddMember = (newMember: Member) => {
-  //   setMembers([...members, { ...newMember, id: String(members.length + 1) }])
-  //   setIsDialogOpen(false)
-  // }
+   const handleAddMember = async (newMember: Member) => 
+	const memberResult = await createMember(member);
+     //setMembers([...members, { ...newMember, id: String(members.length + 1) }])
+     setIsDialogOpen(false)
+   }
 
   // const handleEditMember = (updatedMember: Member) => {
   //   setMembers(members.map((member) => (member.id === updatedMember.id ? updatedMember : member)))
@@ -45,6 +47,7 @@ export default function Members({ members, states }: { members: User[], states: 
   const handleDeleteMember = (id: number) => {
     members.filter((member) => member.id !== id)
   }
+
 
   return (
     <div className="space-y-6 p-4 min-h-screen text-white" style={{ backgroundImage: ` url(${splash.src})`, backgroundSize: 'contain', }}>
@@ -65,7 +68,7 @@ export default function Members({ members, states }: { members: User[], states: 
               <DialogTitle>Agregar Nuevo Miembro</DialogTitle>
               <DialogDescription>Ingresa los datos del nuevo miembro del gimnasio.</DialogDescription>
             </DialogHeader>
-            <MemberForm onSubmit={(member) => {}} states={states} />
+            <MemberForm onSubmit={handleAddMember} />
           </DialogContent>
         </Dialog>
       </div>

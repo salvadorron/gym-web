@@ -8,34 +8,55 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { Municipality, Parrish, Role, State, User } from "@/lib/definitions"
 import { getMunicipalities, getParrishes } from "@/lib/data"
+import StateSelector from '@/components/ui/state-selector'
+import MunicipalitySelector from '@/components/ui/municipality-selector'
+import ParrishSelector from '@/components/ui/parrish-selector'
 
 interface MemberFormProps {
   member?: User
   onSubmit: (member: User) => void,
-  states: State[]
 }
 
 const specialties = ["Musculación", "Cardio", "Crossfit", "Yoga", "Pilates", "Funcional"]
-const genders = [{ label: "Masculino", value: 'male' }, { value: 'female', label: "Femenino" }]
+const genders = [{ label: "Masculino", value: 'MALE' }, { value: 'FEMALE', label: "Femenino" }]
 const roles = [{ label: 'Entrenador', value: 'trainer' }, { label: 'Cliente', value: 'client' }, { label: 'Administrador', value: 'admin' }]
 
-export function MemberForm({ member, onSubmit, states }: MemberFormProps) {
-  const [parrishes, setParrishes] = useState<Parrish[]>([]);
-  const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
-  const [formData, setFormData] = useState<Partial<User>>(
-    member || {
-      roleId: "trainer",
-      gender: "male",
-    },
+type Member = User & { specialty?: string }
+
+
+const initialValues: Member = {
+  id: 0,
+  roleId: "",
+  gender: "",
+  address: "",
+  age: 0,
+  city: "",
+  height: 0,
+  medicalConditions: "",
+  name: "",
+  password: "",
+  username: "",
+  weight: 0,
+  lastName: "", 
+  municipalityId: "",
+  parrishId: "",
+  stateId: "",
+  zipCode: 0
+}
+
+export function MemberForm({ member, onSubmit }: MemberFormProps) {
+  const [formData, setFormData] = useState<Member>(
+    member || initialValues
   )
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log(formData)
-    onSubmit(formData as User)
+    e.preventDefault
+	const payload = {...formData, specialty: formData.roleId === 'trainer' ? formData.specialty : undefined} as Member;
+    console.log()
+    onSubmit(payload)
   }
 
-  const handleChange = (field: keyof User, value: any) => {
+  const handleChange = (field: keyof Member, value: any) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -99,7 +120,7 @@ export function MemberForm({ member, onSubmit, states }: MemberFormProps) {
         <div className="space-y-2">
           <Label htmlFor="specialty">Especialidad</Label>
           <Select
-            value={formData.specialty}
+            value={formData?.specialty}
             onValueChange={(value: string) => handleChange("specialty", value)}
           >
             <SelectTrigger className="focus:ring-blue-900">
@@ -140,13 +161,13 @@ export function MemberForm({ member, onSubmit, states }: MemberFormProps) {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="heigth">Altura (cm)</Label>
+          <Label htmlFor="height">Altura (cm)</Label>
           <Input
             className="focus-visible:ring-blue-900"
-            id="heigth"
+            id="height"
             type="number"
-            value={formData.heigth || ""}
-            onChange={(e) => handleChange("heigth", Number.parseInt(e.target.value))}
+            value={formData.height || ""}
+            onChange={(e) => handleChange("height", Number.parseInt(e.target.value))}
             required
           />
         </div>
@@ -181,65 +202,13 @@ export function MemberForm({ member, onSubmit, states }: MemberFormProps) {
 
       <div className="grid grid-cols-3 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="state">Estado</Label>
-          <Select value={formData.stateId} onValueChange={async (value) => {
-            const newMunicipalities = await getMunicipalities(+value);
-            
-            if(formData.stateId !== value){
-              handleChange("municipalityId", "");
-              handleChange("parrishId", "");
-            }
-            setMunicipalities(newMunicipalities)
-            handleChange("stateId", value)
-          }}>
-            <SelectTrigger className="focus:ring-blue-900">
-              <SelectValue placeholder="Seleccionar estado" />
-            </SelectTrigger>
-            <SelectContent>
-              {states.map((state) => (
-                <SelectItem key={state.id} value={state.id.toString()}>
-                  {state.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <StateSelector value={formData.stateId} onStateSelected={(value) => handleChange('stateId', value)} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="municipalityId">Municipio</Label>
-          <Select value={formData.municipalityId} onValueChange={async (value) => {
-            const newParrishes = await getParrishes(+value);
-            if(formData.parrishId !== value){
-              handleChange("parrishId", "")
-            }
-            setParrishes(newParrishes);
-            handleChange("municipalityId", value)
-          }}>
-            <SelectTrigger className="focus:ring-blue-900">
-              <SelectValue placeholder="Seleccionar municipio" />
-            </SelectTrigger>
-            <SelectContent>
-              {municipalities?.map((muncicipality) => (
-                <SelectItem key={muncicipality.id} value={muncicipality.id.toString()}>
-                  {muncicipality.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <MunicipalitySelector value={formData.municipalityId} stateValue={formData.stateId} onMunicipalitySelected={(value) => handleChange('municipalityId', value)} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="parrishId">Parroquia</Label>
-          <Select value={formData.parrishId} onValueChange={(value) => handleChange("parrishId", value)}>
-            <SelectTrigger className="focus:ring-blue-900">
-              <SelectValue placeholder="Seleccionar parroquia" />
-            </SelectTrigger>
-            <SelectContent>
-              {parrishes?.map((parrish) => (
-                <SelectItem key={parrish.id} value={parrish.id.toString()}>
-                  {parrish.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <ParrishSelector value={formData.parrishId} municipalityValue={formData.municipalityId} onParrishSelected={(value) => handleChange('parrishId', value)} />
         </div>
       </div>
 

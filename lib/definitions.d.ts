@@ -22,9 +22,8 @@ export type Role = {
     municipalityId: string
     address: string
     weight: number
-    heigth: number
+    height: number
     zipCode: number
-    specialty: string
     medicalConditions: string
     gender: string
   }
