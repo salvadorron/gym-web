@@ -1,15 +1,12 @@
 'use client'
 
-import getRoutes from "@/lib/routes";
+import routes from "@/lib/routes";
 import useAuthNavigation from "../../hooks/useAuthNavigation"
 import { User } from "@/lib/definitions";
 
 export default function Navigation({ user }: { user: User }) {
 
-    const routes = getRoutes(user);
-    const roleId = user.roleId;
-
-    const navigationList = useAuthNavigation(routes, roleId); 
+    const navigationList = useAuthNavigation(routes, user); 
     
 
     return (

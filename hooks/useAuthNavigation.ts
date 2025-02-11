@@ -1,3 +1,4 @@
+import { User } from '@/lib/definitions';
 import { useState, useEffect } from 'react';
 
 interface NavItem {
@@ -7,7 +8,9 @@ interface NavItem {
   hide?: boolean;
 }
 
-const useAuthNavigation = (navItems: NavItem[], userRole: string | undefined): NavItem[] => {
+const useAuthNavigation = (navItems: NavItem[], user: User): NavItem[] => {
+
+  const userRole = user.roleId;
 
   const [navList, setNavList] = useState<NavItem[]>([]);
 
@@ -16,7 +19,7 @@ const useAuthNavigation = (navItems: NavItem[], userRole: string | undefined): N
       if (!navItem.roles || navItem.roles.length === 0) {
         return true;
       }
-      return userRole && navItem.roles.some(role => userRole.includes(role) && !navItem.hide);
+      return userRole && navItem.roles.some(role => userRole.includes(role));
     });
     setNavList(newFilteredItems);
   };
