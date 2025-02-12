@@ -5,6 +5,7 @@ export type Role = {
   }
   
   export type User = {
+    specialty: string | undefined
     id : number
     username: string
     password: string
@@ -17,15 +18,25 @@ export type Role = {
     trainer?: Trainer
     admin?: Admin
     city: string
-    stateId: string
-    parrishId: string
-    municipalityId: string
+    state_id: string
+    parrish_id: string
+    municipality_id: string
     address: string
     weight: number
     height: number
-    zipCode: string
-    medicalConditions: string
+    zip_code: string
+    medical_conditions: string
+    nutritional_plan?: NutritionalPlan
     gender: "MALE" | "FEMALE"
+  }
+
+  export type NutritionalPlan = {
+    planName: string
+    planType: string
+    calories: number
+    startDate: Date
+    endDate: Date
+    status: string
   }
   
   export type Client =  {

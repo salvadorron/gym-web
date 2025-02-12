@@ -9,7 +9,10 @@ export const authConfig = {
   },
   callbacks: {
 
+    
+
     async authorized({ auth, request: { nextUrl } }) {
+
       const isLoggedIn = !!auth?.user;
       const isOnPage = !nextUrl.pathname.startsWith('/auth');
       if (isOnPage) {
@@ -25,6 +28,14 @@ export const authConfig = {
       if (props.user) { // Only assign if user exists to avoid errors
         props.token.roleId = props.user.roleId; // Include roleId in the token
         Object.assign(props.token, props.user); // Assign all user properties for easier access.
+      }
+
+      if(props.trigger === 'update') {
+        console.log(props)
+        Object.assign(props.token, {
+          ...props.token,
+          ...props.session.user
+        });
       }
       return props.token;
     },
@@ -48,7 +59,7 @@ function getRedirectUrl(user: User): string {
     case 'trainer':
       return '/participantes';
     case 'admin':
-      return '/dashboard'; // Or your admin dashboard route
+      return '/miembros'; // Or your admin dashboard route
     case 'superuser':
       return '/admin'; // Or your superuser dashboard route
     default:

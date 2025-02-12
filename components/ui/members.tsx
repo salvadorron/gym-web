@@ -42,15 +42,15 @@ export default function Members({ members }: { members: User[] }) {
          username: newMember.username,
          password: newMember.password,
          role_id: newMember.roleId,
-         medical_conditions: newMember.medicalConditions,
+         medical_conditions: newMember.medical_conditions,
          weight: newMember.weight,
          height: newMember.height,
-         zip_code: newMember.zipCode,
+         zip_code: newMember.zip_code,
          city: newMember.city,
          address: newMember.address,
-         state_id: +newMember.stateId,
-         municipality_id: +newMember.municipalityId,
-         parrish_id: +newMember.parrishId,
+         state_id: +newMember.state_id,
+         municipality_id: +newMember.municipality_id,
+         parrish_id: +newMember.parrish_id,
          gender: newMember.gender,
          specialty: newMember.specialty
        });
@@ -71,15 +71,15 @@ export default function Members({ members }: { members: User[] }) {
         username: updatedMember.username,
         password: updatedMember.password,
         role_id: updatedMember.roleId,
-        medical_conditions: updatedMember.medicalConditions,
+        medical_conditions: updatedMember.medical_conditions,
         weight: updatedMember.weight,
         height: updatedMember.height,
-        zip_code: updatedMember.zipCode,
+        zip_code: updatedMember.zip_code,
         city: updatedMember.city,
         address: updatedMember.address,
-        state_id: +updatedMember.stateId,
-        municipality_id: +updatedMember.municipalityId,
-        parrish_id: +updatedMember.parrishId,
+        state_id: +updatedMember.state_id,
+        municipality_id: +updatedMember.municipality_id,
+        parrish_id: +updatedMember.parrish_id,
         gender: updatedMember.gender,
         specialty: updatedMember.specialty
       }, updatedMember.id);
@@ -135,11 +135,11 @@ export default function Members({ members }: { members: User[] }) {
         members={filteredMembers}
         onEdit={(member) => setEditingMember({
           ...member,
-          medicalConditions: member.medical_conditions,
-          zipCode: member.zip_code,
-          stateId: member.state_id?.toString(),
-          parrishId: member.parrish_id?.toString(),
-          municipalityId: member.municipality_id?.toString()
+          medical_conditions: member.medical_conditions,
+          zip_code: member.zip_code,
+          state_id: member.state_id?.toString(),
+          parrish_id: member.parrish_id?.toString(),
+          municipality_id: member.municipality_id?.toString()
         })}
         onDelete={handleDeleteMember}
       />

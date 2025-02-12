@@ -176,6 +176,19 @@ export async function updateMember(member: MemberProps, id: number) {
   return response.json();
 }
 
+export async function assignNutritionalPlan(props: any) {
+
+  const response = await fetch(`${apiUrl}/nutritional-plan/`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": 'application/json'
+    }, 
+    body: JSON.stringify(props)
+  })
+  revalidateTag('user')
+  return response.json();
+}
+
 type MemberProps = {
   name: string;
   last_name: string;

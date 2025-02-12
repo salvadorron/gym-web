@@ -10,11 +10,11 @@ import { Client, Plan } from '@/lib/definitions';
 
 export default function Membership({ data, client }: { data: Plan[], client: Client }) {
 
-    const [billingInterval, setBillingInterval] = useState('Monthly');
+    const [billingInterval, setBillingInterval] = useState('MONTHLY');
 
-    const intervals = ['Monthly', 'Yearly'];
+    const intervals = ['MONTHLY', 'YEARLY'];
 
-    const sortingData = data.sort((a, b) => a.amount - b.amount);
+    const sortingData = data.sort((a, b) => a.price - b.price);
 
     return (
       <section className="flex flex-col items-center justify-center min-h-screen pt-8" style={{ backgroundImage: ` url(${splash.src})`, backgroundSize: 'contain', }}>
@@ -27,12 +27,12 @@ export default function Membership({ data, client }: { data: Plan[], client: Cli
             Empieza a mejorar tu salud y bienestar con nuestros planes y al llega al siguiente nivel en tu entrenamiento. Cada plan desbloquea características adicionales.
             </p>
             <div className="relative self-center mt-6 bg-zinc-900 rounded-lg p-0.5 flex sm:mt-8 border border-zinc-800">
-              {intervals.includes('Monthly') && (
+              {intervals.includes('MONTHLY') && (
                 <button
-                  onClick={() => setBillingInterval('Monthly')}
+                  onClick={() => setBillingInterval('MONTHLY')}
                   type="button"
                   className={`${
-                    billingInterval === 'Monthly'
+                    billingInterval === 'MONTHLY'
                       ? 'relative w-1/2 bg-gray-800 border-gray-700 shadow-sm text-white'
                       : 'ml-0.5 relative w-1/2 border border-transparent text-gray-300'
                   } rounded-md m-1 py-2 text-sm font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:blue-blue-400 focus:ring-opacity-50 focus:z-10 sm:w-auto sm:px-8`}
@@ -40,12 +40,12 @@ export default function Membership({ data, client }: { data: Plan[], client: Cli
                   Facturación mensual
                 </button>
               )}
-              {intervals.includes('Yearly') && (
+              {intervals.includes('YEARLY') && (
                 <button
-                  onClick={() => setBillingInterval('Yearly')}
+                  onClick={() => setBillingInterval('YEARLY')}
                   type="button"
                   className={`${
-                    billingInterval === 'Yearly'
+                    billingInterval === 'YEARLY'
                       ? 'relative w-1/2 bg-gray-800 border-gray-700 shadow-sm text-white'
                       : 'ml-0.5 relative w-1/2 border border-transparent text-gray-300'
                   } rounded-md m-1 py-2 text-sm font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 focus:z-10 sm:w-auto sm:px-8`}
@@ -58,7 +58,7 @@ export default function Membership({ data, client }: { data: Plan[], client: Cli
           <div className="mt-12 space-y-0 sm:mt-16 flex flex-wrap justify-center gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0">
             {sortingData.map((product) => {
 
-              const selectedBilling = billingInterval.toLowerCase() === product?.billing_interval
+              const selectedBilling = billingInterval === product?.duration
 
               if (!selectedBilling) return null;
               
@@ -76,13 +76,13 @@ export default function Membership({ data, client }: { data: Plan[], client: Cli
                     <h2 className="text-2xl font-semibold leading-6 text-white">
                       {product.name}
                     </h2>
-                    <p className="mt-4 text-gray-300 min-h-40 text-justify">{product.description}</p>
+                    <p className="mt-4 text-gray-300 min-h-40 text-justify">{product.features}</p>
                     <p className="mt-8">
                       <span className="text-5xl text-white font-extrabold">
-                        {product?.amount}
+                        {product?.price}
                       </span>
                       <span className="text-base font-medium text-gray-300">
-                        /{billingInterval === 'Yearly' ? 'año' : 'mes'}
+                        /{billingInterval === 'YEARLY' ? 'año' : 'mes'}
                       </span>
                     </p>
                     {client.plan?.id === product.id ? ( 

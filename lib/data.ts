@@ -81,8 +81,8 @@ export async function getAttendances() {
   return res.json();
 }
 
-export async function getUsers(): Promise<User[]> {
-  const res = await fetch(`${apiUrl}/user`, { cache: 'no-store', next: { tags: ['user'] } })
+export async function getUsers(params?: { roleId?: string }): Promise<User[]> {
+  const res = await fetch(`${apiUrl}/user${params ? `?roleId=${params.roleId}` : ''}`, { cache: 'no-store', next: { tags: ['user'] } })
   return res.json();
 
 }

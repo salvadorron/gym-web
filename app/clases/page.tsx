@@ -7,7 +7,8 @@ import { getExcersises } from "@/lib/data";
 export default async function WorkoutsPage() {
   const excercises = await getExcersises(); 
   return (
-    <div className="container py-10 min-h-screen" style={{ backgroundImage: `url(${splash.src})`, backgroundSize: 'contain'}}>
+    <div className="min-h-screen" style={{ backgroundImage: `url(${splash.src})`, backgroundSize: 'contain'}}>
+    <div className="container py-10 ">
       <Tabs defaultValue="workout" className="space-y-6">
         <TabsList>
           <TabsTrigger value="workout">Nuevo Entrenamiento</TabsTrigger>
@@ -28,6 +29,7 @@ export default async function WorkoutsPage() {
           <ExerciseForm />
         </TabsContent>
       </Tabs>
+    </div>
     </div>
   )
 }

@@ -1,14 +1,19 @@
 
 export const routes = [
     {
-        label: 'Tablero',
-        path: '/dashboard',
+        label: 'Miembros',
+        path: '/miembros',
         roles: ['admin']
     },
     {
         label: 'Planes',
         path: '/planes',
         roles: ['client', 'admin'],
+    },
+    {
+        label: 'Clases y Entrenamientos', 
+        path: '/clases',
+        roles: ['admin']
     },
     {
         label: 'Entrenamiento',
@@ -31,26 +36,13 @@ export const routes = [
         path: '/participantes',
         roles: ['trainer']
     },
-    {
-        label: 'Asistenca',
-        path: '/asistencia',
-        roles: ['trainer', 'admin']
-    },
-    {
-        label: 'Miembros',
-        path: '/miembros',
-        roles: ['admin']
-    },
+
     {
         label: 'Planes Alimenticios', 
         path: '/planes_alimenticios',
         roles: ['trainer', 'admin']
     },
-    {
-        label: 'Clases y Entrenamientos', 
-        path: '/clases',
-        roles: ['admin']
-    },
+
     {
         label: 'Historial de Pagos', 
         path: '/historico_pagos',

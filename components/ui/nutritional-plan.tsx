@@ -7,15 +7,16 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { User } from "@/lib/definitions"
 
 interface NutritionPlanFormProps {
   onSubmit: (plan: any) => void
-  clients: { id: string; name: string }[]
+  clients: User[]
 }
 
 export function NutritionPlanForm({ onSubmit, clients }: NutritionPlanFormProps) {
   const [plan, setPlan] = useState({
-    clientId: "",
+    user: undefined,
     planName: "",
     goalType: "",
     dailyCalories: "",
@@ -50,14 +51,14 @@ export function NutritionPlanForm({ onSubmit, clients }: NutritionPlanFormProps)
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="clientId">Cliente</Label>
-              <Select name="clientId" onValueChange={(value) => handleSelectChange("clientId", value)}>
-                <SelectTrigger>
+              <Label htmlFor="user">Cliente</Label>
+              <Select name="user" onValueChange={(value) => handleSelectChange("user", value)}>
+                <SelectTrigger className="focus:ring-blue-900">
                   <SelectValue placeholder="Seleccionar cliente" />
                 </SelectTrigger>
                 <SelectContent>
                   {clients.map((client) => (
-                    <SelectItem key={client.id} value={client.id}>
+                    <SelectItem key={client.id} value={JSON.stringify(client)}>
                       {client.name}
                     </SelectItem>
                   ))}
@@ -75,12 +76,12 @@ export function NutritionPlanForm({ onSubmit, clients }: NutritionPlanFormProps)
               />
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="space-y-2">
               <Label htmlFor="goalType">Tipo de Objetivo</Label>
               <Select name="goalType" onValueChange={(value) => handleSelectChange("goalType", value)}>
-                <SelectTrigger className="border-border focus-visible:ring-blue-900">
-                  <SelectValue  className="border-border focus-visible:ring-blue-900" placeholder="Seleccionar objetivo" />
+                <SelectTrigger className="border-border focus:ring-blue-900">
+                  <SelectValue  placeholder="Seleccionar objetivo" />
                 </SelectTrigger>
                 <SelectContent >
                   <SelectItem value="weight-loss">Pérdida de peso</SelectItem>
@@ -107,6 +108,17 @@ export function NutritionPlanForm({ onSubmit, clients }: NutritionPlanFormProps)
                 name="startDate"
                 type="date"
                 value={plan.startDate}
+                onChange={handleChange}
+                className="border-border focus-visible:ring-blue-900 "
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="startDate">Fecha de Fin</Label>
+              <Input
+                id="endDate"
+                name="endDate"
+                type="date"
+                value={plan.endDate}
                 onChange={handleChange}
                 className="border-border focus-visible:ring-blue-900 "
               />

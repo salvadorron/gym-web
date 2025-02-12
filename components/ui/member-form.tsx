@@ -26,22 +26,23 @@ type Member = User & { specialty?: string }
 
 const initialValues: Member = {
   id: 0,
-  roleId: "",
-  gender: "MALE",
-  address: "",
-  age: 0,
-  city: "",
-  height: 0,
-  medicalConditions: "",
   name: "",
-  password: "",
+  lastName: "",
   username: "",
+  password: "",
+  roleId: 'client',
+  specialty: "",
+  age: 0,
+  medical_conditions: "",
   weight: 0,
-  lastName: "", 
-  municipalityId: "",
-  parrishId: "",
-  stateId: "",
-  zipCode: ""
+  height: 0,
+  zip_code: "",
+  city: "",
+  address: "",
+  state_id: "",
+  municipality_id: "",
+  parrish_id: "",
+  gender: 'MALE'
 }
 
 export function MemberForm({ member, onSubmit }: MemberFormProps) {
@@ -161,7 +162,7 @@ export function MemberForm({ member, onSubmit }: MemberFormProps) {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="weigth">Peso (kg)</Label>
+          <Label htmlFor="weight">Peso (kg)</Label>
           <Input
             className="focus-visible:ring-blue-900"
             id="weight"
@@ -201,25 +202,25 @@ export function MemberForm({ member, onSubmit }: MemberFormProps) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="condicionesMedicas">Condiciones Médicas</Label>
+        <Label htmlFor="medical_conditions">Condiciones Médicas</Label>
         <Textarea
           className="focus-visible:ring-blue-900"
           id="medicalContiditons"
-          value={formData.medicalConditions || ""}
-          onChange={(e) => handleChange("medicalConditions", e.target.value)}
+          value={formData.medical_conditions || ""}
+          onChange={(e) => handleChange("medical_conditions", e.target.value)}
           placeholder="Ingrese cualquier condición médica relevante"
         />
       </div>
 
       <div className="grid grid-cols-3 gap-4">
         <div className="space-y-2">
-          <StateSelector className="bg-white text-black border-gray-300" value={formData.stateId} onStateSelected={(value) => handleChange('stateId', value)} />
+          <StateSelector className="bg-white text-black border-gray-300" value={formData.state_id} onStateSelected={(value) => handleChange('state_id', value)} />
         </div>
         <div className="space-y-2">
-          <MunicipalitySelector className="bg-white text-black border-gray-300" value={formData.municipalityId} stateValue={formData.stateId} onMunicipalitySelected={(value) => handleChange('municipalityId', value)} />
+          <MunicipalitySelector className="bg-white text-black border-gray-300" value={formData.municipality_id} stateValue={formData.state_id} onMunicipalitySelected={(value) => handleChange('municipality_id', value)} />
         </div>
         <div className="space-y-2">
-          <ParrishSelector className="bg-white text-black border-gray-300" value={formData.parrishId} municipalityValue={formData.municipalityId} onParrishSelected={(value) => handleChange('parrishId', value)} />
+          <ParrishSelector className="bg-white text-black border-gray-300" value={formData.parrish_id} municipalityValue={formData.municipality_id} onParrishSelected={(value) => handleChange('parrish_id', value)} />
         </div>
       </div>
 
@@ -237,12 +238,12 @@ export function MemberForm({ member, onSubmit }: MemberFormProps) {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="zipCode">Código Postal</Label>
+          <Label htmlFor="zip_code">Código Postal</Label>
           <Input
             className="focus-visible:ring-blue-900"
-            id="zipCode"
-            value={formData.zipCode || ""}
-            onChange={(e) => handleChange("zipCode", e.target.value)}
+            id="zip_code"
+            value={formData.zip_code || ""}
+            onChange={(e) => handleChange("zip_code", e.target.value)}
             required
           />
         </div>

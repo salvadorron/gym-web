@@ -161,12 +161,12 @@ export function WorkoutForm({ data }: { data: Exercise[] }) {
                       control={form.control}
                       name={`exercises.${index}.id`}
                       render={({ field: exerciseField }) => (
-                        <FormItem className="flex-1">
-                          <FormLabel className="text-white">Ejercicio</FormLabel>
+                        <FormItem className="flex-1 text-black">
+                          <FormLabel >Ejercicio</FormLabel>
                           <Select onValueChange={exerciseField.onChange} defaultValue={exerciseField.value}>
                             <FormControl>
-                              <SelectTrigger className="focus:ring-blue-900" >
-                                <SelectValue placeholder="Selecciona un ejercicio" />
+                              <SelectTrigger className="focus:ring-blue-900 text-black" >
+                                <SelectValue className="text-black" placeholder="Selecciona un ejercicio" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -195,7 +195,7 @@ export function WorkoutForm({ data }: { data: Exercise[] }) {
                         name={`exercises.${index}.sets`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-white">Series</FormLabel>
+                            <FormLabel className="">Series</FormLabel>
                             <FormControl>
                               <Input className="focus-visible:ring-blue-900" type="number" min={1} {...field} />
                             </FormControl>
@@ -208,7 +208,7 @@ export function WorkoutForm({ data }: { data: Exercise[] }) {
                         name={`exercises.${index}.reps`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-white">Repeticiones</FormLabel>
+                            <FormLabel className="">Repeticiones</FormLabel>
                             <FormControl>
                               <Input className="focus-visible:ring-blue-900" type="number" min={1} {...field} />
                             </FormControl>
@@ -221,7 +221,7 @@ export function WorkoutForm({ data }: { data: Exercise[] }) {
                         name={`exercises.${index}.weight`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-white">Peso (kg)</FormLabel>
+                            <FormLabel className="">Peso (kg)</FormLabel>
                             <FormControl>
                               <Input className="focus-visible:ring-blue-900" type="number" min={0} {...field} />
                             </FormControl>
@@ -237,7 +237,7 @@ export function WorkoutForm({ data }: { data: Exercise[] }) {
                         name={`exercises.${index}.duration`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-white">Duración (min)</FormLabel>
+                            <FormLabel className="">Duración (min)</FormLabel>
                             <FormControl>
                               <Input className="focus-visible:ring-blue-900" type="number" min={1} {...field} />
                             </FormControl>
@@ -250,7 +250,7 @@ export function WorkoutForm({ data }: { data: Exercise[] }) {
                         name={`exercises.${index}.intensity`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-white">Intensidad</FormLabel>
+                            <FormLabel className="">Intensidad</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
                                 <SelectTrigger className="focus:ring-blue-900">
@@ -272,7 +272,7 @@ export function WorkoutForm({ data }: { data: Exercise[] }) {
                         name={`exercises.${index}.distance`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-white">Distancia (km)</FormLabel>
+                            <FormLabel className="">Distancia (km)</FormLabel>
                             <FormControl>
                               <Input className="focus-visible:ring-blue-900" type="number" min={0} step="0.1" {...field} />
                             </FormControl>
@@ -288,7 +288,7 @@ export function WorkoutForm({ data }: { data: Exercise[] }) {
                     name={`exercises.${index}.notes`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-white">Notas</FormLabel>
+                        <FormLabel className="">Notas</FormLabel>
                         <FormControl>
                           <Textarea className="focus-visible:ring-blue-900" placeholder="Notas adicionales..." {...field} />
                         </FormControl>

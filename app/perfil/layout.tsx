@@ -7,7 +7,7 @@ export default async function ProfileLayout({ children }: { children: React.Reac
     const session = await auth();
 
     return (
-            <ProtectedRouter roleId={session?.user.roleId} roles={['client', 'trainer']}>
+            <ProtectedRouter roleId={session?.user.roleId} roles={['client', 'trainer', 'admin']}>
                 <Header user={session?.user} >
                 {children}
                 </Header>
