@@ -142,7 +142,7 @@ export async function createPlan(plan: {name: string, price: string, duration: s
 
 
 
-export async function createMember(member: Member) {
+export async function createMember(member: MemberProps) {
 
   const response = await fetch(`${apiUrl}/user/register-member`, {
     method: 'POST',
@@ -153,4 +153,45 @@ export async function createMember(member: Member) {
   })
   revalidateTag('user')
   return response.json();
+}
+
+export async function deleteMember(id: number) {
+
+  const response = await fetch(`${apiUrl}/user/delete-member/${id}`, { method: 'DELETE'})
+  revalidateTag('user')
+  return response.json();
+}
+
+
+export async function updateMember(member: MemberProps, id: number) {
+
+  const response = await fetch(`${apiUrl}/user/update-member/${id}`, {
+    method: 'PATCH',
+    headers: {
+      "Content-Type": 'application/json'
+    }, 
+    body: JSON.stringify(member)
+  })
+  revalidateTag('user')
+  return response.json();
+}
+
+type MemberProps = {
+  name: string;
+  last_name: string;
+  age: number;
+  username: string;
+  password: string;
+  role_id: string
+  medical_conditions: string
+  weight: number
+  height: number
+  zip_code: string
+  city: string
+  address: string
+  state_id: number
+  municipality_id: number
+  parrish_id: number
+  gender: "MALE" | "FEMALE"
+  specialty?: string
 }

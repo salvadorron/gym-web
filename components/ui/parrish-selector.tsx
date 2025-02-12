@@ -4,8 +4,9 @@ import { Parrish } from "@/lib/definitions";
 import { useEffect, useState } from "react";
 import { Label } from "./label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
+import { cn } from "@/lib/utils";
 
-export default function ParrishSelector({ value, municipalityValue, onParrishSelected }: { value: string, municipalityValue: string, onParrishSelected: (value: string) => void }) {
+export default function ParrishSelector({ className, value, municipalityValue, onParrishSelected }: { className?: string, value: string, municipalityValue: string, onParrishSelected: (value: string) => void }) {
     const [parrishes, setParrishes] = useState<Parrish[]>([])
 
     useEffect(() => {
@@ -26,10 +27,10 @@ export default function ParrishSelector({ value, municipalityValue, onParrishSel
                 value={value}
                 onValueChange={onParrishSelected}
             >
-                <SelectTrigger className="bg-slate-800 border-slate-700 text-white">
+                <SelectTrigger className={cn("bg-slate-800 border-slate-700 text-white", className)}>
                     <SelectValue placeholder="Seleccionar parroquia" />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-800 border-slate-700 text-white">
+                <SelectContent className={cn("bg-slate-800 border-slate-700 text-white", className)}>
                     {parrishes?.map((parrish) => (
                         <SelectItem key={parrish.id} value={parrish.id.toString()}>
                             {parrish.name}

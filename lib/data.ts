@@ -1,7 +1,7 @@
 'use server'
 
 import { apiUrl } from "@/config";
-import { Client, Municipality, Parrish, Plan, State, Trainer, Training, User } from "./definitions";
+import { Client, Municipality, Parrish, Payment, Plan, State, Trainer, Training, User } from "./definitions";
 
 export async function getMemberships(): Promise<Plan[]> {
     const res = await fetch(`${apiUrl}/plan`, { cache: 'no-store', next: { tags: ['plan'] } });
@@ -81,9 +81,13 @@ export async function getAttendances() {
   return res.json();
 }
 
-export async function getUsers() {
+export async function getUsers(): Promise<User[]> {
   const res = await fetch(`${apiUrl}/user`, { cache: 'no-store', next: { tags: ['user'] } })
   return res.json();
 
 }
 
+export async function getPayments(): Promise<Payment[]>{
+  const res = await fetch(`${apiUrl}/payment`, { cache: 'no-store', next: { tags: ['payment'] } })
+  return res.json();
+}

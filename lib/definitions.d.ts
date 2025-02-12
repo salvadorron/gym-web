@@ -23,9 +23,9 @@ export type Role = {
     address: string
     weight: number
     height: number
-    zipCode: number
+    zipCode: string
     medicalConditions: string
-    gender: string
+    gender: "MALE" | "FEMALE"
   }
   
   export type Client =  {
@@ -129,7 +129,9 @@ export interface Workout {
     amount: number
     method: string
     description: string
-    date: Date
+    startDate: Date
+    endDate: Date
+    status: string
   }
   
   

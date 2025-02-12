@@ -58,11 +58,11 @@ export function MembersTable({ members, onEdit, onDelete }: MembersTableProps) {
               <TableCell>{member.username}</TableCell>
               <TableCell>{`${member.name} ${member.lastName}`}</TableCell>
               <TableCell>
-                <Badge data-role={member.roleId} className="data-[role=trainer]:bg-blue-900 data-[role=trainer]:text-white bg-white text-black hover:bg-white hover:text-black ">{getRoleName(member.roleId)}</Badge>
+                <Badge data-role={member.roleId} className="data-[role=trainer]:bg-blue-900 data-[role=client]:bg-green-600 data-[role=admin]:bg-red-600 text-white bg-white hover:bg-white hover:text-black ">{getRoleName(member.roleId)}</Badge>
               </TableCell>
               <TableCell>{member.age}</TableCell>
               <TableCell>{member.city}</TableCell> 
-              <TableCell>{member.speciality && <Badge className="text-white" variant="outline">{member.trainer?.specialty}</Badge>}</TableCell> 
+              <TableCell>{member.trainer?.speciality && <Badge className="text-black bg-white" variant="outline">{member.trainer?.speciality}</Badge>}</TableCell> 
               <TableCell>
                  <div className="flex gap-2">
                   <Button variant="ghost" size="icon" onClick={() => onEdit(member)}>

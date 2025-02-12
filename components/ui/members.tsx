@@ -15,7 +15,7 @@ import {
 import { MembersTable } from '@/components/ui/members-table';
 import { Member, State, User } from '@/lib/definitions';
 import { MemberForm } from './member-form';
-import { createMember } from '@/lib/actions'
+import { createMember, updateMember, deleteMember } from '@/lib/actions'
 
 
 export default function Members({ members }: { members: User[] }) {
@@ -33,24 +33,68 @@ export default function Members({ members }: { members: User[] }) {
       member.username.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
-   const handleAddMember = async (newMember: Member) => {
-	try{
-		const memberResult = await createMember(newMember);
-		console.log(memberResult);
-	} catch(err){
-		console.log(err)
-	}
-     //setMembers([...members, { ...newMember, id: String(members.length + 1) }])
-     //setIsDialogOpen(false)
+   const handleAddMember = async (newMember: Member, resetForm: () => void) => {
+     try {
+       await createMember({
+         name: newMember.name,
+         last_name: newMember.lastName,
+         age: newMember.age,
+         username: newMember.username,
+         password: newMember.password,
+         role_id: newMember.roleId,
+         medical_conditions: newMember.medicalConditions,
+         weight: newMember.weight,
+         height: newMember.height,
+         zip_code: newMember.zipCode,
+         city: newMember.city,
+         address: newMember.address,
+         state_id: +newMember.stateId,
+         municipality_id: +newMember.municipalityId,
+         parrish_id: +newMember.parrishId,
+         gender: newMember.gender,
+         specialty: newMember.specialty
+       });
+       resetForm();
+       setIsDialogOpen(false);
+     } catch (err) {
+       console.log(err)
+     } 
+   
    }
 
-  // const handleEditMember = (updatedMember: Member) => {
-  //   setMembers(members.map((member) => (member.id === updatedMember.id ? updatedMember : member)))
-  //   setEditingMember(null)
-  // }
+   const handleEditMember = async (updatedMember: Member, resetForm: () => void) => {
+    try {
+      await updateMember({
+        name: updatedMember.name,
+        last_name: updatedMember.lastName,
+        age: updatedMember.age,
+        username: updatedMember.username,
+        password: updatedMember.password,
+        role_id: updatedMember.roleId,
+        medical_conditions: updatedMember.medicalConditions,
+        weight: updatedMember.weight,
+        height: updatedMember.height,
+        zip_code: updatedMember.zipCode,
+        city: updatedMember.city,
+        address: updatedMember.address,
+        state_id: +updatedMember.stateId,
+        municipality_id: +updatedMember.municipalityId,
+        parrish_id: +updatedMember.parrishId,
+        gender: updatedMember.gender,
+        specialty: updatedMember.specialty
+      }, updatedMember.id);
+      resetForm();
+      setIsDialogOpen(false);
+      setEditingMember(null)
+    } catch (err) {
+      console.log(err)
+    } 
+  
+  }
 
-  const handleDeleteMember = (id: number) => {
-    members.filter((member) => member.id !== id)
+  const handleDeleteMember = async (id: number) => {
+    const data = await deleteMember(id);
+    console.log(data);
   }
 
 
@@ -83,13 +127,20 @@ export default function Members({ members }: { members: User[] }) {
           placeholder="Buscar miembros..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
+          className="max-w-sm text-black"
         />
       </div>
 
       <MembersTable
         members={filteredMembers}
-        onEdit={(member) => setEditingMember(member)}
+        onEdit={(member) => setEditingMember({
+          ...member,
+          medicalConditions: member.medical_conditions,
+          zipCode: member.zip_code,
+          stateId: member.state_id?.toString(),
+          parrishId: member.parrish_id?.toString(),
+          municipalityId: member.municipality_id?.toString()
+        })}
         onDelete={handleDeleteMember}
       />
 
@@ -100,7 +151,7 @@ export default function Members({ members }: { members: User[] }) {
               <DialogTitle>Editar Miembro</DialogTitle>
               <DialogDescription>Modifica los datos del miembro.</DialogDescription>
             </DialogHeader>
-            {/* <MemberForm member={editingMember} onSubmit={handleEditMember} /> */}
+            <MemberForm member={editingMember} onSubmit={handleEditMember} />
           </DialogContent>
         </Dialog>
       )}
