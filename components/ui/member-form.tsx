@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -14,7 +14,7 @@ import ParrishSelector from '@/components/ui/parrish-selector'
 
 interface MemberFormProps {
   member?: User
-  onSubmit: (member: User) => void,
+  onSubmit: (member: User, resetForm: () => void) => void,
 }
 
 const specialties = ["Musculación", "Cardio", "Crossfit", "Yoga", "Pilates", "Funcional"]
@@ -27,7 +27,7 @@ type Member = User & { specialty?: string }
 const initialValues: Member = {
   id: 0,
   roleId: "",
-  gender: "",
+  gender: "MALE",
   address: "",
   age: 0,
   city: "",
@@ -41,17 +41,19 @@ const initialValues: Member = {
   municipalityId: "",
   parrishId: "",
   stateId: "",
-  zipCode: 0
+  zipCode: ""
 }
 
 export function MemberForm({ member, onSubmit }: MemberFormProps) {
   const [formData, setFormData] = useState<Member>(
     member || initialValues
   )
+  
+  const resetForm = () => setFormData(initialValues);
 
   const handleSubmit = () => {
 	const payload = {...formData, specialty: formData.roleId === 'trainer' ? formData.specialty : undefined} as Member;
-    onSubmit(payload)
+    onSubmit(payload, resetForm)
   }
 
   const handleChange = (field: keyof Member, value: any) => {
@@ -211,13 +213,13 @@ export function MemberForm({ member, onSubmit }: MemberFormProps) {
 
       <div className="grid grid-cols-3 gap-4">
         <div className="space-y-2">
-          <StateSelector value={formData.stateId} onStateSelected={(value) => handleChange('stateId', value)} />
+          <StateSelector className="bg-white text-black border-gray-300" value={formData.stateId} onStateSelected={(value) => handleChange('stateId', value)} />
         </div>
         <div className="space-y-2">
-          <MunicipalitySelector value={formData.municipalityId} stateValue={formData.stateId} onMunicipalitySelected={(value) => handleChange('municipalityId', value)} />
+          <MunicipalitySelector className="bg-white text-black border-gray-300" value={formData.municipalityId} stateValue={formData.stateId} onMunicipalitySelected={(value) => handleChange('municipalityId', value)} />
         </div>
         <div className="space-y-2">
-          <ParrishSelector value={formData.parrishId} municipalityValue={formData.municipalityId} onParrishSelected={(value) => handleChange('parrishId', value)} />
+          <ParrishSelector className="bg-white text-black border-gray-300" value={formData.parrishId} municipalityValue={formData.municipalityId} onParrishSelected={(value) => handleChange('parrishId', value)} />
         </div>
       </div>
 
