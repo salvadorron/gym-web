@@ -13,17 +13,21 @@ export default function Payments({ users }: { users: User[] }) {
     const [searchTerm, setSearchTerm] = useState("")
     const [statusFilter, setStatusFilter] = useState("all")
   
-    // //const filteredPayments = payments.filter((payment) => {
-    //     const matchesSearch =
-    //       payment.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //       payment.concept.toLowerCase().includes(searchTerm.toLowerCase())
-    //     const matchesStatus =
-    //       statusFilter === "all" || payment.membershipStatus.toLowerCase() === statusFilter.toLowerCase()
-    //     return matchesSearch && matchesStatus
-    //  // })
+    const filteredPayments = users.filter((user, index) => {
+        const matchesSearch =
+          user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.client?.payments[index].description.toLowerCase().includes(searchTerm.toLowerCase())
+        const matchesStatus =
+          statusFilter === "all"
+        return matchesSearch && matchesStatus
+     })
   
-    //const totalPagado = payments.reduce((sum, payment) => sum + payment.amount, 0)
-    //const membresiasActivas = payments.filter((p) => p.membershipStatus === "Activa").length
+
+    const totalByUsers = users.map(user => user.client?.payments.reduce((sum, payment) => sum + parseFloat(payment.amount), 0) || 0)
+    const total = totalByUsers.reduce((sum, payment) => sum + payment, 0)
+  
+
+    const membersActives = users.filter(user => user.client?.payments.some(payment => payment.status === 'active')).length
   
     return (
       <div className="space-y-6 p-4 text-white min-h-screen " style={{ backgroundImage: `url(${splash.src})`, backgroundSize: 'contain'}}>
@@ -40,7 +44,7 @@ export default function Payments({ users }: { users: User[] }) {
               </div>
               <div>
                 <p className="text-sm text-white">Total Pagado</p>
-                <p className="text-2xl font-bold text-gray-300">${0}</p>
+                <p className="text-2xl font-bold text-gray-300">${total}</p>
               </div>
             </CardContent>
           </Card>
@@ -52,7 +56,7 @@ export default function Payments({ users }: { users: User[] }) {
               </div>
               <div>
                 <p className="text-sm text-white">Membresías Activas</p>
-                <p className="text-2xl font-bold text-gray-300">{0}</p>
+                <p className="text-2xl font-bold text-gray-300">{membersActives}</p>
               </div>
             </CardContent>
           </Card>
@@ -103,17 +107,17 @@ export default function Payments({ users }: { users: User[] }) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {users.map((user) => {
+              {filteredPayments.map((user) => {
                 return user.client?.payments.map(payment => (
                 <TableRow key={user.id}>
                   <TableCell>{user.name}</TableCell>
-                  <TableCell>{payment.startDate.toLocaleString()}</TableCell>
-                  <TableCell>{payment.endDate.toLocaleString()}</TableCell>
+                  <TableCell>{new Date(payment.startDate).toLocaleDateString()}</TableCell>
+                  <TableCell>{new Date(payment.endDate).toLocaleDateString()}</TableCell>
                   <TableCell>{payment.description}</TableCell>
                   <TableCell>${payment.amount}</TableCell>
                   <TableCell>
                     <Badge variant={payment.status === "active" ? "default" : "destructive"}>
-                      {payment.status}
+                      {payment.status === 'active' ? "Activa" : "Expirado"}
                     </Badge>
                   </TableCell>
                   <TableCell>{payment.method}</TableCell>
