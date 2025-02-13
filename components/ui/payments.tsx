@@ -13,14 +13,35 @@ export default function Payments({ users }: { users: User[] }) {
     const [searchTerm, setSearchTerm] = useState("")
     const [statusFilter, setStatusFilter] = useState("all")
   
-    const filteredPayments = users.filter((user, index) => {
-        const matchesSearch =
-          user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          user.client?.payments[index].description.toLowerCase().includes(searchTerm.toLowerCase())
-        const matchesStatus =
-          statusFilter === "all"
-        return matchesSearch && matchesStatus
-     })
+    function minDateToExpired(dates: (string | Date)[]): Date | null {
+      if (!dates || dates.length === 0) {
+        return null;
+      }
+    
+      const now: Date = new Date();
+      let dateClosest: Date = new Date(dates[0]);
+      let minDiff: number = Math.abs(now.getTime() - dateClosest.getTime());
+    
+      for (let i = 1; i < dates.length; i++) {
+        const date: Date = new Date(dates[i]);
+        const diff: number = Math.abs(now.getTime() - date.getTime());
+        
+        if (diff < minDiff) {
+          minDiff = diff;
+          dateClosest = date;
+        }
+      }
+    
+      return dateClosest;
+    }
+
+    let dateList: string[] = []
+    users.forEach(user => {
+      const endDates = user.client?.payments.map(item => item.endDate) ||  []
+      dateList = endDates
+    })
+
+    const minExpiredDate = minDateToExpired(dateList);
   
 
     const totalByUsers = users.map(user => user.client?.payments.reduce((sum, payment) => sum + parseFloat(payment.amount), 0) || 0)
@@ -68,7 +89,7 @@ export default function Payments({ users }: { users: User[] }) {
               </div>
               <div>
                 <p className="text-sm text-white">Próximo Vencimiento</p>
-                <p className="text-2xl font-bold text-gray-300">29 de febrero de 2024</p>
+                <p className="text-2xl font-bold text-gray-300">{minExpiredDate?.toLocaleDateString()}</p>
               </div>
             </CardContent>
           </Card>
@@ -107,7 +128,7 @@ export default function Payments({ users }: { users: User[] }) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredPayments.map((user) => {
+              {users.map((user) => {
                 return user.client?.payments.map(payment => (
                 <TableRow key={user.id}>
                   <TableCell>{user.name}</TableCell>
