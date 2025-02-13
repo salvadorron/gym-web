@@ -34,9 +34,13 @@ export type Role = {
     planName: string
     planType: string
     calories: number
-    startDate: Date
-    endDate: Date
+    startDate: string
+    endDate: string
     status: string
+    breakfast: string
+    lunch: string
+    dinner: string
+    snacks: string
   }
   
   export type Client =  {
@@ -81,14 +85,16 @@ export type Role = {
     features: string
     duration: string
     price: number
-  
   }
+
+
   
   export type Training = {
     id: number 
     plan: Plan
     plan_id: number
     name: string
+    description: string
     excersises: Excersise[]
     schedule: Schedule
   }
@@ -137,12 +143,12 @@ export interface Workout {
     id: number 
     client: Client
     client_id:number
-    amount: number
+    amount: string
     method: string
     description: string
-    startDate: Date
-    endDate: Date
-    status: string
+    startDate: string
+    endDate: string
+    status: "active" | "expired"
   }
   
   
@@ -161,7 +167,6 @@ export interface Workout {
     duration: number
     training: Training
     training_id: number 
-    turn: string
     attendances: Attendance[]
     days: Day[]
   }
@@ -172,6 +177,8 @@ export interface Workout {
     schedule: Schedule
     schedule_id: number
     day_of_week: string
+    shift: string
+   
   }
   
   export type PageProps = {
@@ -218,3 +225,9 @@ export interface Workout {
   }
 
   export type Member = User & { specialty?: string }
+
+ export type SuscriptionSchedule = {
+  day: string
+  selected: boolean
+  shift: string
+}

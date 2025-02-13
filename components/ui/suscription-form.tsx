@@ -12,18 +12,20 @@ import { Separator } from "@/components/ui/separator"
 import splash from '../../public/2.webp';
 import { PayPalScriptProvider, PayPalButtons, usePayPalScriptReducer, DISPATCH_ACTION, SCRIPT_LOADING_STATE } from "@paypal/react-paypal-js"
 import { Checkout } from "./checkout"
-import { Plan } from "@/lib/definitions"
+import { Plan, SuscriptionSchedule } from "@/lib/definitions"
 
 
 export default function SubscriptionForm({ plan, clientId }: { plan?: Plan, clientId: number | undefined }) {
 
-  const [schedule, setSchedule] = useState<any[]>([
+  const [schedule, setSchedule] = useState<SuscriptionSchedule[]>([
     { day: "Lunes", selected: false, shift: "" },
     { day: "Martes", selected: false, shift: "" },
     { day: "Miércoles", selected: false, shift: "" },
     { day: "Jueves", selected: false, shift: "" },
     { day: "Viernes", selected: false, shift: "" }
   ])
+
+  const [completed, setCompleted] = useState<boolean>(false);
 
   if(!clientId) throw new Error('Missing Client')
 
@@ -93,6 +95,7 @@ export default function SubscriptionForm({ plan, clientId }: { plan?: Plan, clie
             {schedule.map((day, index) => (
               <div key={day.day} className="flex space-x-4 p-4 rounded-lg bg-[#232b3b]">
                 <Button
+                  disabled={completed}
                   data-selected={day.selected}
                   onClick={() => toggleDay(index)}
                   className="w-32 flex justify-start data-[selected=true]:bg-blue-500/50 data-[selected=true]:text-white data-[selected=false]:bg-blue-900/50"
@@ -102,7 +105,7 @@ export default function SubscriptionForm({ plan, clientId }: { plan?: Plan, clie
                 </Button>
                 {day.selected && (
                   <Select value={day.shift} onValueChange={(value) => setShift(index, value)}>
-                    <SelectTrigger className="w-[250px] focus:ring-blue-500 text-black">
+                    <SelectTrigger disabled={completed} className="w-[250px] focus:ring-blue-500 text-black">
                       <Clock className="mr-2 h-4 w-4" />
                       <SelectValue placeholder="Seleccionar turno" />
                     </SelectTrigger>
@@ -118,9 +121,11 @@ export default function SubscriptionForm({ plan, clientId }: { plan?: Plan, clie
           </div>
       </CardContent>
 
-      <CardFooter className="flex justify-between ">
+      <CardFooter className="flex flex-col w-full gap-4 ">
+
+        <Button disabled={!schedule.some(item => item.shift)} onClick={() => setCompleted(!completed)}>{completed ? "Cancelar" : "Confirmar"}</Button>
          
-        <Checkout plan={plan} clientId={+clientId} schedule={schedule} />
+        <Checkout plan={plan} completed={completed} clientId={+clientId} schedule={schedule} />
         
       </CardFooter>
     </Card>

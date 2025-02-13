@@ -23,7 +23,7 @@ export default async function SchedulePage({ searchParams }: PageProps) {
 
     return (
     <div className="flex flex-col items-center justify-center min-h-screen pt-24" style={{ backgroundImage: `url(${splash.src})`, backgroundSize: 'contain'}}>
-            <Schedule />
+            <Schedule planId={client.plan.id} />
     </div>
     )
 }

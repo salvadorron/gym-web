@@ -91,7 +91,7 @@ export default function Membership({ data, client }: { data: Plan[], client: Cli
                       className="block w-full mt-8 text-sm font-semibold text-center bg-blue-900/50 hover:bg-blue-500/50  text-white rounded-md "
                       asChild
                     >
-                      <Link href={`/planes/${product.id}/suscripcion/`}>
+                      <Link href={`/entrenamiento`}>
                         Ver
                       </Link>
                     </Button>

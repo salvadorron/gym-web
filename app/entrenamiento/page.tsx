@@ -13,7 +13,7 @@ export default async function TrainingPage() {
 
     return (
     <div  style={{ backgroundImage: `url(${splash.src})`, backgroundSize: 'contain'}}>
-        <TrainingPlan  />
+        <TrainingPlan plan={client.plan}  />
     </div>
     )
 }

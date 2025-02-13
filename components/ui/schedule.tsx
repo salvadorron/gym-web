@@ -1,81 +1,113 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight, Download, Moon } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { getPlan } from "@/lib/data" // Asegúrate de que esta función exista y funcione correctamente
+import { Training } from "@/lib/definitions"
 
 
+// Interfaces (manténlas, son útiles)
 export interface Exercise {
-  name: string
-  duration?: string
-  sets?: string
-}
-
-export interface Training {
-  title: string
-  time: string
-  exercises: Exercise[]
+    name: string;
+    duration?: string;
+    sets?: string;
+    reps?: string; // Agrega reps
+    weight?: string; // Agrega weight
+    equipment?: string; // Agrega equipment
+    muscleGroup?: string; // Agrega muscleGroup
+    type?: string; // Agrega type
+    notes?: string; // Agrega notes
 }
 
 export interface DaySchedule {
-  date: string
-  dayName: string
-  trainings: Training[]
+    date: string;
+    dayName: string;
+    trainings: Training[];
 }
 
 
-export default function Schedule() {
-  const [selectedTraining, setSelectedTraining] = useState<string>("all")
-  const [currentWeekStart, setCurrentWeekStart] = useState<Date>(getMonday(new Date()))
 
-  const goToNextWeek = useCallback(() => {
-    setCurrentWeekStart((prevDate) => {
-      const nextWeek = new Date(prevDate)
-      nextWeek.setDate(prevDate.getDate() + 7)
-      return nextWeek
-    })
-  }, [])
+export default function Schedule({ planId }: { planId: number }) {
+   const [selectedTraining, setSelectedTraining] = useState<string>("all");
+    const [currentWeekStart, setCurrentWeekStart] = useState<Date>(getMonday(new Date()));
+    const [plan, setPlan] = useState<Training[] | null>(null); // Almacena los trainings del plan
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-  const goToPreviousWeek = useCallback(() => {
-    setCurrentWeekStart((prevDate) => {
-      const previousWeek = new Date(prevDate)
-      previousWeek.setDate(prevDate.getDate() - 7)
-      return previousWeek
-    })
-  }, [])
+    useEffect(() => {
+        async function fetchPlanData() {
+            try {
+                const data = await getPlan(planId.toString());
+                
+                setPlan(data.trainings); // Guarda los trainings del plan
+            } catch (err) {
+                setError("Error"); // Guarda el mensaje de error
+                console.error("Error fetching plan data:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
 
-  const weekSchedule: DaySchedule[] = generateWeekSchedule(currentWeekStart)
+        fetchPlanData();
+    }, [planId]);
+
+    const goToNextWeek = () => {
+        setCurrentWeekStart((prevDate) => {
+            const nextWeek = new Date(prevDate);
+            nextWeek.setDate(prevDate.getDate() + 7);
+            return nextWeek;
+        });
+    };
+
+    const goToPreviousWeek = () => {
+        setCurrentWeekStart((prevDate) => {
+            const previousWeek = new Date(prevDate);
+            previousWeek.setDate(prevDate.getDate() - 7);
+            return previousWeek;
+        });
+    };
+
+    const weekSchedule: DaySchedule[] = generateWeekSchedule(currentWeekStart, plan); // Pasa 'plan' a generateWeekSchedule
+
 
   const renderTrainings = (trainings: Training[]) => {
-    return trainings.map((training) => (
-      <div
-        key={training.title}
-        className="bg-slate-700 rounded-lg p-3 transition-all hover:bg-slate-600 mb-3 last:mb-0"
-      >
-        <div className="flex items-center gap-2 mb-1.5">
-          <Moon className="w-4 h-4 text-blue-400 flex-shrink-0" />
-          <span className="font-medium truncate">{training.title}</span>
-        </div>
-        <div className="text-sm text-gray-400 mb-2">{training.time}</div>
-        <div className="space-y-1">
-          {training.exercises.map((exercise) => (
-            <div
-              key={exercise.name}
-              className="text-sm text-gray-300 flex items-center justify-between whitespace-nowrap"
-            >
-              <span className="truncate max-w-[70%]">{exercise.name}</span>
-              <span className="text-gray-400 ml-2 flex-shrink-0">
-                {exercise.duration && `- ${exercise.duration}`}
-                {exercise.sets && `- ${exercise.sets}`}
-              </span>
+        return trainings.map((training) => (
+            <div key={training.name} className="bg-slate-700 rounded-lg p-3 transition-all hover:bg-slate-600 mb-3 last:mb-0">
+                <div className="flex items-center gap-2 mb-1.5">
+                    <Moon className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                    <span className="font-medium truncate">{training.name}</span> {/* Usa training.name */}
+                </div>
+                <div className="text-sm text-gray-400 mb-2">{''}</div> {/* Muestra la descripción */}
+                <div className="space-y-1">
+                    {training.excersises.map((exercise) => (
+                        <div key={exercise.name} className="text-sm text-gray-300 flex items-center justify-between whitespace-nowrap">
+                            <span className="truncate max-w-[70%]">{exercise.name}</span>
+                            <span className="text-gray-400 ml-2 flex-shrink-0">
+                                
+                                {exercise.sets && `${exercise.sets} x ${exercise.reps}`} {/* Muestra sets y reps */}
+                            </span>
+                        </div>
+                    ))}
+                </div>
             </div>
-          ))}
-        </div>
-      </div>
-    ))
-  }
+        ));
+    };
+
+
+    if (loading) {
+        return <div>Cargando...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    if (!plan) {
+        return <div>No se encontró el plan de entrenamiento.</div>;
+    }
 
   return (
     <div className="w-full max-w-7xl mx-auto p-6 space-y-6">
@@ -136,74 +168,38 @@ export default function Schedule() {
 }
 
 function getMonday(date: Date): Date {
-  const day = date.getDay()
-  const diff = date.getDate() - day + (day === 0 ? -6 : 1)
-  return new Date(date.setDate(diff))
+    const day = date.getDay();
+    const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(date.setDate(diff));
 }
 
 function formatDate(date: Date): string {
-  return date.toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })
+    return date.toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
 }
 
-function generateWeekSchedule(startDate: Date): DaySchedule[] {
-  const weekDays = ["lunes", "martes", "miércoles", "jueves", "viernes"]
-  return weekDays.map((dayName, index) => {
-    const currentDate = new Date(startDate)
-    currentDate.setDate(startDate.getDate() + index)
-    return {
-      date: formatDate(currentDate),
-      dayName,
-      trainings: generateRandomTrainings(),
-    }
-  })
-}
+function generateWeekSchedule(startDate: Date, plan: Training[] | null): DaySchedule[] {
+  const weekDays = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]; // Corregir "Miercoles" a "Miércoles"
+  const schedule: DaySchedule[] = [];
 
-function generateRandomTrainings(): Training[] {
-  const trainings = [
-    {
-      title: "Cardio General",
-      time: "18:00 - 20:00",
-      exercises: [
-        { name: "Trotar en la caminadora", duration: "30 min" },
-        { name: "Bicicleta estática", duration: "30 min" },
-      ],
-    },
-    {
-      title: "Fuerza Básica",
-      time: "20:00 - 22:00",
-      exercises: [
-        { name: "Sentadillas con peso corporal", sets: "3 x 15" },
-        { name: "Flexiones", sets: "3 x 15" },
-        { name: "Abdominales", sets: "3 x 20" },
-      ],
-    },
-    {
-      title: "Yoga",
-      time: "19:00 - 20:30",
-      exercises: [
-        { name: "Secuencia de saludo al sol", duration: "15 min" },
-        { name: "Posturas de equilibrio", duration: "30 min" },
-        { name: "Meditación final", duration: "15 min" },
-      ],
-    },
-    {
-      title: "HIIT",
-      time: "18:00 - 19:00",
-      exercises: [
-        { name: "Burpees", sets: "4 x 30 seg" },
-        { name: "Mountain climbers", sets: "4 x 30 seg" },
-        { name: "Jumping jacks", sets: "4 x 30 seg" },
-      ],
-    },
-  ]
+  for (let i = 0; i < 5; i++) {
+      const currentDate = new Date(startDate);
+      currentDate.setDate(startDate.getDate() + i);
+      const formattedDate = formatDate(currentDate);
 
-  // Randomly decide if there are trainings for this day
-  if (Math.random() > 0.5) {
-    return []
+      const trainingsForDay = plan ? plan.filter(training => {
+          if (!training.schedule || !training.schedule.days) return false;
+
+          return training.schedule.days.some(scheduledDay => 
+              scheduledDay.day_of_week === weekDays[i] // Comparar directamente los nombres
+          );
+      }) : [];
+
+      schedule.push({
+          date: formattedDate,
+          dayName: weekDays[i],
+          trainings: trainingsForDay,
+      });
   }
 
-  // Randomly select 1 or 2 trainings
-  const numTrainings = Math.floor(Math.random() * 2) + 1
-  return trainings.sort(() => 0.5 - Math.random()).slice(0, numTrainings)
+  return schedule;
 }
-

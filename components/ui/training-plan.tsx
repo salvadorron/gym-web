@@ -1,199 +1,246 @@
-'use client'
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import Link from "next/link"
-import { Activity, Flame, Clock, LightbulbIcon, Heart, Dumbbell, Trophy, TrendingUp, Target } from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./card"
-import {Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
+"use client"
 
-export default function TrainingPlan() {
+import { useState, useEffect } from "react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Dumbbell, Clock, Activity, Target, DollarSign } from "lucide-react"
+import { Plan } from "@/lib/definitions"
 
-  const chartData = [
-  { name: "Lun", value: 40 },
-  { name: "Mar", value: 60 },
-  { name: "Mie", value: 45 },
-  { name: "Jue", value: 70 },
-  { name: "Vie", value: 65 },
-  { name: "Sab", value: 80 },
-  { name: "Dom", value: 75 },
-]
+interface Exercise {
+  id: number
+  name: string
+  description: string
+  difficulty: "BEGGINER" | "INTERMEDIATE" | "ADVANCED"
+  equipment: string
+  muscleGroup: string
+  type: string
+  weight: number
+  reps: number
+  sets: number
+  notes?: string
+  distance: number
+  duration: number
+  intensity?: "LOW" | "MEDIUM" | "HIGH"
+}
+
+interface Training {
+  id: number
+  name: string
+  description: string
+  excersises: Exercise[]
+  schedule?: {
+    id: number
+    days: {
+      id: number
+      day_of_week: string
+      shift: string
+    }[]
+  }
+}
+
+export default function TrainingPlan({ plan }: { plan: Plan | undefined }) {
+
+  if(!plan) throw new Error('Missing Plan')
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="space-y-8">
-          {/* Hero Section */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-gray-800 to-gray-700 p-8 text-white">
-            <div className="relative z-10">
-              <h1 className="text-3xl font-bold mb-2">Plan de Entrenamiento Completo</h1>
-              <p className="text-gray-300">Visualiza tu plan de entrenamiento actual</p>
-              <div className="mt-6 space-y-3">
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>Progreso General</span>
-                    <span className="font-semibold">65%</span>
-                  </div>
-                  <div className="h-3 bg-gray-600 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-500 ease-out"
-                      style={{ width: "65%" }}
-                    />
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-gray-900 text-white">
+      <div className="space-y-8">
+        {/* Hero Section */}
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-gray-800 to-gray-700 p-8 text-white">
+          <div className="relative z-10">
+            <h1 className="text-3xl font-bold mb-2">{plan.name}</h1>
+            <p className="text-gray-300">Guía detallada para tu rutina de ejercicios</p>
+          </div>
+          <div className="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-blue-500/10 to-transparent" />
+        </div>
+
+        {/* Plan Features */}
+        <Card className="border-none bg-gray-800 hover:shadow-lg transition-all duration-300">
+          <CardHeader>
+            <CardTitle className="text-xl text-white flex items-center gap-2">
+              <Target className="h-5 w-5 text-blue-400" />
+              Características del Plan
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="list-disc list-inside space-y-2 text-gray-300">
+              {plan.features.split(",").map((feature, index) => (
+                <li key={index}>{feature.trim()}</li>
+              ))}
+            </ul>
+            <div className="mt-4 flex items-center justify-between text-gray-300">
+              <span className="flex items-center">
+                <Clock className="h-5 w-5 mr-2 text-blue-400" />
+                Duración: {plan.duration === 'MONTHLY' ? "Mensual" : "Anual"}
+              </span>
+              <span className="flex items-center">
+                <DollarSign className="h-5 w-5 mr-2 text-blue-400" />
+                Precio: ${plan.price}
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Training Days */}
+        {plan.trainings.map((training) => (
+          <Card key={training.id} className="border-none bg-gray-800 hover:shadow-lg transition-all duration-300">
+            <CardHeader>
+              <CardTitle className="text-xl text-white flex items-center gap-2">
+                <Dumbbell className="h-5 w-5 text-blue-400" />
+                {training.name}
+              </CardTitle>
+              {training.schedule && (
+                <CardDescription className="text-gray-400">
+                  {training.schedule.days.map((day) => `${day.day_of_week} (${mapToShift(day.shift)})`).join(", ")}
+                </CardDescription>
+              )}
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <p className="text-gray-300">{training.description}</p>
+              {training.excersises.map((exercise) => (
+                <div key={exercise.id} className="space-y-4">
+                  <h3 className="text-lg font-semibold text-white">{exercise.name}</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-gray-300 mb-2">{exercise.description}</p>
+                      <ul className="text-sm text-gray-400 space-y-1">
+                        <li>
+                          <span className="font-semibold">Dificultad:</span> {mapToDifficulty(exercise.difficulty)}
+                        </li>
+                        <li>
+                          <span className="font-semibold">Equipo:</span> {mapToEquipment(exercise.equipment)}
+                        </li>
+                        <li>
+                          <span className="font-semibold">Grupo muscular:</span> {mapToMuscleGroup(exercise.muscleGroup)}
+                        </li>
+                        <li>
+                          <span className="font-semibold">Tipo:</span> {exercise.type === 'repetitions' ? "Repeticiones" : "Duración"}
+                        </li>
+                        {exercise.weight > 0 && (
+                          <li>
+                            <span className="font-semibold">Peso:</span> {exercise.weight} kg
+                          </li>
+                        )}
+                        {exercise.reps > 0 && (
+                          <li>
+                            <span className="font-semibold">Repeticiones:</span> {exercise.reps}
+                          </li>
+                        )}
+                        {exercise.sets > 0 && (
+                          <li>
+                            <span className="font-semibold">Series:</span> {exercise.sets}
+                          </li>
+                        )}
+                        {exercise.distance > 0 && (
+                          <li>
+                            <span className="font-semibold">Distancia:</span> {exercise.distance} m
+                          </li>
+                        )}
+                        {exercise.duration > 0 && (
+                          <li>
+                            <span className="font-semibold">Duración:</span> {exercise.duration} min
+                          </li>
+                        )}
+                        {exercise.intensity && (
+                          <li>
+                            <span className="font-semibold">Intensidad:</span> {exercise.intensity}
+                          </li>
+                        )}
+                      </ul>
+                    </div>
+                   
                   </div>
                 </div>
+              ))}
+            </CardContent>
+          </Card>
+        ))}
+
+        {/* Tips Section */}
+        <Card className="border-none bg-gray-800/50 hover:shadow-lg transition-all duration-300 overflow-hidden">
+          <CardContent className="p-6 relative">
+            <div className="flex items-start space-x-4 relative z-10">
+              <div className="p-3 bg-blue-500/20 rounded-xl">
+                <Activity className="h-6 w-6 text-blue-400" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-white mb-1">Consejos para tu entrenamiento</h3>
+                <ul className="text-gray-300 list-disc list-inside space-y-2">
+                  <li>Mantén una buena forma durante todos los ejercicios para prevenir lesiones.</li>
+                  <li>
+                    Respira de manera constante: exhala durante el esfuerzo e inhala al volver a la posición inicial.
+                  </li>
+                  <li>Hidrátate adecuadamente antes, durante y después de tu sesión de entrenamiento.</li>
+                  <li>Escucha a tu cuerpo y ajusta el peso o las repeticiones según sea necesario.</li>
+                  <li>Realiza un calentamiento adecuado antes de comenzar y estiramientos al finalizar.</li>
+                </ul>
               </div>
             </div>
-            <div className="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-blue-500/10 to-transparent" />
-          </div>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 opacity-50" />
+          </CardContent>
+        </Card>
 
-          {/* Statistics Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { title: "Entrenamientos", value: "24", icon: Activity, color: "from-green-500 to-emerald-600" },
-              { title: "Minutos totales", value: "720", icon: Clock, color: "from-blue-500 to-blue-600" },
-              { title: "Calorías quemadas", value: "4500", icon: Flame, color: "from-orange-500 to-red-600" },
-            ].map((stat) => (
-              <Card
-                key={stat.title}
-                className="group hover:shadow-lg transition-all duration-300 border-none bg-gray-800"
-              >
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-4">
-                    <div className={`p-3 rounded-xl bg-gradient-to-r ${stat.color}`}>
-                      <stat.icon className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-400">{stat.title}</p>
-                      <p className="text-2xl font-bold text-white">{stat.value}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Progress Chart */}
-          <Card className="border-none bg-gray-800 hover:shadow-lg transition-all duration-300">
-            <CardHeader>
-              <CardTitle className="text-xl text-white flex items-center gap-2">
-                <TrendingUp className="h-5 w-5 text-blue-400" />
-                Progreso Semanal
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[200px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={chartData}>
-                    <XAxis dataKey="name" stroke="#4B5563" />
-                    <YAxis stroke="#4B5563" />
-                    <Tooltip
-                      contentStyle={{ backgroundColor: "#1F2937", border: "none", borderRadius: "0.5rem" }}
-                      itemStyle={{ color: "#E5E7EB" }}
-                      labelStyle={{ color: "#9CA3AF" }}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="value"
-                      stroke="url(#colorGradient)"
-                      strokeWidth={3}
-                      dot={{ fill: "#1F2937", stroke: "#3B82F6", strokeWidth: 2, r: 4 }}
-                      activeDot={{ r: 6, fill: "#3B82F6" }}
-                    />
-                    <defs>
-                      <linearGradient id="colorGradient" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0%" stopColor="#3B82F6" />
-                        <stop offset="100%" stopColor="#8B5CF6" />
-                      </linearGradient>
-                    </defs>
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Goals Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[
-              { title: "Correr 5km sin parar", progress: 80, icon: Target },
-              { title: "Levantar 100kg en press de banca", progress: 60, icon: Dumbbell },
-            ].map((goal) => (
-              <Card key={goal.title} className="border-none bg-gray-800 hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-4 mb-4">
-                    <div className="p-2 bg-blue-900/50 rounded-lg">
-                      <goal.icon className="h-5 w-5 text-blue-400" />
-                    </div>
-                    <h3 className="font-semibold text-white">{goal.title}</h3>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Progreso</span>
-                      <span className="text-gray-200 font-medium">{goal.progress}%</span>
-                    </div>
-                    <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-500 ease-out"
-                        style={{ width: `${goal.progress}%` }}
-                      />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Daily Tip */}
-          <Card className="border-none bg-gray-800/50 hover:shadow-lg transition-all duration-300 overflow-hidden">
-            <CardContent className="p-6 relative">
-              <div className="flex items-start space-x-4 relative z-10">
-                <div className="p-3 bg-blue-500/20 rounded-xl">
-                  <LightbulbIcon className="h-6 w-6 text-blue-400" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-white mb-1">Consejo del día</h3>
-                  <p className="text-gray-300">
-                    Recuerda mantenerte hidratado durante tus entrenamientos para un mejor rendimiento.
-                  </p>
-                </div>
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 opacity-50" />
-            </CardContent>
-          </Card>
-
-          {/* Recent History */}
-          <Card className="border-none bg-gray-800 hover:shadow-lg transition-all duration-300">
-            <CardHeader>
-              <CardTitle className="text-xl text-white flex items-center gap-2">
-                <Trophy className="h-5 w-5 text-blue-400" />
-                Historial Reciente
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {[
-                  { title: "Entrenamiento de Fuerza", date: "9/6/2023", duration: "45 min", icon: Dumbbell },
-                  { title: "Entrenamiento de Cardio", date: "7/6/2023", duration: "30 min", icon: Heart },
-                ].map((session) => (
-                  <div
-                    key={session.title}
-                    className="group flex items-center justify-between p-4 rounded-xl border border-gray-700 hover:border-blue-500/50 hover:bg-gray-700/50 transition-all duration-300"
-                  >
-                    <div className="flex items-center space-x-4">
-                      <div className="p-2 bg-blue-900/50 rounded-lg group-hover:bg-blue-500/50 transition-colors duration-300">
-                        <session.icon className="h-5 w-5 text-blue-400 group-hover:text-white transition-colors duration-300" />
-                      </div>
-                      <div>
-                        <p className="font-medium text-white">{session.title}</p>
-                        <p className="text-sm text-gray-400">{session.date}</p>
-                      </div>
-                    </div>
-                    <span className="text-sm font-medium text-gray-400">{session.duration}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </main>
+        {/* Progress Tracking */}
+        <Card className="border-none bg-gray-800 hover:shadow-lg transition-all duration-300">
+          <CardHeader>
+            <CardTitle className="text-xl text-white flex items-center gap-2">
+              <Clock className="h-5 w-5 text-blue-400" />
+              Seguimiento de Progreso
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-300 mb-4">
+              Lleva un registro de tu progreso para mantenerte motivado y ajustar tu entrenamiento según sea necesario.
+              Aquí tienes algunas formas de hacerlo:
+            </p>
+            <ul className="list-disc list-inside space-y-2 text-gray-300">
+              <li>Anota los pesos, repeticiones y series de cada ejercicio en cada sesión.</li>
+              <li>Toma medidas corporales mensualmente para seguir los cambios en tu composición corporal.</li>
+              <li>Haz fotos de progreso cada 4-6 semanas para ver los cambios visuales.</li>
+              <li>Realiza pruebas de fuerza o resistencia periódicamente para medir tu mejora en rendimiento.</li>
+            </ul>
+          </CardContent>
+        </Card>
+      </div>
+    </main>
   )
 }
 
+function mapToMuscleGroup(value: string): string {
+  
+  switch(value){
+    case "chest": return "Pecho"
+      case "back": return "Espalda"
+        case "legs": return "Piernas"
+          case "shoulders": return "Hombros"
+          case "arms": return "Brazos"
+            default :  return "Pecho"
+  }
+}
+function mapToDifficulty(value: string): string {
+  switch(value){
+    case "BEGGINER": return "Principiante"
+      case "INTERMEDIATE": return "Intermedio"
+        case "ADVANCED": return "Avanzado"
+            default: return "Principiante"
+  }
+}
+function mapToEquipment(value: string): string {
+
+  switch(value){
+    case "dumbbells": return "Mancuernas"
+      case "barbell": return "Barra"
+      case "machine": return "Máquina"
+      case "bands": return "Bandas Elásticas"
+      default: return "Ninguno"
+  }
+}
+
+function mapToShift(value: string): string {
+
+  switch(value){
+    case "morning": return "Mañana"
+      case "afternoon": return "Tarde"
+      case "evenning": return "Noche"
+      default: return "Mañana"
+  }
+}
