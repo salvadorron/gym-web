@@ -112,7 +112,7 @@ export default function Payments({ users }: { users: User[] }) {
                   <TableCell>{payment.description}</TableCell>
                   <TableCell>${payment.amount}</TableCell>
                   <TableCell>
-                    <Badge variant={payment.status === "Activa" ? "default" : "destructive"}>
+                    <Badge variant={payment.status === "active" ? "default" : "destructive"}>
                       {payment.status}
                     </Badge>
                   </TableCell>
