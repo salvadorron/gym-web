@@ -3,7 +3,7 @@ interface Config {
 }
 
 const localConfig: Config = {
-    apiUrl: 'http://localhost:4200/api'
+    apiUrl: 'https://special-system-4vwp7qwgwgx2jq5w-4200.app.github.dev/api'
 }
 
 const prodConfig: Config = {

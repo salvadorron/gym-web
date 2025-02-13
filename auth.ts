@@ -21,6 +21,8 @@ export const { auth, signIn, signOut, handlers, unstable_update } = NextAuth({
           const { ['login-username']: username, ['login-password']: password } = parsedCredentials.data;
           
           const user = await getUser(username, password)
+
+          console.log(user)
           
           if(!user) return null;
           

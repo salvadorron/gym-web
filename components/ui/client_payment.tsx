@@ -14,6 +14,8 @@ export default function ClientPayment({ payment }: { payment: Payment[] }) {
   const totalPaid = payment.reduce((sum, payment) => sum + parseFloat(payment.amount), 0)
   const currentPayment = payment[0]
 
+  console.log(payment)
+
   const getMembershipStatusBadge = (status: Payment["status"]) => {
     const variants = {
       active: "bg-green-500/10 text-green-500 border-green-500/20",

@@ -28,6 +28,10 @@ export type Role = {
     medical_conditions: string
     nutritional_plan?: NutritionalPlan
     gender: "MALE" | "FEMALE"
+    state?: State
+    municipality?: Municipality
+    parrish?: Parrish
+    nutritional_plan_id?: number
   }
 
   export type NutritionalPlan = {

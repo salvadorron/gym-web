@@ -1,7 +1,7 @@
 'use server'
 
 import { apiUrl } from "@/config";
-import { Client, Municipality, Parrish, Payment, Plan, State, Trainer, Training, User } from "./definitions";
+import { Client, Municipality, NutritionalPlan, Parrish, Payment, Plan, State, Trainer, Training, User } from "./definitions";
 
 export async function getMemberships(): Promise<Plan[]> {
     const res = await fetch(`${apiUrl}/plan`, { cache: 'no-store', next: { tags: ['plan'] } });
@@ -13,9 +13,18 @@ export async function getClient(id: number): Promise<Client> {
     return res.json();
 }
 
+export async function getNutritionalPlan(id: number): Promise<NutritionalPlan> {
+    const res = await fetch(`${apiUrl}/nutritional-plan/${id}`, { cache: 'no-store' });
+    return res.json();
+}
+
 
 export async function getTrainer(id: number): Promise<Trainer> {
     const res = await fetch(`${apiUrl}/trainer/${id}`, { cache: 'no-store' });
+    return res.json();
+}
+export async function getTrainers(): Promise<Trainer[]> {
+    const res = await fetch(`${apiUrl}/trainer/`, { cache: 'no-store' });
     return res.json();
 }
 
@@ -81,8 +90,8 @@ export async function getAttendances() {
   return res.json();
 }
 
-export async function getUsers(params?: { roleId?: string }): Promise<User[]> {
-  const res = await fetch(`${apiUrl}/user${params ? `?roleId=${params.roleId}` : ''}`, { cache: 'no-store', next: { tags: ['user'] } })
+export async function getUsers(params?: { roleId?: string, trainerId?: number }): Promise<User[]> {
+  const res = await fetch(`${apiUrl}/user${params?.roleId ? `?roleId=${params.roleId}` : params?.trainerId ? `?trainerId=${params.trainerId}` : ''}`, { cache: 'no-store', next: { tags: ['user'] } })
   return res.json();
 
 }

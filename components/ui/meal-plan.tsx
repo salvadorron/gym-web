@@ -1,48 +1,12 @@
 import { NutritionalPlan } from "@/lib/definitions"
 import { CalendarDays, Clock, Flame, Utensils } from "lucide-react"
 
-interface Comida {
-  nombre: string
-  hora: string
-  alimentos: string[]
-  calorias: number
+const food: {[key: string]: string} = {
+  breakfast: "Desayuno",
+  lunch: "Almuerzo",
+  dinner: "Cena",
+  snacks: "Merienda"
 }
-
-interface PlanDiario {
-  fecha: string
-  comidas: Comida[]
-}
-
-const nutritionalPlan: PlanDiario = {
-  fecha: "2025-02-04",
-  comidas: [
-    {
-      nombre: "Desayuno",
-      hora: "07:00",
-      alimentos: ["Avena con frutas", "Claras de huevo", "Batido de proteínas"],
-      calorias: 450,
-    },
-    {
-      nombre: "Almuerzo",
-      hora: "12:00",
-      alimentos: ["Pechuga de pollo a la parrilla", "Arroz integral", "Ensalada mixta"],
-      calorias: 650,
-    },
-    {
-      nombre: "Merienda",
-      hora: "16:00",
-      alimentos: ["Yogur griego", "Nueces", "Manzana"],
-      calorias: 300,
-    },
-    {
-      nombre: "Cena",
-      hora: "20:00",
-      alimentos: ["Salmón al horno", "Quinoa", "Vegetales al vapor"],
-      calorias: 550,
-    },
-  ],
-}
-
 
 const header = [{meal: "breakfast", time: '7:00'}, {meal: "lunch", time: '12:00'}, {meal: "snacks", time: '16:00'}, {meal: "dinner", time: '20:00'}]
 
@@ -68,7 +32,7 @@ export default function MealPlan({ nutritionalPlan }: { nutritionalPlan: Nutriti
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-2 text-gray-300">
             <CalendarDays className="w-6 h-6" />
-            <span className="text-xl font-semibold">{nutritionalPlan.startDate}</span>
+            <span className="text-xl font-semibold">{new Date(nutritionalPlan.startDate).toLocaleDateString()}</span>
           </div>
           <div className=" px-4 py-2 rounded-full text-white shadow">
             <span className="font-bold">
@@ -83,7 +47,7 @@ export default function MealPlan({ nutritionalPlan }: { nutritionalPlan: Nutriti
               className="bg-gray-800 border-gray-700 rounded-lg shadow-lg overflow-hidden hover:shadow-red-500/20 transition-shadow duration-300"
             >
               <div className=" p-4">
-                <h2 className="text-2xl font-bold text-white">{comida.meal}</h2>
+                <h2 className="text-2xl font-bold text-white">{food[comida.meal]}</h2>
               </div>
               <div className="p-6">
                 <div className="flex items-center space-x-2 mb-4 ">
