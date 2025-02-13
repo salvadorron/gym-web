@@ -1,5 +1,4 @@
 'use client'
-import splash from '../../public/2.webp';
 import { Card, CardContent, CardHeader, CardTitle } from "./card"
 import { Progress } from "./progress"
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"

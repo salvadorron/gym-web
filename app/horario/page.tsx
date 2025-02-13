@@ -1,12 +1,10 @@
 
 import splash from '../../public/2.webp';
-import { getClient, getTrainings } from '@/lib/data';
+import { getClient } from '@/lib/data';
 import { auth } from '@/auth';
-import { PageProps } from '@/lib/definitions';
-import CalendarNative from '@/components/ui/schedule';
 import Schedule from '@/components/ui/schedule';
 
-export default async function SchedulePage({ searchParams }: PageProps) { 
+export default async function SchedulePage() { 
 
     const session = await auth();
     
@@ -21,11 +19,10 @@ export default async function SchedulePage({ searchParams }: PageProps) {
 
     const currentPayment = client.payments[0];
 
-    const trainings = await getTrainings();
 
     return (
     <div className="flex flex-col items-center justify-center min-h-screen pt-24" style={{ backgroundImage: `url(${splash.src})`, backgroundSize: 'contain'}}>
-        <Schedule planId={client.plan.id} payment={currentPayment} trainings={trainings} />
+        <Schedule planId={client.plan.id} payment={currentPayment} />
     </div>
     )
 }

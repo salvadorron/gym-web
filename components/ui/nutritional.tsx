@@ -20,11 +20,24 @@ import splash from '../../public/2.webp';
 import { User } from "@/lib/definitions"
 import { assignNutritionalPlan } from "@/lib/actions"
 
+type NutritionalProps = {
+  user: string,
+    planName: string,
+    goalType: string,
+    dailyCalories: string,
+    startDate: string,
+    endDate: string,
+    breakfast: string,
+    lunch: string,
+    dinner: string,
+    snacks: string,
+}
+
 
 export default function Nutritional({ users }: { users: User[] }) {
 const [searchTerm, setSearchTerm] = useState("")
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const handleCreatePlan = async (newPlan: any) => {
+  const handleCreatePlan = async (newPlan: NutritionalProps) => {
     const user = JSON.parse(newPlan.user);
 
     const plan = {
@@ -35,7 +48,7 @@ const [searchTerm, setSearchTerm] = useState("")
       breakfast: newPlan.breakfast,
       lunch: newPlan.lunch,
       snacks: newPlan.snacks,
-      calories: newPlan.dailyCalories,
+      calories: +newPlan.dailyCalories,
       startDate: newPlan.startDate,
       endDate: newPlan.endDate || "No especificada",
       status: "Activo",

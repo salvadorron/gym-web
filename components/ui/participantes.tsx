@@ -1,6 +1,6 @@
 'use client'
 
-import { Plan, User, Client } from "@/lib/definitions";
+import { Plan, User } from "@/lib/definitions";
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

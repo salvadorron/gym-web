@@ -12,13 +12,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { MultiSelect } from "@/components/ui/multi-select"
 import splash from '../../public/2.webp';
 import { getTrainings } from "@/lib/data"
-import { Plan, Training } from "@/lib/definitions"
-import { Form, FormControl, FormField, FormItem, FormLabel, useFormField } from "./form"
+import { Plan } from "@/lib/definitions"
+import { Form, FormControl, FormField, FormItem, FormLabel } from "./form"
 import { useForm } from 'react-hook-form'
 import z from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod"

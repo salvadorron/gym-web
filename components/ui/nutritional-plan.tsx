@@ -9,14 +9,27 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { User } from "@/lib/definitions"
 
+type NutritionalProps = {
+  user: string,
+    planName: string,
+    goalType: string,
+    dailyCalories: string,
+    startDate: string,
+    endDate: string,
+    breakfast: string,
+    lunch: string,
+    dinner: string,
+    snacks: string,
+}
+
 interface NutritionPlanFormProps {
-  onSubmit: (plan: any) => void
+  onSubmit: (plan: NutritionalProps) => void
   clients: User[]
 }
 
 export function NutritionPlanForm({ onSubmit, clients }: NutritionPlanFormProps) {
   const [plan, setPlan] = useState({
-    user: undefined,
+    user: "",
     planName: "",
     goalType: "",
     dailyCalories: "",

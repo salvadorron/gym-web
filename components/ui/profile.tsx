@@ -3,25 +3,22 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Progress } from "@/components/ui/progress"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import { Activity, Clock, Dumbbell } from "lucide-react"
 import splash from '../../public/2.webp';
 import { User } from "@/lib/definitions"
 import StateSelector from "./state-selector"
 import MunicipalitySelector from "./municipality-selector"
 import ParrishSelector from "./parrish-selector"
 import { updateMember } from "@/lib/actions"
-import { unstable_update } from "@/auth"
 
 
-export default function Profile({ user, updateSession }: { user: User, updateSession: (user: any) => Promise<void> }) {
+export default function Profile({ user, updateSession }: { user: User, updateSession: (user: User) => Promise<void> }) {
 
     const [formData, setFormData] = useState<User>(user);
 
-    const handleAction = async (payload: FormData) => {
+    const handleAction = async () => {
         
         const updatedUser = {
             address: formData.address,

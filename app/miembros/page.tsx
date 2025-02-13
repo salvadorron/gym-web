@@ -1,4 +1,4 @@
-import { getStates, getUsers } from '@/lib/data';
+import {  getUsers } from '@/lib/data';
 import { User } from '@/lib/definitions';
 import Members from '@/components/ui/members';
 

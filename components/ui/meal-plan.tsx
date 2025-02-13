@@ -1,5 +1,5 @@
 import { NutritionalPlan } from "@/lib/definitions"
-import { CalendarDays, Clock, Flame, Utensils } from "lucide-react"
+import { CalendarDays, Clock, Utensils } from "lucide-react"
 
 const food: {[key: string]: string} = {
   breakfast: "Desayuno",

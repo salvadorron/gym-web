@@ -1,11 +1,10 @@
 'use client'
 import { assignPlan } from '@/lib/actions';
-import { Plan } from '@/lib/definitions';
+import { Plan, SuscriptionSchedule } from '@/lib/definitions';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
 import { useRouter } from 'next/navigation';
-import { Button } from './button';
-import { useState } from 'react';
-export function Checkout({ plan, clientId, schedule, completed }: { plan: Plan, clientId: number, completed: boolean, schedule: any }) {
+
+export function Checkout({ plan, clientId, schedule, completed }: { plan: Plan, clientId: number, completed: boolean, schedule: SuscriptionSchedule[] }) {
 
 
     const router = useRouter();

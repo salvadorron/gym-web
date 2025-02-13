@@ -11,7 +11,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
 import { Plus, Trash2 } from "lucide-react"
 import { createTraining } from "@/lib/actions"
-import { title } from "process"
 import { useToast } from "@/hooks/use-toast"
 import { Exercise } from "@/lib/definitions"
 

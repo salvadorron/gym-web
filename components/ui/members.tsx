@@ -13,7 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { MembersTable } from '@/components/ui/members-table';
-import { Member, State, User } from '@/lib/definitions';
+import { Member, User } from '@/lib/definitions';
 import { MemberForm } from './member-form';
 import { createMember, updateMember, deleteMember } from '@/lib/actions'
 

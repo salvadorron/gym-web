@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, CreditCard, DollarSign, AlertTriangle } from "lucide-react"
+import { Calendar, CreditCard, DollarSign } from "lucide-react"
 import splash from '../../public/2.webp';
 import { User } from "@/lib/definitions"
 

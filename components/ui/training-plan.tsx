@@ -1,41 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dumbbell, Clock, Activity, Target, DollarSign } from "lucide-react"
 import { Plan } from "@/lib/definitions"
-
-interface Exercise {
-  id: number
-  name: string
-  description: string
-  difficulty: "BEGGINER" | "INTERMEDIATE" | "ADVANCED"
-  equipment: string
-  muscleGroup: string
-  type: string
-  weight: number
-  reps: number
-  sets: number
-  notes?: string
-  distance: number
-  duration: number
-  intensity?: "LOW" | "MEDIUM" | "HIGH"
-}
-
-interface Training {
-  id: number
-  name: string
-  description: string
-  excersises: Exercise[]
-  schedule?: {
-    id: number
-    days: {
-      id: number
-      day_of_week: string
-      shift: string
-    }[]
-  }
-}
 
 export default function TrainingPlan({ plan }: { plan: Plan | undefined }) {
 

@@ -1,16 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { Calendar, Clock, CreditCard, CheckCircle } from "lucide-react"
+import { Calendar, Clock, CheckCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import splash from '../../public/2.webp';
-import { PayPalScriptProvider, PayPalButtons, usePayPalScriptReducer, DISPATCH_ACTION, SCRIPT_LOADING_STATE } from "@paypal/react-paypal-js"
 import { Checkout } from "./checkout"
 import { Plan, SuscriptionSchedule } from "@/lib/definitions"
 
@@ -39,10 +36,6 @@ export default function SubscriptionForm({ plan, clientId }: { plan?: Plan, clie
     const newSchedule = [...schedule]
     newSchedule[index].shift = shift
     setSchedule(newSchedule)
-  }
-
-  const isScheduleValid = () => {
-    return schedule.some((day) => day.selected && day.shift !== "")
   }
 
   if (!plan) {

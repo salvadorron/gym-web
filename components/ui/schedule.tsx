@@ -45,7 +45,7 @@ export interface DaySchedule {
 
 
 
-export default function Schedule({ planId, payment, trainings }: { planId: number, payment: Payment, trainings: Training[] }) {
+export default function Schedule({ planId, payment }: { planId: number, payment: Payment }) {
   const [selectedTraining, setSelectedTraining] = useState<string>("all");
     const [currentWeekStart, setCurrentWeekStart] = useState<Date>(getMonday(new Date()));
     const [plan, setPlan] = useState<Training[] | null>(null);
@@ -103,8 +103,9 @@ const generateReport = () => {
           headStyles: { fillColor: [41, 128, 185], textColor: 255 },
           bodyStyles: { cellWidth: 'wrap' }
       });
-
-      yPos = (doc as any).lastAutoTable.finalY + 10;
+      
+      
+      yPos = (doc as jsPDF & { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 10; //ts-eslint
   });
 
   doc.save(`reporte-entrenamientos-${formatDate(currentWeekStart)}.pdf`);
@@ -126,7 +127,6 @@ const generateReport = () => {
         });
     };
 
-    const weekSchedule: DaySchedule[] = generateWeekSchedule(currentWeekStart, plan, payment);
 
     const renderTrainings = (trainings: Training[], dayIndex: number) => { // Añadimos dayIndex como argumento
        

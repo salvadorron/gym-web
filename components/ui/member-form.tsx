@@ -1,13 +1,12 @@
 "use client"
 
-import { Dispatch, SetStateAction, useState } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Municipality, Parrish, Role, State, User } from "@/lib/definitions"
-import { getMunicipalities, getParrishes } from "@/lib/data"
+import { User } from "@/lib/definitions"
 import StateSelector from '@/components/ui/state-selector'
 import MunicipalitySelector from '@/components/ui/municipality-selector'
 import ParrishSelector from '@/components/ui/parrish-selector'
@@ -57,7 +56,7 @@ export function MemberForm({ member, onSubmit }: MemberFormProps) {
     onSubmit(payload, resetForm)
   }
 
-  const handleChange = (field: keyof Member, value: any) => {
+  const handleChange = (field: keyof Member, value: string | number) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,

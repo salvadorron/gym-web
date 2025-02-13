@@ -5,7 +5,7 @@ import { apiUrl } from '@/config';
 import { AuthError } from 'next-auth';
 import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
-import { Exercise, Training, Workout, WorkoutExercise, User, Member } from './definitions';
+import { Training, Workout, SuscriptionSchedule, NutritionalPlan } from './definitions';
  
  
 export async function authenticate(
@@ -72,7 +72,7 @@ export async function register(prevState: { message: string, success: boolean } 
   
 }
 
-export async function assignPlan(data: { id: number, planId: number, schedule: SuscriptionSchedule[], payment: { method: string, description: string, amount: number } }) {
+export async function assignPlan(data: { id: number, planId: number, schedule: SuscriptionSchedule[], payment: { startDate: Date, endDate: Date, method: string, description: string, amount: number, status: "active" | "expired" } }) {
 
   const response = await fetch(`${apiUrl}/client/assign-plan`, {
     method: 'PATCH',
@@ -176,7 +176,7 @@ export async function updateMember(member: MemberProps, id: number) {
   return response.json();
 }
 
-export async function assignNutritionalPlan(props: any) {
+export async function assignNutritionalPlan(props: NutritionalPlan) {
 
   const response = await fetch(`${apiUrl}/nutritional-plan/`, {
     method: 'POST',

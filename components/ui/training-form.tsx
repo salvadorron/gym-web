@@ -8,7 +8,6 @@ import { Input } from "./input";
 
 
 export default function TrainingForm() {
-     const [plans, setPlans] = useState([])
       const [newPlan, setNewPlan] = useState({ name: "", price: "", duration: "Mensual", classes: [] as string[], features: "" })
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -22,19 +21,8 @@ export default function TrainingForm() {
         setNewPlan((prev) => ({ ...prev, duration: value }))
       }
     
-      const handleClassesChange = (selectedClasses: string[]) => {
-        setNewPlan((prev) => ({ ...prev, classes: selectedClasses }))
-      }
-    
       const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        const newPlanWithId = {
-          ...newPlan,
-          id: plans.length + 1,
-          price: Number.parseFloat(newPlan.price),
-          features: newPlan.features.split(",").map((feature) => feature.trim()),
-        }
-        
         setNewPlan({ name: "", price: "", duration: "Mensual", classes: [] as string[], features: "" })
         setIsDialogOpen(false)
       }

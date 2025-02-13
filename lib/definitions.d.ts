@@ -87,7 +87,7 @@ export type Role = {
     trainings: Training[]
     name: string
     features: string
-    duration: string
+    duration: "YEARLY" | "MONTHLY"
     price: number
   }
 

@@ -1,6 +1,6 @@
 import { auth } from "@/auth"
 import Participantes from "@/components/ui/participantes";
-import { getMemberships, getPlan, getTrainers, getUsers } from "@/lib/data"
+import { getMemberships, getUsers } from "@/lib/data"
 
 export default async function ParticipantesPage() {
 

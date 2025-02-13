@@ -114,7 +114,6 @@ export default function AuthForm() {
         message: values.message,
         success: values.success,
       })
-      registrationData
       setCurrentStep(1);
       setRegistrationData(initialValues);
     } catch(err){
