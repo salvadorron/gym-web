@@ -10,9 +10,9 @@ export default async function MealPlanPage() {
   const nutritionalPlanId = session?.user.nutritional_plan_id
 
   if(!nutritionalPlanId){
-    <div className="flex flex-col items-center justify-center min-h-screen pt-24" style={{ backgroundImage: `url(${splash.src})`, backgroundSize: 'contain' }}>
+    return (<div className="flex flex-col items-center justify-center min-h-screen pt-24" style={{ backgroundImage: `url(${splash.src})`, backgroundSize: 'contain' }}>
       <MealPlan nutritionalPlan={undefined} />
-    </div>
+    </div>)
   }
 
   const nutritionalPlan = await getNutritionalPlan(nutritionalPlanId);
