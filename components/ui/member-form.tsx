@@ -213,10 +213,17 @@ export function MemberForm({ member, onSubmit }: MemberFormProps) {
 
       <div className="grid grid-cols-3 gap-4">
         <div className="space-y-2">
-          <StateSelector className="bg-white text-black border-gray-300" value={formData.state_id} onStateSelected={(value) => handleChange('state_id', value)} />
+          <StateSelector className="bg-white text-black border-gray-300" value={formData.state_id} onStateSelected={(value) => {
+            handleChange('state_id', value)
+            handleChange('municipality_id', "");
+            handleChange('parrish_id', "")
+          }} />
         </div>
         <div className="space-y-2">
-          <MunicipalitySelector className="bg-white text-black border-gray-300" value={formData.municipality_id} stateValue={formData.state_id} onMunicipalitySelected={(value) => handleChange('municipality_id', value)} />
+          <MunicipalitySelector className="bg-white text-black border-gray-300" value={formData.municipality_id} stateValue={formData.state_id} onMunicipalitySelected={(value) => {
+            handleChange('municipality_id', value)
+            handleChange('parrish_id', "");
+          }} />
         </div>
         <div className="space-y-2">
           <ParrishSelector className="bg-white text-black border-gray-300" value={formData.parrish_id} municipalityValue={formData.municipality_id} onParrishSelected={(value) => handleChange('parrish_id', value)} />

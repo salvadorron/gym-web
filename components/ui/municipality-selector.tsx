@@ -8,13 +8,19 @@ import { cn } from "@/lib/utils";
 
 export default function MunicipalitySelector({ className, value, stateValue, onMunicipalitySelected }: { className?: string, value: string, stateValue: string, onMunicipalitySelected: (value: string) => void }) {
     const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
-
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if(stateValue) {
-            getMunicipalities(+stateValue).then((currentMunicipalities) => {
+        setLoading(true);
+            getMunicipalities(+stateValue)
+            .then((currentMunicipalities) => {
                 setMunicipalities(currentMunicipalities)
             })
+            .finally(() => {
+                setLoading(false)
+            })
+            
         }
 
     }, [stateValue])
@@ -33,7 +39,8 @@ export default function MunicipalitySelector({ className, value, stateValue, onM
                     <SelectValue placeholder="Seleccionar municipio" />
                 </SelectTrigger>
                 <SelectContent className={cn("bg-slate-800 border-slate-700 text-white", className)}>
-                    {municipalities?.map((municipality) => (
+                    {loading && <p>Cargando...</p>}
+                    {!loading && municipalities?.map((municipality) => (
                         <SelectItem key={municipality.id} value={municipality.id.toString()}>
                             {municipality.name}
                         </SelectItem>

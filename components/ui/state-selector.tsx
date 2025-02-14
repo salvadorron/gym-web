@@ -9,10 +9,16 @@ import { cn } from "@/lib/utils";
 export default function StateSelector({className, value, onStateSelected,  }: { className?: string, value: string, onStateSelected: (value: string) => void }) {
 
     const [states, setStates] = useState<State[]>([])
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        getStates().then((currentStates) => {
+        setLoading(true)
+        getStates()
+        .then((currentStates) => {
             setStates(currentStates)
+        })
+        .finally(() => {
+            setLoading(false)
         })
     }, [])
 
@@ -30,7 +36,8 @@ export default function StateSelector({className, value, onStateSelected,  }: { 
                     <SelectValue placeholder="Seleccionar estado" />
                 </SelectTrigger>
                 <SelectContent className={cn("bg-slate-800 border-slate-700 text-white", className)}>
-                    {states?.map((state) => (
+                    {loading && <p>Cargando...</p>}
+                    {!loading && states?.map((state) => (
                         <SelectItem key={state.id} value={state.id.toString()}>
                             {state.name}
                         </SelectItem>

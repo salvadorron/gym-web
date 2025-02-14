@@ -8,11 +8,16 @@ import { cn } from "@/lib/utils";
 
 export default function ParrishSelector({ className, value, municipalityValue, onParrishSelected }: { className?: string, value: string, municipalityValue: string, onParrishSelected: (value: string) => void }) {
     const [parrishes, setParrishes] = useState<Parrish[]>([])
-
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         if(municipalityValue){
-            getParrishes(+municipalityValue).then((currentParrishes) => {
+            setLoading(true);
+            getParrishes(+municipalityValue)
+            .then((currentParrishes) => {
                 setParrishes(currentParrishes)
+            })
+            .finally(() => {
+                setLoading(false);
             })
         }
     }, [municipalityValue])
@@ -31,7 +36,8 @@ export default function ParrishSelector({ className, value, municipalityValue, o
                     <SelectValue placeholder="Seleccionar parroquia" />
                 </SelectTrigger>
                 <SelectContent className={cn("bg-slate-800 border-slate-700 text-white", className)}>
-                    {parrishes?.map((parrish) => (
+                    {loading && <p>Cargando...</p>}
+                    {!loading && parrishes?.map((parrish) => (
                         <SelectItem key={parrish.id} value={parrish.id.toString()}>
                             {parrish.name}
                         </SelectItem>
