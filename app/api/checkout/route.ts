@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const clientId  = "AXzR3wNQfyW6kwOouGKu72YM93siSXCO2QSA_nD3l05tTNj-SAXnjvb5CyQjNbzTUtzjFUaX94Q5qhA1";
 const clientSecret = "EFb7f2pekUjAqdldqwvKZ7oe5NpLLjnvRahdJGGfi-BS2-j1qEBf2GhTuxumY-4C9CjS-cfIVmelGqxz";
 
-const environment = process.env.NODE_ENV === 'production' ? Environment.Production : Environment.Sandbox;
+const environment = Environment.Sandbox;
 
 const client = new Client({
     environment: environment,
