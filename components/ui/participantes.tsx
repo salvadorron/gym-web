@@ -39,7 +39,6 @@ export default function Participantes({ users, plans }: { users: User[], plans: 
       'Inicio',
       'Vencimiento',
       'Estado',
-      'Entrenador',
       'Localización'
     ];
     
@@ -49,7 +48,7 @@ export default function Participantes({ users, plans }: { users: User[], plans: 
       user.client?.plan?.name || 'N/A',
       user.client?.payments[0]?.startDate ? new Date(user.client.payments[0].startDate).toLocaleDateString() : 'N/A',
       user.client?.payments[0]?.endDate ? new Date(user.client.payments[0].endDate).toLocaleDateString() : 'N/A',
-      user.client?.payments[0]?.status || 'N/A',
+      user.client?.payments[0]?.status === 'active' && "Activo" || 'N/A',
       `${user.city}, ${user.state?.name}`
     ]);
 
