@@ -18,6 +18,8 @@ export default function Profile({ user, updateSession }: { user: User, updateSes
 
     const [formData, setFormData] = useState<User>(user);
 
+    console.log(formData)
+
     const handleAction = async () => {
         
         const updatedUser = {
@@ -76,7 +78,7 @@ export default function Profile({ user, updateSession }: { user: User, updateSes
                                     <div className="space-y-2">
                                         <h2 className="text-2xl font-bold">{user.name}</h2>
                                         <Badge variant="outline" className="bg-blue-500/10 text-blue-500 border-blue-500/20">
-                                            {user.roleId}
+                                            {mapToRole(user.roleId)}
                                         </Badge>
                                     </div>
                                 </div>
@@ -132,18 +134,22 @@ export default function Profile({ user, updateSession }: { user: User, updateSes
 
                                     {/* Estado */}
                                     <div className="space-y-2">
-                                        <StateSelector value={formData.state_id} onStateSelected={(value) => setFormData({ ...formData, state_id: value })} />
+                                        <StateSelector value={formData.state_id.toString()} onStateSelected={(value) => {
+                                            setFormData({ ...formData, municipality_id: "", parrish_id: "", state_id: value })}
+                                        } />
                                     </div>
                                 </div>
 
                                 {/* Municipio */}
                                 <div className="space-y-2">
-                                    <MunicipalitySelector value={formData.municipality_id} stateValue={formData.state_id} onMunicipalitySelected={(value) => setFormData({ ...formData, municipality_id: value })} />
+                                    <MunicipalitySelector value={formData.municipality_id.toString()} stateValue={formData.state_id.toString()} onMunicipalitySelected={(value) => {
+                                        setFormData({ ...formData, parrish_id: "", municipality_id: value })}
+                                    } />
                                 </div>
 
                                 {/* Parroquia */}
                                 <div className="space-y-2">
-                                    <ParrishSelector value={formData.parrish_id} municipalityValue={formData.municipality_id} onParrishSelected={(value) => setFormData({ ...formData, parrish_id: value })} />
+                                    <ParrishSelector value={formData.parrish_id.toString()} municipalityValue={formData.municipality_id.toString()} onParrishSelected={(value) => setFormData({ ...formData, parrish_id: value })} />
 
 
                                     {/* Ciudad y Código Postal */}
@@ -189,4 +195,13 @@ export default function Profile({ user, updateSession }: { user: User, updateSes
             </div>
         </div>
     )
+}
+
+function mapToRole(value: string) {
+    switch(value){
+    case "client": return "Cliente";
+    case "trainer": return "Entrenador";
+    case "admin": return "Administrador";
+    default: return "SuperUsuario"
+    }
 }
