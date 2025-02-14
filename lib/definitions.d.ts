@@ -37,7 +37,7 @@ export type Role = {
   export type NutritionalPlan = {
     planName: string
     planType: string
-    calories: number
+    calories: string
     startDate: string
     endDate: string
     status: string

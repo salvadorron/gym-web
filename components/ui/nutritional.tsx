@@ -48,7 +48,7 @@ const [searchTerm, setSearchTerm] = useState("")
       breakfast: newPlan.breakfast,
       lunch: newPlan.lunch,
       snacks: newPlan.snacks,
-      calories: +newPlan.dailyCalories,
+      calories: newPlan.dailyCalories,
       startDate: newPlan.startDate,
       endDate: newPlan.endDate || "No especificada",
       status: "Activo",
