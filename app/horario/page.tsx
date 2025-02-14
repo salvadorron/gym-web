@@ -17,7 +17,7 @@ export default async function SchedulePage() {
         throw new Error('Plan is missing');
     }
 
-    const currentPayment = client.payments[0];
+    const currentPayment = client?.payments[0];
 
 
     return (

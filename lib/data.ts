@@ -8,12 +8,12 @@ export async function getMemberships(): Promise<Plan[]> {
     return res.json();
 }
 
-export async function getClient(id: number): Promise<Client> {
+export async function getClient(id: number | undefined): Promise<Client> {
     const res = await fetch(`${apiUrl}/client/${id}`, { cache: 'no-store' });
     return res.json();
 }
 
-export async function getNutritionalPlan(id: number): Promise<NutritionalPlan> {
+export async function getNutritionalPlan(id: number | undefined): Promise<NutritionalPlan> {
     const res = await fetch(`${apiUrl}/nutritional-plan/${id}`, { cache: 'no-store' });
     return res.json();
 }

@@ -17,17 +17,7 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       }
     ]
-  }, //comment
-  async redirects() {
-
-    return [
-      {
-        source: "/",
-        destination: "/entrenamiento",
-        permanent: true
-      }
-    ]
-  }
+  } //comment
 };
 
 export default nextConfig;

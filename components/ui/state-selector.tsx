@@ -30,7 +30,7 @@ export default function StateSelector({className, value, onStateSelected,  }: { 
                     <SelectValue placeholder="Seleccionar estado" />
                 </SelectTrigger>
                 <SelectContent className={cn("bg-slate-800 border-slate-700 text-white", className)}>
-                    {states.map((state) => (
+                    {states?.map((state) => (
                         <SelectItem key={state.id} value={state.id.toString()}>
                             {state.name}
                         </SelectItem>
